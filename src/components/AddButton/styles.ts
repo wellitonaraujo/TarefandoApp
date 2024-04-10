@@ -6,7 +6,7 @@ interface CreateTaskProps {
 }
 
 const screenHeight = Dimensions.get('window').height;
-const buttonSize = screenHeight * 0.085;
+const buttonSize = screenHeight * 0.08;
 const marginTop = screenHeight * 0.03;
 const iconSize = buttonSize * 0.4;
 

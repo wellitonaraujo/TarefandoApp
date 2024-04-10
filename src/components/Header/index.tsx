@@ -1,5 +1,5 @@
-import React from 'react';
 import {TrashIcon, Icon} from './styles';
+import React from 'react';
 
 interface HeaderProps {
   rightImageSource: any;
