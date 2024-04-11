@@ -5,13 +5,15 @@ import {
   CardTitle,
   Checkbox,
   DateInput,
-  Line,
   SelectedDateText,
   DateWrapper,
+  Icon,
 } from './styles';
 
 import {formatDate, formatTime} from '../../utils/dateFormat';
 import React from 'react';
+import {imgs} from '../../screens/imgs';
+import {View} from 'react-native';
 
 interface TaskProps {
   title: string;
@@ -36,10 +38,12 @@ const Task: React.FC<TaskProps> = ({title, description, priority, date}) => {
         <Checkbox />
         <DateWrapper>
           <DateInput>
+            <Icon source={imgs.calender} />
             <SelectedDateText>{formattedDate}</SelectedDateText>
           </DateInput>
-          <Line />
+          <View style={{marginRight: 30}} />
           <DateInput>
+            <Icon source={imgs.clock} />
             <SelectedDateText>{formattedTime}</SelectedDateText>
           </DateInput>
         </DateWrapper>

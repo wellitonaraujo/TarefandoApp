@@ -55,20 +55,20 @@ export const Checkbox = styled.View`
 `;
 
 export const DateWrapper = styled.View`
-  width: 120px;
-  height: 36px;
-  border-radius: 40px;
-  background-color: ${colors.grey.s300};
   flex-direction: row;
-  justify-content: space-around;
+  margin-left: 40px;
 `;
 
 export const DateInput = styled.Pressable`
   border-radius: 40px;
   z-index: 1;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   text-align: center;
+  border: solid 1px ${colors.grey.s300};
+  width: 85px;
+  height: 45px;
 `;
 
 export const SelectedDateText = styled.Text`
@@ -76,12 +76,8 @@ export const SelectedDateText = styled.Text`
   font-size: 15px;
 `;
 
-export const Line = styled.View`
-  width: 7px;
-  height: 2px;
-  border-radius: 2px;
-  background-color: ${colors.grey.s100};
-  justify-content: center;
-  align-items: center;
-  align-self: center;
+export const Icon = styled.Image`
+  width: 18px;
+  height: 18px;
+  margin: 5px;
 `;

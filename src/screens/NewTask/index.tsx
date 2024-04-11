@@ -1,16 +1,24 @@
 import {Button, Platform, Text, TextInput, View} from 'react-native';
 import React, {useState} from 'react';
-import {Container} from './styles';
+import {
+  Container,
+  DateInput,
+  DateWrapper,
+  ErrorLength,
+  Icon,
+  SelectedDateText,
+  TextAreaWithBorder,
+  TextInputTitle,
+  Title,
+} from './styles';
 import {useNavigation} from '@react-navigation/native';
 import {useTask} from '../../context/TaskContext';
 import {formatDate, formatTime} from '../../utils/dateFormat';
-import {
-  DateInput,
-  DateWrapper,
-  Line,
-  SelectedDateText,
-} from '../../components/Task/styles';
+
 import DateTimePicker from '@react-native-community/datetimepicker';
+import PrimaryButton from '../../components/PrimaryButton';
+import colors from '../../styles/colors';
+import {imgs} from '../imgs';
 
 const NewTask: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -38,18 +46,46 @@ const NewTask: React.FC = () => {
   const maxDate = new Date();
   maxDate.setDate(maxDate.getDate() + 7);
 
+  const [isEmpty, setIsEmpty] = useState(false);
+
   const handleSave = () => {
+    if (!title) {
+      setIsEmpty(true);
+      return;
+    }
     addTask({title, description, priority, date});
     navigation.goBack();
   };
   return (
     <Container>
       <View>
-        <TextInput value={title} onChangeText={setTitle} placeholder="Title" />
-        <TextInput
+        <TextInputTitle
+          placeholder="Titulo"
+          value={title}
+          onChangeText={text => {
+            setTitle(text);
+            setIsEmpty(false);
+          }}
+          maxLength={28}
+          placeholderTextColor={colors.grey.s300}
+          style={
+            isEmpty
+              ? {borderColor: colors.priority.high, borderWidth: 1}
+              : {borderColor: colors.grey.s200, borderWidth: 1}
+          }
+        />
+        {title.length > 27 ? (
+          <ErrorLength>Nome muito grande</ErrorLength>
+        ) : (
+          <Text>{''}</Text>
+        )}
+
+        <TextAreaWithBorder
+          placeholder="Descrição"
+          multiline={false}
           value={description}
           onChangeText={setDescription}
-          placeholder="Description"
+          placeholderTextColor={colors.grey.s300}
         />
         <TextInput
           value={priority}
@@ -58,22 +94,29 @@ const NewTask: React.FC = () => {
         />
 
         <DateWrapper>
-          <DateInput
-            onPress={() => {
-              setShowPicker(true);
-              setPickerMode('date');
-            }}>
-            {date && <SelectedDateText>{formattedDate}</SelectedDateText>}
-          </DateInput>
-          <Line />
-          <DateInput
-            onPress={() => {
-              setShowPicker(true);
-              setPickerMode('time');
-            }}>
-            {date && <SelectedDateText>{formattedTime}</SelectedDateText>}
-          </DateInput>
+          <View>
+            <Title>Data</Title>
+            <DateInput
+              onPress={() => {
+                setShowPicker(true);
+                setPickerMode('date');
+              }}>
+              <Icon source={imgs.clock} />
+              {date && <SelectedDateText>{formattedDate}</SelectedDateText>}
+            </DateInput>
+          </View>
 
+          <View>
+            <Title>Horário</Title>
+            <DateInput
+              onPress={() => {
+                setShowPicker(true);
+                setPickerMode('time');
+              }}>
+              <Icon source={imgs.calender} />
+              {date && <SelectedDateText>{formattedTime}</SelectedDateText>}
+            </DateInput>
+          </View>
           {showPicker && (
             <DateTimePicker
               value={date}
@@ -87,8 +130,7 @@ const NewTask: React.FC = () => {
             />
           )}
         </DateWrapper>
-
-        <Button title="Salvar" onPress={handleSave} />
+        <PrimaryButton title="Salvar" onPress={handleSave} />
       </View>
     </Container>
   );
