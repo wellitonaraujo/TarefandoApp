@@ -5,8 +5,12 @@ export const Container = styled.View`
   flex: 1;
   background-color: ${colors.background};
   padding: 16px;
-  flex-direction: column;
-  justify-content: space-around;
+`;
+
+export const ContentWrapper = styled.View`
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const TextInputTitle = styled.TextInput`
@@ -15,6 +19,9 @@ export const TextInputTitle = styled.TextInput`
   padding-left: 10px;
   border-radius: 30px;
   font-size: 16px;
+  border-color: ${({isEmpty}) =>
+    isEmpty ? colors.priority.high : colors.grey.s200};
+  border-width: 1px;
 `;
 
 export const TextAreaWithBorder = styled.TextInput`
@@ -65,4 +72,38 @@ export const DateInput = styled.Pressable`
 export const SelectedDateText = styled.Text`
   color: ${colors.title};
   font-size: 15px;
+`;
+
+export const PriorityButton = styled.Pressable<{selected: boolean}>`
+  border-radius: 40px;
+  z-index: 1;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: solid 1px
+    ${({selected}) => (selected ? 'currentColor' : colors.grey.s300)};
+  width: 100px;
+  height: 55px;
+`;
+
+export const PriorityWrapper = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 40px;
+`;
+
+export const PrimaryButton = styled.Pressable`
+  border-radius: 40px;
+  justify-content: center;
+  align-items: center;
+  background-color: ${colors.primary.s300};
+  width: 100%;
+  height: 55px;
+  margin-top: 20px;
+`;
+
+export const PrimaryButtonText = styled.Text`
+  color: ${colors.background};
+  font-size: 16px;
 `;

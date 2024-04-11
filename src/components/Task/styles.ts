@@ -46,17 +46,20 @@ export const CardRow = styled.View`
   align-items: center;
 `;
 
-export const Checkbox = styled.View`
+export const Checkbox = styled.Pressable<{isSelected: boolean}>`
   width: 24px;
   height: 24px;
-  border: 1px solid ${colors.grey.s100};
+  border: 1px solid
+    ${({isSelected}) => (isSelected ? colors.primary.s300 : colors.grey.s100)};
   border-radius: 3px;
   margin-right: 8px;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const DateWrapper = styled.View`
   flex-direction: row;
-  margin-left: 40px;
+  margin-left: 50px;
 `;
 
 export const DateInput = styled.Pressable`

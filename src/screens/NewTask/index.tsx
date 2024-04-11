@@ -1,4 +1,4 @@
-import {Button, Platform, Text, TextInput, View} from 'react-native';
+import {Platform, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import {
   Container,
@@ -6,6 +6,8 @@ import {
   DateWrapper,
   ErrorLength,
   Icon,
+  PriorityButton,
+  PriorityWrapper,
   SelectedDateText,
   TextAreaWithBorder,
   TextInputTitle,
@@ -19,11 +21,14 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import PrimaryButton from '../../components/PrimaryButton';
 import colors from '../../styles/colors';
 import {imgs} from '../imgs';
+import PrioritySelector from '../../components/PriorityButton';
 
 const NewTask: React.FC = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [priority, setPriority] = useState<'low' | 'average' | 'high'>('low');
+  const [priority, setPriority] = useState<'low' | 'average' | 'high' | null>(
+    'low',
+  );
 
   const {addTask} = useTask();
   const navigation = useNavigation();
@@ -56,6 +61,13 @@ const NewTask: React.FC = () => {
     addTask({title, description, priority, date});
     navigation.goBack();
   };
+
+  const handlePressPriority = (
+    selectedPriority: 'low' | 'average' | 'high' | null,
+  ) => {
+    setPriority(selectedPriority);
+  };
+
   return (
     <Container>
       <View>
@@ -86,11 +98,6 @@ const NewTask: React.FC = () => {
           value={description}
           onChangeText={setDescription}
           placeholderTextColor={colors.grey.s300}
-        />
-        <TextInput
-          value={priority}
-          onChangeText={setPriority}
-          placeholder="Priority"
         />
 
         <DateWrapper>
@@ -130,6 +137,13 @@ const NewTask: React.FC = () => {
             />
           )}
         </DateWrapper>
+
+        <PrioritySelector
+          key={priority}
+          onPressPriority={handlePressPriority}
+          priority={priority}
+        />
+
         <PrimaryButton title="Salvar" onPress={handleSave} />
       </View>
     </Container>

@@ -3,7 +3,6 @@ import {
   CardDescription,
   CardRow,
   CardTitle,
-  Checkbox,
   DateInput,
   SelectedDateText,
   DateWrapper,
@@ -11,18 +10,36 @@ import {
 } from './styles';
 
 import {formatDate, formatTime} from '../../utils/dateFormat';
+import CheckBox from '@react-native-community/checkbox';
+
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
+
 import React from 'react';
 import {imgs} from '../../screens/imgs';
 import {View} from 'react-native';
+import colors from '../../styles/colors';
 
 interface TaskProps {
   title: string;
   description: string;
   priority: 'low' | 'average' | 'high';
   date: Date;
+  handleSelect: () => void;
+  isSelected: boolean;
 }
 
-const Task: React.FC<TaskProps> = ({title, description, priority, date}) => {
+const Task: React.FC<TaskProps> = ({
+  title,
+  description,
+  priority,
+  date,
+  handleSelect,
+  isSelected,
+}) => {
   const formattedDate = formatDate(date);
   const formattedTime = formatTime(date);
 
@@ -35,7 +52,11 @@ const Task: React.FC<TaskProps> = ({title, description, priority, date}) => {
       <CardTitle>{title}</CardTitle>
       <CardDescription>{description}</CardDescription>
       <CardRow>
-        <Checkbox />
+        <CheckBox
+          value={isSelected}
+          onValueChange={handleSelect}
+          tintColors={{true: colors.primary.s300, false: colors.grey.s100}}
+        />
         <DateWrapper>
           <DateInput>
             <Icon source={imgs.calender} />
