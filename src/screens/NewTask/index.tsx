@@ -6,13 +6,13 @@ import {
   DateWrapper,
   ErrorLength,
   Icon,
-  PriorityButton,
-  PriorityWrapper,
   SelectedDateText,
   TextAreaWithBorder,
   TextInputTitle,
   Title,
 } from './styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {useNavigation} from '@react-navigation/native';
 import {useTask} from '../../context/TaskContext';
 import {formatDate, formatTime} from '../../utils/dateFormat';

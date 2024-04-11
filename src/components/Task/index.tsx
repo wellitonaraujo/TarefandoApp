@@ -1,33 +1,28 @@
 import {
+  SelectedDateText,
+  DateWrapper,
   CardContainer,
   CardDescription,
   CardRow,
   CardTitle,
   DateInput,
-  SelectedDateText,
-  DateWrapper,
   Icon,
 } from './styles';
 
+import {getColorForPriority} from '../../utils/getColorForPriority';
 import {formatDate, formatTime} from '../../utils/dateFormat';
 import CheckBox from '@react-native-community/checkbox';
-
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-} from 'react-native-reanimated';
-
-import React from 'react';
+import colors from '../../styles/colors';
 import {imgs} from '../../screens/imgs';
 import {View} from 'react-native';
-import colors from '../../styles/colors';
+import React from 'react';
 
 interface TaskProps {
   title: string;
   description: string;
   priority: 'low' | 'average' | 'high';
   date: Date;
+  onDelete: () => void;
   handleSelect: () => void;
   isSelected: boolean;
 }
@@ -47,8 +42,13 @@ const Task: React.FC<TaskProps> = ({
 
   maxDate.setDate(maxDate.getDate() + 7);
 
+  const taskStyle = {
+    opacity: isSelected ? 0.2 : 1,
+    borderColor: isSelected ? 'transparent' : getColorForPriority(priority),
+  };
+
   return (
-    <CardContainer priority={priority}>
+    <CardContainer priority={priority} style={[taskStyle]}>
       <CardTitle>{title}</CardTitle>
       <CardDescription>{description}</CardDescription>
       <CardRow>

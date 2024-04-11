@@ -36,7 +36,7 @@ export const TextAreaWithBorder = styled.TextInput`
 `;
 
 export const ErrorLength = styled.Text`
-  color: ${colors.primary.s300};
+  color: ${colors.priority.high};
 `;
 
 export const Title = styled.Text`

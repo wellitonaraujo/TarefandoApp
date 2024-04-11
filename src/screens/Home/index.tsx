@@ -72,7 +72,7 @@ export default function Home() {
           rightImageSource={imgs.trash}
           isTask={isTask}
           isAnyTaskSelected={isAnyTaskSelected}
-          onDelete={() => handleDeleteTask()}
+          onDelete={handleDeleteTask}
         />
       </HeaderWrapper>
 
@@ -112,6 +112,7 @@ export default function Home() {
             date={task.date}
             handleSelect={() => handleSelect(index)}
             isSelected={task.isSelected}
+            onDelete={() => handleDeleteTask(index)}
           />
         ))}
       </ScrollView>
