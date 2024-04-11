@@ -1,16 +1,11 @@
 import styled from 'styled-components/native';
 import colors from '../../styles/colors';
 
-export const Container = styled.View`
+export const Container = styled.SafeAreaView`
   flex: 1;
   background-color: ${colors.background};
   padding: 16px;
-`;
-
-export const ContentWrapper = styled.View`
-  flex: 1;
   justify-content: space-between;
-  align-items: center;
 `;
 
 export const TextInputTitle = styled.TextInput`
@@ -30,8 +25,8 @@ export const TextAreaWithBorder = styled.TextInput`
   text-align-vertical: top;
   padding-left: 10px;
   font-size: 16px;
-  height: 130px;
-  border-radius: 30px;
+  height: 100px;
+  border-radius: 25px;
   border: solid 1px ${colors.grey.s300};
 `;
 
@@ -55,6 +50,7 @@ export const Icon = styled.Image`
 export const DateWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
+  margin-top: 20px;
 `;
 
 export const DateInput = styled.Pressable`

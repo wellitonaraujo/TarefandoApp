@@ -16,7 +16,7 @@ const TrashButton: React.FC<TrashProps> = ({
 }) => {
   return (
     <TrashIcon
-      opacity={isTask && isAnyTaskSelected ? 1 : 0.4}
+      opacity={isTask && isAnyTaskSelected ? 1 : 0.2}
       disabled={!isTask || !isAnyTaskSelected}
       onPress={onDelete}>
       <Icon source={rightImageSource} />

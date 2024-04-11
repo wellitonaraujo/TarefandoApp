@@ -15,6 +15,7 @@ import colors from '../../styles/colors';
 import Task from '../../components/Task';
 import {ScrollView} from 'react-native';
 import {imgs} from '../imgs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface TaskType {
   title: string;
@@ -28,10 +29,6 @@ export default function Home() {
   const navigation = useNavigation();
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [tasksWithSelection, setTasksWithSelection] = useState<TaskType[]>([]);
-
-  const handlePress = (title: string) => {
-    setActiveFilter(prevTitle => (prevTitle === title ? null : title));
-  };
 
   const search = () => {};
 
@@ -76,32 +73,6 @@ export default function Home() {
         />
       </HeaderWrapper>
 
-      <FilterContainer>
-        <FilterTask
-          title="Prioridade"
-          onPress={() => handlePress('Prioridade')}
-          hasBorder={activeFilter === 'Prioridade'}
-          isTask={isTask}
-        />
-        <FilterTask
-          title="Cronograma"
-          onPress={() => handlePress('Cronograma')}
-          hasBorder={activeFilter === 'Cronograma'}
-          isTask={isTask}
-        />
-        <FilterTask
-          title="Atrasada"
-          onPress={() => handlePress('Atrasada')}
-          hasBorder={activeFilter === 'Atrasada'}
-          isTask={isTask}
-        />
-        <FilterTask
-          title="Concluída"
-          onPress={() => handlePress('Concluída')}
-          hasBorder={activeFilter === 'Concluída'}
-          isTask={isTask}
-        />
-      </FilterContainer>
       <ScrollView showsVerticalScrollIndicator={false}>
         {tasksWithSelection.map((task, index) => (
           <Task
@@ -112,7 +83,7 @@ export default function Home() {
             date={task.date}
             handleSelect={() => handleSelect(index)}
             isSelected={task.isSelected}
-            onDelete={() => handleDeleteTask(index)}
+            onDelete={() => handleDeleteTask()}
           />
         ))}
       </ScrollView>

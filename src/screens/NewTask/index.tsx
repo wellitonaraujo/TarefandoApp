@@ -11,7 +11,6 @@ import {
   TextInputTitle,
   Title,
 } from './styles';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {useNavigation} from '@react-navigation/native';
 import {useTask} from '../../context/TaskContext';
@@ -70,9 +69,10 @@ const NewTask: React.FC = () => {
 
   return (
     <Container>
-      <View>
+      <View style={{marginTop: 50}}>
+        <Title>Título</Title>
         <TextInputTitle
-          placeholder="Titulo"
+          placeholder=""
           value={title}
           onChangeText={text => {
             setTitle(text);
@@ -80,72 +80,69 @@ const NewTask: React.FC = () => {
           }}
           maxLength={28}
           placeholderTextColor={colors.grey.s300}
-          style={
-            isEmpty
-              ? {borderColor: colors.priority.high, borderWidth: 1}
-              : {borderColor: colors.grey.s200, borderWidth: 1}
-          }
+          isEmpty={isEmpty}
         />
         {title.length > 27 ? (
           <ErrorLength>Nome muito grande</ErrorLength>
         ) : (
           <Text>{''}</Text>
         )}
-
+        <Title>Descrição</Title>
         <TextAreaWithBorder
-          placeholder="Descrição"
+          placeholder=""
           multiline={false}
           value={description}
           onChangeText={setDescription}
-          placeholderTextColor={colors.grey.s300}
+          placeholderTextColor={colors.title}
         />
+        <View>
+          <DateWrapper>
+            <View>
+              <Title>Data</Title>
+              <DateInput
+                onPress={() => {
+                  setShowPicker(true);
+                  setPickerMode('date');
+                }}>
+                <Icon source={imgs.clock} />
+                {date && <SelectedDateText>{formattedDate}</SelectedDateText>}
+              </DateInput>
+            </View>
 
-        <DateWrapper>
-          <View>
-            <Title>Data</Title>
-            <DateInput
-              onPress={() => {
-                setShowPicker(true);
-                setPickerMode('date');
-              }}>
-              <Icon source={imgs.clock} />
-              {date && <SelectedDateText>{formattedDate}</SelectedDateText>}
-            </DateInput>
-          </View>
+            <View>
+              <Title>Horário</Title>
+              <DateInput
+                onPress={() => {
+                  setShowPicker(true);
+                  setPickerMode('time');
+                }}>
+                <Icon source={imgs.calender} />
+                {date && <SelectedDateText>{formattedTime}</SelectedDateText>}
+              </DateInput>
+            </View>
+            {showPicker && (
+              <DateTimePicker
+                value={date}
+                mode={pickerMode}
+                is24Hour={true}
+                minimumDate={minDate}
+                maximumDate={maxDate}
+                display="default"
+                onChange={handlePickerChange}
+                locale="pt-BR"
+              />
+            )}
+          </DateWrapper>
 
-          <View>
-            <Title>Horário</Title>
-            <DateInput
-              onPress={() => {
-                setShowPicker(true);
-                setPickerMode('time');
-              }}>
-              <Icon source={imgs.calender} />
-              {date && <SelectedDateText>{formattedTime}</SelectedDateText>}
-            </DateInput>
-          </View>
-          {showPicker && (
-            <DateTimePicker
-              value={date}
-              mode={pickerMode}
-              is24Hour={true}
-              minimumDate={minDate}
-              maximumDate={maxDate}
-              display="default"
-              onChange={handlePickerChange}
-              locale="pt-BR"
-            />
-          )}
-        </DateWrapper>
-
-        <PrioritySelector
-          key={priority}
-          onPressPriority={handlePressPriority}
-          priority={priority}
-        />
-
-        <PrimaryButton title="Salvar" onPress={handleSave} />
+          <PrioritySelector
+            key={priority}
+            onPressPriority={handlePressPriority}
+            priority={priority}
+          />
+        </View>
       </View>
+
+      <PrimaryButton title="Salvar" onPress={handleSave} />
     </Container>
   );
 };
