@@ -27,7 +27,6 @@ interface TaskType {
 
 export default function Home() {
   const navigation = useNavigation();
-  const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [tasksWithSelection, setTasksWithSelection] = useState<TaskType[]>([]);
 
   const search = () => {};
@@ -49,16 +48,53 @@ export default function Home() {
   const isAnyTaskSelected = tasksWithSelection.some(task => task.isSelected);
   const isTask = tasksWithSelection.length > 0;
 
+  const handleDeleteTask = async () => {
+    try {
+      const updatedTasks = tasksWithSelection.filter(task => !task.isSelected);
+      setTasksWithSelection(updatedTasks);
+      await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks)); // Salvar tarefas atualizadas no AsyncStorage
+    } catch (error) {
+      console.error('Error deleting task:', error);
+    }
+  };
+
+  const deleteTask = async (index: number) => {
+    try {
+      const updatedTasks = [...tasksWithSelection];
+      updatedTasks.splice(index, 1);
+      setTasksWithSelection(updatedTasks);
+      await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks)); // Salvar tarefas atualizadas no AsyncStorage
+    } catch (error) {
+      console.error('Error deleting task:', error);
+    }
+  };
+
+  // Função para selecionar uma tarefa
   const handleSelect = (index: number) => {
     const updatedTasks = [...tasksWithSelection];
     updatedTasks[index].isSelected = !updatedTasks[index].isSelected;
     setTasksWithSelection(updatedTasks);
   };
 
-  const handleDeleteTask = () => {
-    const updatedTasks = tasksWithSelection.filter(task => !task.isSelected);
-    setTasksWithSelection(updatedTasks);
+  const loadTasks = async () => {
+    try {
+      const savedTasks = await AsyncStorage.getItem('tasks');
+      if (savedTasks) {
+        const parsedTasks = JSON.parse(savedTasks);
+        const tasksWithDates = parsedTasks.map(task => ({
+          ...task,
+          date: new Date(task.date), // Convertendo a data para uma instância de Date
+        }));
+        setTasksWithSelection(tasksWithDates);
+      }
+    } catch (error) {
+      console.error('Error loading tasks:', error);
+    }
   };
+
+  useEffect(() => {
+    loadTasks();
+  }, []);
 
   return (
     <Container>
@@ -76,14 +112,14 @@ export default function Home() {
       <ScrollView showsVerticalScrollIndicator={false}>
         {tasksWithSelection.map((task, index) => (
           <Task
-            key={index}
+            key={task.title}
             title={task.title}
             description={task.description}
             priority={task.priority}
             date={task.date}
             handleSelect={() => handleSelect(index)}
             isSelected={task.isSelected}
-            onDelete={() => handleDeleteTask()}
+            onDelete={() => deleteTask(index)}
           />
         ))}
       </ScrollView>

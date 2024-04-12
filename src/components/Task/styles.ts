@@ -6,7 +6,7 @@ interface CardContainerProps {
 }
 
 export const CardContainer = styled.View<CardContainerProps>`
-  background-color: ${colors.grey.s200};
+  background-color: ${colors.grey.s300};
   border-radius: 8px;
   padding: 16px;
   margin: 15px 0;
@@ -59,24 +59,24 @@ export const Checkbox = styled.Pressable<{isSelected: boolean}>`
 
 export const DateWrapper = styled.View`
   flex-direction: row;
-  margin-left: 50px;
 `;
 
 export const DateInput = styled.Pressable`
   border-radius: 40px;
+  padding: 0 5px;
   z-index: 1;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  text-align: center;
-  border: solid 1px ${colors.grey.s300};
+
+  border: solid 1px ${colors.grey.s200};
   width: 85px;
   height: 45px;
 `;
 
 export const SelectedDateText = styled.Text`
   color: ${colors.title};
-  font-size: 15px;
+  font-size: 17px;
 `;
 
 export const Icon = styled.Image`

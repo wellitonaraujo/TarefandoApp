@@ -20,7 +20,8 @@ const AppRoutes: React.FC = () => (
         component={NewTask}
         options={{
           headerTransparent: true,
-          headerTitle: '',
+          headerTitle: 'Nova Tarefa',
+          headerTitleAlign: 'center',
 
           headerBackTitleVisible: false,
           headerTintColor: colors.title,

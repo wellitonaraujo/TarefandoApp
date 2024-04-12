@@ -1,25 +1,37 @@
 // TaskContext.tsx
-import React, {createContext, useState, useContext} from 'react';
 
-interface TaskProps {
+import React, {createContext, useContext, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+interface TaskType {
   title: string;
   description: string;
   priority: 'low' | 'average' | 'high';
   date: Date;
+  isSelected: boolean;
 }
 
-interface TaskContextData {
-  tasks: TaskProps[];
-  addTask: (task: TaskProps) => void;
+interface TaskContextType {
+  tasks: TaskType[];
+  addTask: (task: TaskType) => void;
 }
 
-const TaskContext = createContext<TaskContextData>({} as TaskContextData);
+const TaskContext = createContext<TaskContextType>({
+  tasks: [],
+  addTask: () => {},
+});
 
 export const TaskProvider: React.FC = ({children}) => {
-  const [tasks, setTasks] = useState<TaskProps[]>([]);
+  const [tasks, setTasks] = useState<TaskType[]>([]);
 
-  const addTask = (task: TaskProps) => {
-    setTasks([...tasks, task]);
+  const addTask = async (task: TaskType) => {
+    try {
+      const updatedTasks = [...tasks, task];
+      setTasks(updatedTasks);
+      await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    } catch (error) {
+      console.error('Error adding task:', error);
+    }
   };
 
   return (
@@ -29,12 +41,4 @@ export const TaskProvider: React.FC = ({children}) => {
   );
 };
 
-export function useTask(): TaskContextData {
-  const context = useContext(TaskContext);
-
-  if (!context) {
-    throw new Error('useTask must be used within a TaskProvider');
-  }
-
-  return context;
-}
+export const useTask = () => useContext(TaskContext);

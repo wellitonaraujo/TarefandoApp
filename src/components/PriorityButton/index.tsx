@@ -1,49 +1,31 @@
+import {PrioritySelectorProps} from '../../models/PrioritySelectorProps';
+import {getBorderColor} from '../../utils/getBorderColor';
 import {PriorityButton, PriorityWrapper} from './styles';
+import {priorities} from '../../utils/prioritiesColors';
 import {Text} from 'react-native';
 import React from 'react';
-
-interface PrioritySelectorProps {
-  onPressPriority: (priority: 'low' | 'average' | 'high' | null) => void;
-  priority: 'low' | 'average' | 'high' | null;
-}
 
 const PrioritySelector: React.FC<PrioritySelectorProps> = ({
   onPressPriority,
   priority,
 }) => {
-  const getBorderColor = (p: 'low' | 'average' | 'high' | null): string => {
-    switch (p) {
-      case 'low':
-        return '#FFCC00';
-      case 'average':
-        return '#00C31F';
-      case 'high':
-        return '#C30000';
-      default:
-        return '#CCCCCC';
-    }
+  const handlePriorityPress = (priorityType: 'low' | 'average' | 'high') => {
+    onPressPriority(priorityType);
   };
 
   return (
     <PriorityWrapper>
-      <PriorityButton
-        selected={priority === 'low'}
-        onPress={() => onPressPriority('low')}
-        borderColor={getBorderColor('low')}>
-        <Text style={{color: '#FFCC00'}}>Baixa</Text>
-      </PriorityButton>
-      <PriorityButton
-        selected={priority === 'average'}
-        onPress={() => onPressPriority('average')}
-        borderColor={getBorderColor('average')}>
-        <Text style={{color: '#00C31F'}}>Média</Text>
-      </PriorityButton>
-      <PriorityButton
-        selected={priority === 'high'}
-        onPress={() => onPressPriority('high')}
-        borderColor={getBorderColor('high')}>
-        <Text style={{color: '#C30000'}}>Alta</Text>
-      </PriorityButton>
+      {priorities.map(prio => (
+        <PriorityButton
+          key={prio.type}
+          selected={priority === prio.type}
+          onPress={() => handlePriorityPress(prio.type)}
+          borderColor={prio.color}>
+          <Text style={{color: prio.color, letterSpacing: 1.3, fontSize: 16}}>
+            {prio.label}
+          </Text>
+        </PriorityButton>
+      ))}
     </PriorityWrapper>
   );
 };

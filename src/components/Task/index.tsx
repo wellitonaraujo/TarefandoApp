@@ -57,6 +57,7 @@ const Task: React.FC<TaskProps> = ({
           onValueChange={handleSelect}
           tintColors={{true: colors.primary.s300, false: colors.grey.s100}}
         />
+        <View style={{flex: 1}} />
         <DateWrapper>
           <DateInput>
             <Icon source={imgs.calender} />
@@ -68,6 +69,7 @@ const Task: React.FC<TaskProps> = ({
             <SelectedDateText>{formattedTime}</SelectedDateText>
           </DateInput>
         </DateWrapper>
+        <View style={{flex: 1}} />
       </CardRow>
     </CardContainer>
   );

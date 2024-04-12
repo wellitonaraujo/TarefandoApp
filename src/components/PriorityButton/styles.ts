@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import colors from '../../styles/colors';
 
 interface PriorityButtonProps {
   selected: boolean;
@@ -18,11 +19,15 @@ export const PriorityButton = styled.Pressable<PriorityButtonProps>`
     selected ? borderColor : 'transparent'};
 
   width: 100px;
-  height: 55px;
+  height: 50px;
 `;
 
 export const PriorityWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
   margin-top: 40px;
+`;
+
+export const PriorityTitle = styled.View`
+  color: ${colors.title};
 `;

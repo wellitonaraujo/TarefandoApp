@@ -78,11 +78,11 @@ const NewTask: React.FC = () => {
             setTitle(text);
             setIsEmpty(false);
           }}
-          maxLength={28}
+          maxLength={38}
           placeholderTextColor={colors.grey.s300}
           isEmpty={isEmpty}
         />
-        {title.length > 27 ? (
+        {title.length > 37 ? (
           <ErrorLength>Nome muito grande</ErrorLength>
         ) : (
           <Text>{''}</Text>
@@ -104,7 +104,7 @@ const NewTask: React.FC = () => {
                   setShowPicker(true);
                   setPickerMode('date');
                 }}>
-                <Icon source={imgs.clock} />
+                <Icon source={imgs.calender} />
                 {date && <SelectedDateText>{formattedDate}</SelectedDateText>}
               </DateInput>
             </View>
@@ -116,8 +116,21 @@ const NewTask: React.FC = () => {
                   setShowPicker(true);
                   setPickerMode('time');
                 }}>
-                <Icon source={imgs.calender} />
+                <Icon source={imgs.clock} />
                 {date && <SelectedDateText>{formattedTime}</SelectedDateText>}
+              </DateInput>
+            </View>
+
+            <View style={{opacity: 0.3}}>
+              <Title>Lembrete</Title>
+              <DateInput
+                disabled
+                onPress={() => {
+                  setShowPicker(true);
+                  setPickerMode('time');
+                }}>
+                <Icon source={imgs.clock} />
+                {date && <SelectedDateText>00:15</SelectedDateText>}
               </DateInput>
             </View>
             {showPicker && (
