@@ -1,21 +1,14 @@
-import {
-  ButtonContainer,
-  FilterContainer,
-  HeaderWrapper,
-  Container,
-} from './styles';
+import React, {useEffect, useState} from 'react';
+import {ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {ButtonContainer, Container, HeaderWrapper} from './styles';
 import SearchInput from '../../components/SearchInput';
-import FilterTask from '../../components/FilterTask';
-import AddButton from '../../components/AddButton';
 import {useTask} from '../../context/TaskContext';
 import TrashButton from '../../components/TrashButton';
-import React, {useEffect, useState} from 'react';
-import colors from '../../styles/colors';
 import Task from '../../components/Task';
-import {ScrollView} from 'react-native';
+import AddButton from '../../components/AddButton';
 import {imgs} from '../imgs';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import colors from '../../styles/colors';
 
 interface TaskType {
   title: string;
@@ -27,6 +20,7 @@ interface TaskType {
 
 export default function Home() {
   const navigation = useNavigation();
+  const {tasks, updateTasks} = useTask();
   const [tasksWithSelection, setTasksWithSelection] = useState<TaskType[]>([]);
 
   const search = () => {};
@@ -34,8 +28,6 @@ export default function Home() {
   const handleAddTask = () => {
     navigation.navigate('NewTask');
   };
-
-  const {tasks} = useTask();
 
   useEffect(() => {
     const updatedTasks = tasks.map(task => ({
@@ -48,59 +40,22 @@ export default function Home() {
   const isAnyTaskSelected = tasksWithSelection.some(task => task.isSelected);
   const isTask = tasksWithSelection.length > 0;
 
-  const handleDeleteTask = async () => {
-    try {
-      const updatedTasks = tasksWithSelection.filter(task => !task.isSelected);
-      setTasksWithSelection(updatedTasks);
-      await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks)); // Salvar tarefas atualizadas no AsyncStorage
-    } catch (error) {
-      console.error('Error deleting task:', error);
-    }
+  const handleDeleteTask = () => {
+    const updatedTasks = tasksWithSelection.filter(task => !task.isSelected);
+    updateTasks(updatedTasks);
+    setTasksWithSelection(updatedTasks);
   };
 
-  const deleteTask = async (index: number) => {
-    try {
-      const updatedTasks = [...tasksWithSelection];
-      updatedTasks.splice(index, 1);
-      setTasksWithSelection(updatedTasks);
-      await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks)); // Salvar tarefas atualizadas no AsyncStorage
-    } catch (error) {
-      console.error('Error deleting task:', error);
-    }
-  };
-
-  // Função para selecionar uma tarefa
   const handleSelect = (index: number) => {
     const updatedTasks = [...tasksWithSelection];
     updatedTasks[index].isSelected = !updatedTasks[index].isSelected;
     setTasksWithSelection(updatedTasks);
   };
 
-  const loadTasks = async () => {
-    try {
-      const savedTasks = await AsyncStorage.getItem('tasks');
-      if (savedTasks) {
-        const parsedTasks = JSON.parse(savedTasks);
-        const tasksWithDates = parsedTasks.map(task => ({
-          ...task,
-          date: new Date(task.date), // Convertendo a data para uma instância de Date
-        }));
-        setTasksWithSelection(tasksWithDates);
-      }
-    } catch (error) {
-      console.error('Error loading tasks:', error);
-    }
-  };
-
-  useEffect(() => {
-    loadTasks();
-  }, []);
-
   return (
     <Container>
       <HeaderWrapper>
         <SearchInput placeholder="Buscar tarefa..." onSearch={search} />
-
         <TrashButton
           rightImageSource={imgs.trash}
           isTask={isTask}
@@ -108,18 +63,16 @@ export default function Home() {
           onDelete={handleDeleteTask}
         />
       </HeaderWrapper>
-
       <ScrollView showsVerticalScrollIndicator={false}>
         {tasksWithSelection.map((task, index) => (
           <Task
-            key={task.title}
+            key={index.toString()}
             title={task.title}
             description={task.description}
             priority={task.priority}
             date={task.date}
             handleSelect={() => handleSelect(index)}
             isSelected={task.isSelected}
-            onDelete={() => deleteTask(index)}
           />
         ))}
       </ScrollView>
