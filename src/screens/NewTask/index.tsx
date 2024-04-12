@@ -78,11 +78,11 @@ const NewTask: React.FC = () => {
             setTitle(text);
             setIsEmpty(false);
           }}
-          maxLength={38}
+          maxLength={30}
           placeholderTextColor={colors.grey.s300}
           isEmpty={isEmpty}
         />
-        {title.length > 37 ? (
+        {title.length > 29 ? (
           <ErrorLength>Nome muito grande</ErrorLength>
         ) : (
           <Text>{''}</Text>
@@ -94,6 +94,7 @@ const NewTask: React.FC = () => {
           value={description}
           onChangeText={setDescription}
           placeholderTextColor={colors.title}
+          maxLength={80}
         />
         <View>
           <DateWrapper>
@@ -121,15 +122,15 @@ const NewTask: React.FC = () => {
               </DateInput>
             </View>
 
-            <View style={{opacity: 0.3}}>
-              <Title>Lembrete</Title>
+            <View style={{opacity: 0.2}}>
+              <Title />
               <DateInput
                 disabled
                 onPress={() => {
                   setShowPicker(true);
                   setPickerMode('time');
                 }}>
-                <Icon source={imgs.clock} />
+                <Icon source={imgs.bell} />
                 {date && <SelectedDateText>00:15</SelectedDateText>}
               </DateInput>
             </View>
