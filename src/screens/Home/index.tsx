@@ -23,7 +23,15 @@ export default function Home() {
   const {tasks, updateTasks} = useTask();
   const [tasksWithSelection, setTasksWithSelection] = useState<TaskType[]>([]);
 
-  const search = () => {};
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  const handleSearch = (text: string) => {
+    setSearchTerm(text);
+  };
+
+  const filteredTasks = tasksWithSelection.filter(task =>
+    task.title.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
 
   const handleAddTask = () => {
     navigation.navigate('NewTask');
@@ -55,7 +63,7 @@ export default function Home() {
   return (
     <Container>
       <HeaderWrapper>
-        <SearchInput placeholder="Buscar tarefa..." onSearch={search} />
+        <SearchInput placeholder="Buscar tarefa..." onSearch={handleSearch} />
         <TrashButton
           rightImageSource={imgs.trash}
           isTask={isTask}
@@ -64,7 +72,7 @@ export default function Home() {
         />
       </HeaderWrapper>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {tasksWithSelection.map((task, index) => (
+        {filteredTasks.map((task, index) => (
           <Task
             key={index.toString()}
             title={task.title}
