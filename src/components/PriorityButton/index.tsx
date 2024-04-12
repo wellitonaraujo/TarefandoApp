@@ -1,5 +1,4 @@
 import {PrioritySelectorProps} from '../../models/PrioritySelectorProps';
-import {getBorderColor} from '../../utils/getBorderColor';
 import {PriorityButton, PriorityWrapper} from './styles';
 import {priorities} from '../../utils/prioritiesColors';
 import {Text} from 'react-native';

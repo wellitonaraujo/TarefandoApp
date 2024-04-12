@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {ScrollView} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Animated, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {ButtonContainer, Container, HeaderWrapper} from './styles';
 import SearchInput from '../../components/SearchInput';
@@ -24,6 +24,9 @@ export default function Home() {
   const [tasksWithSelection, setTasksWithSelection] = useState<TaskType[]>([]);
 
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [animations, setAnimations] = useState<{[key: number]: Animated.Value}>(
+    {},
+  );
 
   const handleSearch = (text: string) => {
     setSearchTerm(text);
@@ -48,10 +51,31 @@ export default function Home() {
   const isAnyTaskSelected = tasksWithSelection.some(task => task.isSelected);
   const isTask = tasksWithSelection.length > 0;
 
+  useEffect(() => {
+    const newAnimations: {[key: number]: Animated.Value} = {};
+    tasksWithSelection.forEach((task, index) => {
+      if (task.isSelected) {
+        newAnimations[index] = new Animated.Value(0);
+      }
+    });
+    setAnimations(newAnimations);
+  }, [tasksWithSelection]);
+
   const handleDeleteTask = () => {
-    const updatedTasks = tasksWithSelection.filter(task => !task.isSelected);
-    updateTasks(updatedTasks);
-    setTasksWithSelection(updatedTasks);
+    Object.keys(animations).forEach(key => {
+      const index = parseInt(key, 10);
+      Animated.timing(animations[index], {
+        toValue: -100,
+        duration: 500,
+        useNativeDriver: true,
+      }).start(() => {
+        const updatedTasks = tasksWithSelection.filter(
+          task => !task.isSelected,
+        );
+        updateTasks(updatedTasks);
+        setTasksWithSelection(updatedTasks);
+      });
+    });
   };
 
   const handleSelect = (index: number) => {
@@ -73,15 +97,18 @@ export default function Home() {
       </HeaderWrapper>
       <ScrollView showsVerticalScrollIndicator={false}>
         {filteredTasks.map((task, index) => (
-          <Task
+          <Animated.View
             key={index.toString()}
-            title={task.title}
-            description={task.description}
-            priority={task.priority}
-            date={task.date}
-            handleSelect={() => handleSelect(index)}
-            isSelected={task.isSelected}
-          />
+            style={{transform: [{translateX: animations[index] || 0}]}}>
+            <Task
+              title={task.title}
+              description={task.description}
+              priority={task.priority}
+              date={task.date}
+              handleSelect={() => handleSelect(index)}
+              isSelected={task.isSelected}
+            />
+          </Animated.View>
         ))}
       </ScrollView>
       <ButtonContainer>
