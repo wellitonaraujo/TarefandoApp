@@ -2,8 +2,8 @@ import {SearchInputProps} from '../../models/SearchInputProps';
 import {Container, SearchIcon, StyledInput} from './styles';
 import {TouchableOpacity} from 'react-native';
 import colors from '../../styles/colors';
-import React, {useState} from 'react';
 import {imgs} from '../../screens/imgs';
+import React, {useState} from 'react';
 
 const SearchInput: React.FC<SearchInputProps> = ({placeholder, onSearch}) => {
   const [searchTerm, setSearchTerm] = useState<string>('');

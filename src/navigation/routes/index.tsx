@@ -1,8 +1,8 @@
-import BottomTab from './BottomTab.routes';
+import AppRoutes from './app.routes';
 import React from 'react';
 
 const Routes: React.FC = () => {
-  return <BottomTab />;
+  return <AppRoutes />;
 };
 
 export default Routes;

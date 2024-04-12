@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import colors from '../../styles/colors';
 
 const screenHeight = Dimensions.get('window').height;
-const buttonSize = screenHeight * 0.07;
+const buttonSize = screenHeight * 0.06;
 
 export const Container = styled.View`
   background-color: ${colors.grey.s300};
