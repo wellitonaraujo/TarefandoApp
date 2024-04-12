@@ -22,6 +22,7 @@ interface TaskProps {
   description: string;
   priority: 'low' | 'average' | 'high';
   date: Date;
+  onDelete: () => void;
   handleSelect: () => void;
   isSelected: boolean;
 }
