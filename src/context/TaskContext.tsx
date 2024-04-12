@@ -6,6 +6,7 @@ interface Task {
   description: string;
   priority: 'low' | 'average' | 'high';
   date: Date;
+  isSelected: boolean;
 }
 
 interface TaskContextType {
@@ -13,6 +14,7 @@ interface TaskContextType {
   addTask: (task: Task) => void;
   deleteTask: (index: number) => void;
   updateTasks: (updatedTasks: Task[]) => void;
+  updateTaskSelection: (index: number, isSelected: boolean) => void;
 }
 
 const TaskContext = createContext<TaskContextType>({
@@ -20,6 +22,7 @@ const TaskContext = createContext<TaskContextType>({
   addTask: () => {},
   deleteTask: () => {},
   updateTasks: () => {},
+  updateTaskSelection: () => {},
 });
 
 export const TaskProvider: React.FC = ({children}) => {
@@ -63,8 +66,16 @@ export const TaskProvider: React.FC = ({children}) => {
     AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
   };
 
+  const updateTaskSelection = (index: number, isSelected: boolean) => {
+    const updatedTasks = [...tasks];
+    updatedTasks[index].isSelected = isSelected;
+    setTasks(updatedTasks);
+    AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
+  };
+
   return (
-    <TaskContext.Provider value={{tasks, addTask, deleteTask, updateTasks}}>
+    <TaskContext.Provider
+      value={{tasks, addTask, deleteTask, updateTasks, updateTaskSelection}}>
       {children}
     </TaskContext.Provider>
   );
