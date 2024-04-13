@@ -14,7 +14,7 @@ import CheckBox from '@react-native-community/checkbox';
 import colors from '../../styles/colors';
 import {imgs} from '../../screens/imgs';
 import {View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 
 interface TaskProps {
   title: string;

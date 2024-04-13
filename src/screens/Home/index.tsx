@@ -1,15 +1,15 @@
+import React, {useEffect, useState} from 'react';
+import {Animated, ScrollView} from 'react-native';
+import {TaskType} from '../../models/TaskType';
+import {useTask} from '../../context/TaskContext';
+import colors from '../../styles/colors';
+import Task from '../../components/Task';
+import {imgs} from '../imgs';
 import {ButtonContainer, Container, HeaderWrapper} from './styles';
 import NewTaskModal from '../../components/NewTaskModal';
 import SearchInput from '../../components/SearchInput';
 import TrashButton from '../../components/TrashButton';
 import AddButton from '../../components/AddButton';
-import {Animated, ScrollView} from 'react-native';
-import {useTask} from '../../context/TaskContext';
-import React, {useEffect, useState} from 'react';
-import {TaskType} from '../../models/TaskType';
-import colors from '../../styles/colors';
-import Task from '../../components/Task';
-import {imgs} from '../imgs';
 
 export default function Home() {
   const {tasks, updateTasks} = useTask();
@@ -26,6 +26,10 @@ export default function Home() {
   const filteredTasks = tasksWithSelection.filter(task =>
     task.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
 
   const handleSearch = (text: string) => {
     setSearchTerm(text);
@@ -48,22 +52,18 @@ export default function Home() {
     });
   };
 
-  const handleSelect = (index: number) => {
+  const handleSelect = async (index: number) => {
     const updatedTasks = [...tasksWithSelection];
-    updatedTasks[index].isSelected = !updatedTasks[index].isSelected;
+    updatedTasks[index] = {
+      ...updatedTasks[index],
+      isSelected: !updatedTasks[index].isSelected,
+    };
     setTasksWithSelection(updatedTasks);
-  };
-
-  const toggleModal = () => {
-    setModalVisible(!modalVisible);
+    updateTasks(updatedTasks);
   };
 
   useEffect(() => {
-    const updatedTasks = tasks.map(task => ({
-      ...task,
-      isSelected: false,
-    }));
-    setTasksWithSelection(updatedTasks);
+    setTasksWithSelection(tasks);
   }, [tasks]);
 
   useEffect(() => {
@@ -96,7 +96,7 @@ export default function Home() {
               title={task.title}
               description={task.description}
               priority={task.priority}
-              date={task.date}
+              date={new Date(task.date)}
               handleSelect={() => handleSelect(index)}
               isSelected={task.isSelected}
             />
