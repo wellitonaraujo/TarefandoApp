@@ -8,10 +8,11 @@ interface CardContainerProps {
 export const CardContainer = styled.View<CardContainerProps>`
   background-color: ${colors.grey.s300};
   border-radius: 8px;
-  padding: 16px;
+  padding: 10px;
   margin: 15px 0;
-  max-height: 174px;
-  border-bottom-width: 10px;
+  height: 120px;
+  border-bottom-width: 5px;
+  justify-content: space-between;
   border-bottom-color: ${({priority}) => {
     switch (priority) {
       case 'low':
@@ -29,7 +30,7 @@ export const CardContainer = styled.View<CardContainerProps>`
 export const CardTitle = styled.Text`
   color: ${colors.title};
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 400;
   margin-bottom: 8px;
   letter-spacing: 1.3px;
 `;
@@ -70,8 +71,8 @@ export const DateInput = styled.Pressable`
   align-items: center;
 
   border: solid 1px ${colors.grey.s200};
-  width: 85px;
-  height: 45px;
+  width: 80px;
+  height: 35px;
 `;
 
 export const SelectedDateText = styled.Text`
@@ -80,7 +81,7 @@ export const SelectedDateText = styled.Text`
 `;
 
 export const Icon = styled.Image`
-  width: 18px;
-  height: 18px;
-  margin: 5px;
+  width: 15px;
+  height: 15px;
+  opacity: 0.6;
 `;

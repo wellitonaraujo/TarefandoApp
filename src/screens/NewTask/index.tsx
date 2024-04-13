@@ -78,23 +78,9 @@ const NewTask: React.FC = () => {
             setTitle(text);
             setIsEmpty(false);
           }}
-          maxLength={30}
+          maxLength={80}
           placeholderTextColor={colors.grey.s300}
           isEmpty={isEmpty}
-        />
-        {title.length > 29 ? (
-          <ErrorLength>Nome muito grande</ErrorLength>
-        ) : (
-          <Text>{''}</Text>
-        )}
-        <Title>Descrição</Title>
-        <TextAreaWithBorder
-          placeholder=""
-          multiline={false}
-          value={description}
-          onChangeText={setDescription}
-          placeholderTextColor={colors.title}
-          maxLength={80}
         />
         <View>
           <DateWrapper>

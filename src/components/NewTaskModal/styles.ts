@@ -1,14 +1,25 @@
 import styled from 'styled-components/native';
 import colors from '../../styles/colors';
 
-export const Container = styled.SafeAreaView`
+export const ModalContainer = styled.View`
   flex: 1;
-  background-color: ${colors.background};
-  padding: 16px;
-  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.6);
+  justify-content: flex-end;
+  align-items: center;
 `;
 
-export const TextInputTitle = styled.TextInput`
+export const ModalContent = styled.View`
+  background-color: ${colors.background};
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+  width: 100%;
+  height: 450px;
+`;
+
+export const ModalTextInputTitle = styled.TextInput`
   background-color: ${colors.grey.s300};
   color: ${colors.title};
   padding-left: 10px;
@@ -20,41 +31,25 @@ export const TextInputTitle = styled.TextInput`
   border-width: 1px;
 `;
 
-export const TextAreaWithBorder = styled.TextInput`
-  background-color: ${colors.grey.s300};
-  color: ${colors.title};
-  text-align-vertical: top;
-  padding-left: 10px;
-  font-size: 16px;
-  height: 90px;
-  border-radius: 20px;
-  border: solid 1px ${colors.grey.s300};
-`;
-
-export const ErrorLength = styled.Text`
-  color: ${colors.priority.high};
-`;
-
-export const Title = styled.Text`
+export const ModalTitle = styled.Text`
   color: ${colors.title};
   margin: 0 0 5px 10px;
   letter-spacing: 1.3px;
   font-size: 16px;
 `;
 
-export const Icon = styled.Image`
+export const ModalIcon = styled.Image`
   width: 16px;
   height: 16px;
   opacity: 0.5;
 `;
 
-export const DateWrapper = styled.View`
+export const ModalDateWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 15px;
 `;
 
-export const DateInput = styled.Pressable`
+export const ModalDateInput = styled.Pressable`
   border-radius: 40px;
   z-index: 1;
   flex-direction: row;
@@ -68,7 +63,7 @@ export const DateInput = styled.Pressable`
   height: 45px;
 `;
 
-export const SelectedDateText = styled.Text`
+export const ModalSelectedDateText = styled.Text`
   color: ${colors.title};
   font-size: 16px;
 `;

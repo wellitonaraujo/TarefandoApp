@@ -28,7 +28,6 @@ interface TaskProps {
 
 const Task: React.FC<TaskProps> = ({
   title,
-  description,
   priority,
   date,
   handleSelect,
@@ -49,7 +48,7 @@ const Task: React.FC<TaskProps> = ({
   return (
     <CardContainer priority={priority} style={[taskStyle]}>
       <CardTitle>{title}</CardTitle>
-      <CardDescription>{description}</CardDescription>
+      {/* <CardDescription>{description}</CardDescription> */}
       <CardRow>
         <CheckBox
           value={isSelected}

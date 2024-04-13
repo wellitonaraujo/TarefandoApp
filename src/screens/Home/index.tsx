@@ -9,6 +9,7 @@ import Task from '../../components/Task';
 import AddButton from '../../components/AddButton';
 import {imgs} from '../imgs';
 import colors from '../../styles/colors';
+import NewTaskModal from '../../components/NewTaskModal';
 
 interface TaskType {
   title: string;
@@ -84,6 +85,12 @@ export default function Home() {
     setTasksWithSelection(updatedTasks);
   };
 
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
+
   return (
     <Container>
       <HeaderWrapper>
@@ -111,10 +118,12 @@ export default function Home() {
           </Animated.View>
         ))}
       </ScrollView>
+
+      <NewTaskModal visible={modalVisible} onClose={toggleModal} />
       <ButtonContainer>
         <AddButton
           icon={imgs.plus}
-          onPress={handleAddTask}
+          onPress={toggleModal}
           backgroundColor={colors.primary.s300}
         />
       </ButtonContainer>
