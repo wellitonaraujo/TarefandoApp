@@ -2,7 +2,6 @@ import {
   SelectedDateText,
   DateWrapper,
   CardContainer,
-  CardDescription,
   CardRow,
   CardTitle,
   DateInput,

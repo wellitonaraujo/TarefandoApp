@@ -1,66 +1,35 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Animated, ScrollView} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {ButtonContainer, Container, HeaderWrapper} from './styles';
-import SearchInput from '../../components/SearchInput';
-import {useTask} from '../../context/TaskContext';
-import TrashButton from '../../components/TrashButton';
-import Task from '../../components/Task';
-import AddButton from '../../components/AddButton';
-import {imgs} from '../imgs';
-import colors from '../../styles/colors';
 import NewTaskModal from '../../components/NewTaskModal';
-
-interface TaskType {
-  title: string;
-  description: string;
-  priority: 'low' | 'average' | 'high';
-  date: Date;
-  isSelected: boolean;
-}
+import SearchInput from '../../components/SearchInput';
+import TrashButton from '../../components/TrashButton';
+import AddButton from '../../components/AddButton';
+import {Animated, ScrollView} from 'react-native';
+import {useTask} from '../../context/TaskContext';
+import React, {useEffect, useState} from 'react';
+import {TaskType} from '../../models/TaskType';
+import colors from '../../styles/colors';
+import Task from '../../components/Task';
+import {imgs} from '../imgs';
 
 export default function Home() {
-  const navigation = useNavigation();
   const {tasks, updateTasks} = useTask();
-  const [tasksWithSelection, setTasksWithSelection] = useState<TaskType[]>([]);
-
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [tasksWithSelection, setTasksWithSelection] = useState<TaskType[]>([]);
   const [animations, setAnimations] = useState<{[key: number]: Animated.Value}>(
     {},
   );
 
-  const handleSearch = (text: string) => {
-    setSearchTerm(text);
-  };
+  const isAnyTaskSelected = tasksWithSelection.some(task => task.isSelected);
+  const isTask = tasksWithSelection.length > 0;
 
   const filteredTasks = tasksWithSelection.filter(task =>
     task.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  const handleAddTask = () => {
-    navigation.navigate('NewTask');
+  const handleSearch = (text: string) => {
+    setSearchTerm(text);
   };
-
-  useEffect(() => {
-    const updatedTasks = tasks.map(task => ({
-      ...task,
-      isSelected: false,
-    }));
-    setTasksWithSelection(updatedTasks);
-  }, [tasks]);
-
-  const isAnyTaskSelected = tasksWithSelection.some(task => task.isSelected);
-  const isTask = tasksWithSelection.length > 0;
-
-  useEffect(() => {
-    const newAnimations: {[key: number]: Animated.Value} = {};
-    tasksWithSelection.forEach((task, index) => {
-      if (task.isSelected) {
-        newAnimations[index] = new Animated.Value(0);
-      }
-    });
-    setAnimations(newAnimations);
-  }, [tasksWithSelection]);
 
   const handleDeleteTask = () => {
     Object.keys(animations).forEach(key => {
@@ -85,11 +54,27 @@ export default function Home() {
     setTasksWithSelection(updatedTasks);
   };
 
-  const [modalVisible, setModalVisible] = useState(false);
-
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
+
+  useEffect(() => {
+    const updatedTasks = tasks.map(task => ({
+      ...task,
+      isSelected: false,
+    }));
+    setTasksWithSelection(updatedTasks);
+  }, [tasks]);
+
+  useEffect(() => {
+    const newAnimations: {[key: number]: Animated.Value} = {};
+    tasksWithSelection.forEach((task, index) => {
+      if (task.isSelected) {
+        newAnimations[index] = new Animated.Value(0);
+      }
+    });
+    setAnimations(newAnimations);
+  }, [tasksWithSelection]);
 
   return (
     <Container>

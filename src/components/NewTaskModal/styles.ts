@@ -23,8 +23,8 @@ export const ModalTextInputTitle = styled.TextInput`
   background-color: ${colors.grey.s300};
   color: ${colors.title};
   padding-left: 10px;
-  border-radius: 25px;
-  max-height: 60px;
+  border-radius: 30px;
+  height: 55px;
   font-size: 16px;
   border-color: ${({isEmpty}: any) =>
     isEmpty ? colors.priority.high : colors.grey.s300};
