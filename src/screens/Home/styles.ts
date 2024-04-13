@@ -28,3 +28,11 @@ export const HeaderWrapper = styled.View`
   align-items: center;
   justify-content: space-between;
 `;
+
+export const Logo = styled.Image`
+  opacity: 0.2;
+  width: 150px;
+  height: 150px;
+  align-self: center;
+  margin-top: 250px;
+`;

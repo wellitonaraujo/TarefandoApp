@@ -95,7 +95,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
           <TouchableWithoutFeedback onPress={() => {}}>
             <ModalContent>
               <View>
-                <ModalTitle>Título</ModalTitle>
+                <ModalTitle>Tarefa</ModalTitle>
                 <ModalTextInputTitle
                   placeholder=""
                   value={title}

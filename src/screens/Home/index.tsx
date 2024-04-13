@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Animated, ScrollView} from 'react-native';
+import {Animated, Image, ScrollView} from 'react-native';
 import {TaskType} from '../../models/TaskType';
 import {useTask} from '../../context/TaskContext';
 import colors from '../../styles/colors';
 import Task from '../../components/Task';
 import {imgs} from '../imgs';
-import {ButtonContainer, Container, HeaderWrapper} from './styles';
+import {ButtonContainer, Container, HeaderWrapper, Logo} from './styles';
 import NewTaskModal from '../../components/NewTaskModal';
 import SearchInput from '../../components/SearchInput';
 import TrashButton from '../../components/TrashButton';
@@ -88,20 +88,24 @@ export default function Home() {
         />
       </HeaderWrapper>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {filteredTasks.map((task, index) => (
-          <Animated.View
-            key={index.toString()}
-            style={{transform: [{translateX: animations[index] || 0}]}}>
-            <Task
-              title={task.title}
-              description={task.description}
-              priority={task.priority}
-              date={new Date(task.date)}
-              handleSelect={() => handleSelect(index)}
-              isSelected={task.isSelected}
-            />
-          </Animated.View>
-        ))}
+        {filteredTasks.length === 0 ? (
+          <Logo source={imgs.logo} />
+        ) : (
+          filteredTasks.map((task, index) => (
+            <Animated.View
+              key={index.toString()}
+              style={{transform: [{translateX: animations[index] || 0}]}}>
+              <Task
+                title={task.title}
+                description={task.description}
+                priority={task.priority}
+                date={new Date(task.date)}
+                handleSelect={() => handleSelect(index)}
+                isSelected={task.isSelected}
+              />
+            </Animated.View>
+          ))
+        )}
       </ScrollView>
 
       <NewTaskModal visible={modalVisible} onClose={toggleModal} />
