@@ -7,7 +7,7 @@ const screenHeight = Dimensions.get('window').height;
 const buttonSize = screenHeight * 0.06;
 
 export const Container = styled.View`
-  background-color: ${colors.grey.s300};
+  background-color: ${colors.input.s100};
   height: ${buttonSize}px;
   flex-direction: row;
   align-items: center;

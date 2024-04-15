@@ -44,10 +44,11 @@ const Task: React.FC<TaskProps> = ({
   };
 
   const toggleExpansion = () => {
-    if (title.length > 30) {
+    if (title.length > 35) {
       setIsExpanded(!isExpanded);
     }
   };
+
   return (
     <CardContainer
       priority={priority}
@@ -67,7 +68,7 @@ const Task: React.FC<TaskProps> = ({
             {isExpanded
               ? title
               : title.length > 30
-              ? title.substring(0, 30) + '...'
+              ? title.substring(0, 35) + '...'
               : title}
           </CardTitle>
         </Pressable>

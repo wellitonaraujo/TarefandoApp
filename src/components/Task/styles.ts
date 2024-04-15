@@ -28,15 +28,19 @@ export const CardContainer = styled.View<CardContainerProps>`
     }
   }};
   max-height: ${({isExpanded}) => (isExpanded ? 'none' : '70px')};
-  overflow: hidden;
+
   transition: max-height 0.3s ease;
+  padding-bottom: 10px;
 `;
 
-export const CardTitle = styled.Text<{isSelected: boolean}>`
+export const CardTitle = styled.Text<{
+  isSelected: boolean;
+}>`
   color: ${colors.title};
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 1.3px;
+  padding-right: 50px;
   text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
 `;
 

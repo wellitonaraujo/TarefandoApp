@@ -54,10 +54,10 @@ export default function Home() {
 
   const handleSelect = async (index: number) => {
     const updatedTasks = [...tasksWithSelection];
-    const selectedTask = updatedTasks[index];
-    updatedTasks.splice(index, 1); // Remove o item selecionado da posição atual
-    selectedTask.isSelected = !selectedTask.isSelected; // Inverte o valor de isSelected
-    updatedTasks.push(selectedTask); // Adiciona o item selecionado no final da lista
+    updatedTasks[index] = {
+      ...updatedTasks[index],
+      isSelected: !updatedTasks[index].isSelected,
+    };
     setTasksWithSelection(updatedTasks);
     updateTasks(updatedTasks);
   };
@@ -100,7 +100,9 @@ export default function Home() {
                 description={task.description}
                 priority={task.priority}
                 date={new Date(task.date)}
-                handleSelect={() => handleSelect(index)}
+                handleSelect={() =>
+                  handleSelect(tasks.findIndex(t => t === task))
+                }
                 isSelected={task.isSelected}
               />
             </Animated.View>

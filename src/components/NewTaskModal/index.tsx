@@ -97,14 +97,14 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
               <View>
                 <ModalTitle>Tarefa</ModalTitle>
                 <ModalTextInputTitle
-                  placeholder=""
+                  placeholder="Nome da tarefa"
                   value={title}
                   onChangeText={text => {
                     setTitle(text);
                     setIsEmpty(false);
                   }}
                   maxLength={80}
-                  placeholderTextColor={colors.grey.s300}
+                  placeholderTextColor={colors.grey.s100}
                   isEmpty={isEmpty}
                 />
               </View>
@@ -141,7 +141,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
                   </ModalDateInput>
                 </View>
 
-                <View style={{opacity: 0.2}}>
+                {/* <View style={{opacity: 0.2}}>
                   <ModalTitle />
                   <ModalDateInput
                     disabled
@@ -154,7 +154,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
                       <ModalSelectedDateText>00:15</ModalSelectedDateText>
                     )}
                   </ModalDateInput>
-                </View>
+                </View> */}
                 {showPicker && (
                   <DateTimePicker
                     value={date}

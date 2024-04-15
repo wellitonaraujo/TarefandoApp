@@ -16,18 +16,18 @@ export const ModalContent = styled.View`
   justify-content: space-between;
   padding: 16px;
   width: 100%;
-  height: 450px;
+  height: 400px;
 `;
 
 export const ModalTextInputTitle = styled.TextInput`
-  background-color: ${colors.grey.s300};
+  background-color: ${colors.input.s100};
   color: ${colors.title};
   padding-left: 10px;
   border-radius: 30px;
   height: 55px;
   font-size: 16px;
   border-color: ${({isEmpty}: any) =>
-    isEmpty ? colors.priority.high : colors.grey.s300};
+    isEmpty ? colors.priority.high : colors.input.s100};
   border-width: 1px;
 `;
 
@@ -58,7 +58,7 @@ export const ModalDateInput = styled.Pressable`
   align-items: center;
   text-align: center;
 
-  background-color: ${colors.grey.s300};
+  background-color: ${colors.input.s200};
   width: 80px;
   height: 45px;
 `;
