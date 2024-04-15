@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Animated, Image, ScrollView} from 'react-native';
+import {Alert, Animated, Image, ScrollView} from 'react-native';
 import {TaskType} from '../../models/TaskType';
 import {useTask} from '../../context/TaskContext';
 import colors from '../../styles/colors';
@@ -75,6 +75,37 @@ export default function Home() {
     });
     setAnimations(newAnimations);
   }, [tasksWithSelection]);
+
+  useEffect(() => {
+    const checkScheduledTask = task => {
+      const now = new Date();
+      const taskDate = new Date(task.date);
+
+      // Verifica se a data e a hora atual coincidem exatamente com a data e a hora da tarefa
+      if (
+        now.getFullYear() === taskDate.getFullYear() &&
+        now.getMonth() === taskDate.getMonth() &&
+        now.getDate() === taskDate.getDate() &&
+        now.getHours() === taskDate.getHours() &&
+        now.getMinutes() === taskDate.getMinutes()
+      ) {
+        console.log(`Task "${task.title}" is scheduled for now.`);
+        Alert.alert(
+          'Tarefa Agendada',
+          `A tarefa "${task.title}" está agendada para agora`,
+        );
+      }
+    };
+
+    const interval = setInterval(() => {
+      console.log('Checking scheduled tasks...');
+      filteredTasks.forEach(task => {
+        checkScheduledTask(task);
+      });
+    }, 60000); // Verifica a cada minuto
+
+    return () => clearInterval(interval);
+  }, [filteredTasks]);
 
   return (
     <Container>
