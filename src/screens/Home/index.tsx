@@ -54,10 +54,10 @@ export default function Home() {
 
   const handleSelect = async (index: number) => {
     const updatedTasks = [...tasksWithSelection];
-    updatedTasks[index] = {
-      ...updatedTasks[index],
-      isSelected: !updatedTasks[index].isSelected,
-    };
+    const selectedTask = updatedTasks[index];
+    updatedTasks.splice(index, 1); // Remove o item selecionado da posição atual
+    selectedTask.isSelected = !selectedTask.isSelected; // Inverte o valor de isSelected
+    updatedTasks.push(selectedTask); // Adiciona o item selecionado no final da lista
     setTasksWithSelection(updatedTasks);
     updateTasks(updatedTasks);
   };

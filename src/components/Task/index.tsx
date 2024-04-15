@@ -12,9 +12,8 @@ import {getColorForPriority} from '../../utils/getColorForPriority';
 import {formatDate, formatTime} from '../../utils/dateFormat';
 import CheckBox from '@react-native-community/checkbox';
 import colors from '../../styles/colors';
-import {imgs} from '../../screens/imgs';
-import {View} from 'react-native';
-import React, {useEffect} from 'react';
+import {Pressable, View, Animated} from 'react-native';
+import React, {useEffect, useState} from 'react';
 
 interface TaskProps {
   title: string;
@@ -34,7 +33,7 @@ const Task: React.FC<TaskProps> = ({
 }) => {
   const formattedDate = formatDate(date);
   const formattedTime = formatTime(date);
-
+  const [isExpanded, setIsExpanded] = useState(false);
   const maxDate = new Date();
 
   maxDate.setDate(maxDate.getDate() + 7);
@@ -44,30 +43,49 @@ const Task: React.FC<TaskProps> = ({
     borderColor: isSelected ? 'transparent' : getColorForPriority(priority),
   };
 
+  const toggleExpansion = () => {
+    if (title.length > 30) {
+      setIsExpanded(!isExpanded);
+    }
+  };
   return (
-    <CardContainer priority={priority} style={[taskStyle]}>
-      <CardTitle>{title}</CardTitle>
+    <CardContainer
+      priority={priority}
+      isExpanded={isExpanded}
+      style={[taskStyle]}>
       {/* <CardDescription>{description}</CardDescription> */}
-      <CardRow>
-        <CheckBox
-          value={isSelected}
-          onValueChange={handleSelect}
-          tintColors={{true: colors.primary.s300, false: colors.grey.s100}}
-        />
-        <View style={{flex: 1}} />
-        <DateWrapper>
+
+      <CheckBox
+        value={isSelected}
+        onValueChange={handleSelect}
+        tintColors={{true: colors.primary.s300, false: colors.grey.s100}}
+      />
+
+      <DateWrapper>
+        <Pressable onPress={toggleExpansion}>
+          <CardTitle isSelected={isSelected}>
+            {isExpanded
+              ? title
+              : title.length > 30
+              ? title.substring(0, 30) + '...'
+              : title}
+          </CardTitle>
+        </Pressable>
+
+        <View style={{flexDirection: 'row'}}>
           <DateInput>
-            <Icon source={imgs.calender} />
-            <SelectedDateText>{formattedDate}</SelectedDateText>
+            <SelectedDateText isSelected={isSelected}>
+              {formattedDate}
+            </SelectedDateText>
           </DateInput>
-          <View style={{marginRight: 30}} />
+
           <DateInput>
-            <Icon source={imgs.clock} />
-            <SelectedDateText>{formattedTime}</SelectedDateText>
+            <SelectedDateText isSelected={isSelected}>
+              {formattedTime}
+            </SelectedDateText>
           </DateInput>
-        </DateWrapper>
-        <View style={{flex: 1}} />
-      </CardRow>
+        </View>
+      </DateWrapper>
     </CardContainer>
   );
 };

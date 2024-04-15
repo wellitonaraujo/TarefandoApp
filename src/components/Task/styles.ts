@@ -3,16 +3,18 @@ import colors from '../../styles/colors';
 
 interface CardContainerProps {
   priority: 'low' | 'average' | 'high';
+  isExpanded: boolean;
 }
 
 export const CardContainer = styled.View<CardContainerProps>`
   background-color: ${colors.grey.s300};
   border-radius: 8px;
-  padding: 10px;
-  margin: 15px 0;
-  height: 120px;
+  padding: 6px;
+  margin: 7px 0;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   border-bottom-width: 5px;
-  justify-content: space-between;
   border-bottom-color: ${({priority}) => {
     switch (priority) {
       case 'low':
@@ -25,14 +27,17 @@ export const CardContainer = styled.View<CardContainerProps>`
         return '#000000';
     }
   }};
+  max-height: ${({isExpanded}) => (isExpanded ? 'none' : '70px')};
+  overflow: hidden;
+  transition: max-height 0.3s ease;
 `;
 
-export const CardTitle = styled.Text`
+export const CardTitle = styled.Text<{isSelected: boolean}>`
   color: ${colors.title};
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
-  margin-bottom: 8px;
   letter-spacing: 1.3px;
+  text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
 `;
 
 export const CardDescription = styled.Text`
@@ -48,25 +53,20 @@ export const CardRow = styled.View`
 `;
 
 export const DateWrapper = styled.View`
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 10px;
 `;
 
 export const DateInput = styled.Pressable`
-  border-radius: 8px;
-  padding: 0 5px;
-  z-index: 1;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-
-  border: solid 1px ${colors.grey.s200};
-  width: 80px;
-  height: 35px;
+  width: 50px;
 `;
 
-export const SelectedDateText = styled.Text`
+export const SelectedDateText = styled.Text<{isSelected: boolean}>`
   color: ${colors.title};
-  font-size: 17px;
+  font-size: 13px;
+  margin-top: 10px;
+  text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
 `;
 
 export const Icon = styled.Image`

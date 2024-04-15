@@ -1,0 +1,9 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Cor de fundo da splash screen -->
+    <item android:drawable="@color/splash_background" />
+    <item>
+         <bitmap
+            android:src="@drawable/splash_image"
+            android:gravity="center" />
+    </item>
+</layer-list>
