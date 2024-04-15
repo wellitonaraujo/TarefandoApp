@@ -34,3 +34,9 @@ export const SearchIcon = styled(Image)`
   height: 38px;
   width: 38px;
 `;
+
+export const CloseIcon = styled(Image)`
+  height: 24px;
+  width: 24px;
+  margin-right: 5px;
+`;
