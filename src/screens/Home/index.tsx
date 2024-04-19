@@ -19,7 +19,6 @@ import {
   Container,
   HeaderWrapper,
   Logo,
-  SeparatorIcon,
   SeparatorText,
   SeparatorView,
 } from './styles';
@@ -62,20 +61,30 @@ export default function Home() {
   };
 
   const handleDeleteTask = () => {
+    const updatedTasks = tasksWithSelection.filter(task => !task.isSelected);
+    const updatedAnimations: {[key: number]: Animated.Value} = {};
+
+    // Atualiza as animações apenas para as tarefas que permanecem
+    updatedTasks.forEach((task, index) => {
+      updatedAnimations[index] = animations[index] || new Animated.Value(0);
+    });
+
+    // Animação para as tarefas que foram excluídas
     Object.keys(animations).forEach(key => {
       const index = parseInt(key, 10);
-      Animated.timing(animations[index], {
-        toValue: -100,
-        duration: 500,
-        useNativeDriver: true,
-      }).start(() => {
-        const updatedTasks = tasksWithSelection.filter(
-          task => !task.isSelected,
-        );
-        updateTasks(updatedTasks);
-        setTasksWithSelection(updatedTasks);
-      });
+      if (!updatedAnimations[index]) {
+        Animated.timing(animations[index], {
+          toValue: -100,
+          duration: 500,
+          useNativeDriver: true,
+        }).start();
+      }
     });
+
+    // Atualiza o estado das tarefas e das animações
+    updateTasks(updatedTasks);
+    setTasksWithSelection(updatedTasks);
+    setAnimations(updatedAnimations);
   };
 
   const handleSelect = async (index: number) => {
@@ -102,38 +111,15 @@ export default function Home() {
     setAnimations(newAnimations);
   }, [tasksWithSelection]);
 
-  // useEffect(() => {
-  //   const checkScheduledTask = task => {
-  //     const now = new Date();
-  //     const taskDate = new Date(task.date);
-
-  //     if (
-  //       now.getFullYear() === taskDate.getFullYear() &&
-  //       now.getMonth() === taskDate.getMonth() &&
-  //       now.getDate() === taskDate.getDate() &&
-  //       now.getHours() === taskDate.getHours() &&
-  //       now.getMinutes() === taskDate.getMinutes()
-  //     ) {
-  //       console.log(`Task "${task.title}" is scheduled for now.`);
-  //       Alert.alert(
-  //         'Tarefa Agendada',
-  //         `A tarefa "${task.title}" está agendada para agora`,
-  //       );
-  //     }
-  //   };
-
-  //   const interval = setInterval(() => {
-  //     console.log('Checking scheduled tasks...');
-  //     filteredTasks.forEach(task => {
-  //       checkScheduledTask(task);
-  //     });
-  //   }, 60000); // Verifica a cada minuto
-
-  //   return () => clearInterval(interval);
-  // }, [filteredTasks]);
+  // Ordenar as tarefas com base na data
+  const sortedTasks = [...filteredTasks].sort((a, b) => {
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    return dateA - dateB;
+  });
 
   // Separar as tarefas em tarefas de hoje e tarefas futuras
-  const todayTasks = filteredTasks.filter(task => {
+  const todayTasks = sortedTasks.filter(task => {
     const taskDate = new Date(task.date);
     const currentDate = new Date();
     return (
@@ -143,7 +129,7 @@ export default function Home() {
     );
   });
 
-  const upcomingTasks = filteredTasks.filter(task => {
+  const upcomingTasks = sortedTasks.filter(task => {
     const taskDate = new Date(task.date);
     const currentDate = new Date();
     return (

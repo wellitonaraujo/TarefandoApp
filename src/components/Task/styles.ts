@@ -10,7 +10,7 @@ export const CardContainer = styled.View<CardContainerProps>`
   background-color: ${colors.grey.s300};
   border-radius: 8px;
   padding: 6px;
-  margin: 7px 0;
+  margin: 10px 0;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
