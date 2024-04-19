@@ -39,7 +39,7 @@ export const CardTitle = styled.Text<{
   color: ${colors.title};
   font-size: 16px;
   font-weight: 400;
-  letter-spacing: 1.3px;
+  letter-spacing: 1.4px;
   padding-right: 50px;
   text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
 `;
@@ -68,8 +68,9 @@ export const DateInput = styled.Pressable`
 
 export const SelectedDateText = styled.Text<{isSelected: boolean}>`
   color: ${colors.title};
-  font-size: 13px;
-  margin-top: 10px;
+  font-size: 12px;
+  margin-top: 4px;
+  letter-spacing: 1.8px;
   text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
 `;
 

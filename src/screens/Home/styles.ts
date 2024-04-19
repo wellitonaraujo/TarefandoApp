@@ -51,7 +51,8 @@ export const SeparatorText = styled.Text`
 `;
 
 export const AnimatedSeparatorIcon = styled(Animated.Image)`
-  width: 15px;
-  height: 15px;
+  width: 13px;
+  height: 13px;
   opacity: 0.5;
+  margin-top: 2px;
 `;

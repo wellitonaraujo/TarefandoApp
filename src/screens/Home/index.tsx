@@ -102,35 +102,35 @@ export default function Home() {
     setAnimations(newAnimations);
   }, [tasksWithSelection]);
 
-  useEffect(() => {
-    const checkScheduledTask = task => {
-      const now = new Date();
-      const taskDate = new Date(task.date);
+  // useEffect(() => {
+  //   const checkScheduledTask = task => {
+  //     const now = new Date();
+  //     const taskDate = new Date(task.date);
 
-      if (
-        now.getFullYear() === taskDate.getFullYear() &&
-        now.getMonth() === taskDate.getMonth() &&
-        now.getDate() === taskDate.getDate() &&
-        now.getHours() === taskDate.getHours() &&
-        now.getMinutes() === taskDate.getMinutes()
-      ) {
-        console.log(`Task "${task.title}" is scheduled for now.`);
-        Alert.alert(
-          'Tarefa Agendada',
-          `A tarefa "${task.title}" está agendada para agora`,
-        );
-      }
-    };
+  //     if (
+  //       now.getFullYear() === taskDate.getFullYear() &&
+  //       now.getMonth() === taskDate.getMonth() &&
+  //       now.getDate() === taskDate.getDate() &&
+  //       now.getHours() === taskDate.getHours() &&
+  //       now.getMinutes() === taskDate.getMinutes()
+  //     ) {
+  //       console.log(`Task "${task.title}" is scheduled for now.`);
+  //       Alert.alert(
+  //         'Tarefa Agendada',
+  //         `A tarefa "${task.title}" está agendada para agora`,
+  //       );
+  //     }
+  //   };
 
-    const interval = setInterval(() => {
-      console.log('Checking scheduled tasks...');
-      filteredTasks.forEach(task => {
-        checkScheduledTask(task);
-      });
-    }, 60000); // Verifica a cada minuto
+  //   const interval = setInterval(() => {
+  //     console.log('Checking scheduled tasks...');
+  //     filteredTasks.forEach(task => {
+  //       checkScheduledTask(task);
+  //     });
+  //   }, 60000); // Verifica a cada minuto
 
-    return () => clearInterval(interval);
-  }, [filteredTasks]);
+  //   return () => clearInterval(interval);
+  // }, [filteredTasks]);
 
   // Separar as tarefas em tarefas de hoje e tarefas futuras
   const todayTasks = filteredTasks.filter(task => {

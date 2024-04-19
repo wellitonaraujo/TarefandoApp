@@ -2,7 +2,7 @@ export const formatDate = (date: Date): string => {
   if (!date || typeof date.getDate !== 'function') {
     return ''; // Retorna uma string vazia se a data for inválida
   }
-  return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1)
+  return `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1)
     .toString()
     .padStart(2, '0')}`;
 };

@@ -12,8 +12,8 @@ import {getColorForPriority} from '../../utils/getColorForPriority';
 import {formatDate, formatTime} from '../../utils/dateFormat';
 import CheckBox from '@react-native-community/checkbox';
 import colors from '../../styles/colors';
-import {Pressable, View, Animated} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {Pressable, View} from 'react-native';
+import React, {useState} from 'react';
 
 interface TaskProps {
   title: string;
