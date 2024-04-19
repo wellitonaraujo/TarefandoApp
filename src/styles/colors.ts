@@ -1,5 +1,5 @@
 const colors = {
-  background: '#1F2020',
+  background: '#121212',
 
   title: '#D9D9D9',
 
@@ -16,6 +16,10 @@ const colors = {
     s300: '#',
     s200: '#',
     s100: '#',
+  },
+  input: {
+    s200: '#1D1E1E',
+    s100: '#202020',
   },
   priority: {
     high: '#C30000',

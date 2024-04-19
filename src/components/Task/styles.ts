@@ -3,15 +3,18 @@ import colors from '../../styles/colors';
 
 interface CardContainerProps {
   priority: 'low' | 'average' | 'high';
+  isExpanded: boolean;
 }
 
 export const CardContainer = styled.View<CardContainerProps>`
   background-color: ${colors.grey.s300};
   border-radius: 8px;
-  padding: 16px;
-  margin: 15px 0;
-  max-height: 174px;
-  border-bottom-width: 10px;
+  padding: 6px;
+  margin: 7px 0;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom-width: 5px;
   border-bottom-color: ${({priority}) => {
     switch (priority) {
       case 'low':
@@ -24,14 +27,21 @@ export const CardContainer = styled.View<CardContainerProps>`
         return '#000000';
     }
   }};
+  max-height: ${({isExpanded}) => (isExpanded ? 'none' : '70px')};
+
+  transition: max-height 0.3s ease;
+  padding-bottom: 10px;
 `;
 
-export const CardTitle = styled.Text`
+export const CardTitle = styled.Text<{
+  isSelected: boolean;
+}>`
   color: ${colors.title};
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  letter-spacing: 1.3px;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 1.4px;
+  padding-right: 50px;
+  text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
 `;
 
 export const CardDescription = styled.Text`
@@ -46,41 +56,26 @@ export const CardRow = styled.View`
   align-items: center;
 `;
 
-export const Checkbox = styled.Pressable<{isSelected: boolean}>`
-  width: 24px;
-  height: 24px;
-  border: 1px solid
-    ${({isSelected}) => (isSelected ? colors.primary.s300 : colors.grey.s100)};
-  border-radius: 3px;
-  margin-right: 8px;
-  justify-content: center;
-  align-items: center;
-`;
-
 export const DateWrapper = styled.View`
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 10px;
 `;
 
 export const DateInput = styled.Pressable`
-  border-radius: 40px;
-  padding: 0 5px;
-  z-index: 1;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-
-  border: solid 1px ${colors.grey.s200};
-  width: 85px;
-  height: 45px;
+  width: 50px;
 `;
 
-export const SelectedDateText = styled.Text`
+export const SelectedDateText = styled.Text<{isSelected: boolean}>`
   color: ${colors.title};
-  font-size: 17px;
+  font-size: 12px;
+  margin-top: 4px;
+  letter-spacing: 1.8px;
+  text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
 `;
 
 export const Icon = styled.Image`
-  width: 18px;
-  height: 18px;
-  margin: 5px;
+  width: 15px;
+  height: 15px;
+  opacity: 0.6;
 `;

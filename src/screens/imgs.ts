@@ -8,4 +8,7 @@ export const imgs = {
   calender: require('../assets/icons/calender.png'),
   clock: require('../assets/icons/clock.png'),
   bell: require('../assets/icons/bell.png'),
+  logo: require('../assets/icons/logo.png'),
+  close: require('../assets/icons/close.png'),
+  arrowbottom: require('../assets/icons/arrowbottom.png'),
 };

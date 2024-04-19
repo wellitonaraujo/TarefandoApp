@@ -13,6 +13,7 @@ export const TextInputTitle = styled.TextInput`
   color: ${colors.title};
   padding-left: 10px;
   border-radius: 25px;
+  max-height: 60px;
   font-size: 16px;
   border-color: ${({isEmpty}: any) =>
     isEmpty ? colors.priority.high : colors.grey.s300};
@@ -42,15 +43,15 @@ export const Title = styled.Text`
 `;
 
 export const Icon = styled.Image`
-  width: 20px;
-  height: 20px;
-  opacity: 0.7;
+  width: 16px;
+  height: 16px;
+  opacity: 0.5;
 `;
 
 export const DateWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 15px;
 `;
 
 export const DateInput = styled.Pressable`
@@ -58,13 +59,13 @@ export const DateInput = styled.Pressable`
   z-index: 1;
   flex-direction: row;
   justify-content: space-around;
-  padding: 0 10px;
+  padding: 0 5px;
   align-items: center;
   text-align: center;
 
   background-color: ${colors.grey.s300};
-  width: 100px;
-  height: 50px;
+  width: 80px;
+  height: 45px;
 `;
 
 export const SelectedDateText = styled.Text`

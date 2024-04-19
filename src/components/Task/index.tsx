@@ -2,7 +2,6 @@ import {
   SelectedDateText,
   DateWrapper,
   CardContainer,
-  CardDescription,
   CardRow,
   CardTitle,
   DateInput,
@@ -13,9 +12,8 @@ import {getColorForPriority} from '../../utils/getColorForPriority';
 import {formatDate, formatTime} from '../../utils/dateFormat';
 import CheckBox from '@react-native-community/checkbox';
 import colors from '../../styles/colors';
-import {imgs} from '../../screens/imgs';
-import {View} from 'react-native';
-import React from 'react';
+import {Pressable, View} from 'react-native';
+import React, {useState} from 'react';
 
 interface TaskProps {
   title: string;
@@ -28,7 +26,6 @@ interface TaskProps {
 
 const Task: React.FC<TaskProps> = ({
   title,
-  description,
   priority,
   date,
   handleSelect,
@@ -36,7 +33,7 @@ const Task: React.FC<TaskProps> = ({
 }) => {
   const formattedDate = formatDate(date);
   const formattedTime = formatTime(date);
-
+  const [isExpanded, setIsExpanded] = useState(false);
   const maxDate = new Date();
 
   maxDate.setDate(maxDate.getDate() + 7);
@@ -46,30 +43,53 @@ const Task: React.FC<TaskProps> = ({
     borderColor: isSelected ? 'transparent' : getColorForPriority(priority),
   };
 
+  const toggleExpansion = () => {
+    if (title.length > 35) {
+      setIsExpanded(!isExpanded);
+    }
+  };
+
   return (
-    <CardContainer priority={priority} style={[taskStyle]}>
-      <CardTitle>{title}</CardTitle>
-      <CardDescription>{description}</CardDescription>
-      <CardRow>
-        <CheckBox
-          value={isSelected}
-          onValueChange={handleSelect}
-          tintColors={{true: colors.primary.s300, false: colors.grey.s100}}
-        />
-        <View style={{flex: 1}} />
-        <DateWrapper>
-          <DateInput>
-            <Icon source={imgs.calender} />
-            <SelectedDateText>{formattedDate}</SelectedDateText>
-          </DateInput>
-          <View style={{marginRight: 30}} />
-          <DateInput>
-            <Icon source={imgs.clock} />
-            <SelectedDateText>{formattedTime}</SelectedDateText>
-          </DateInput>
-        </DateWrapper>
-        <View style={{flex: 1}} />
-      </CardRow>
+    <CardContainer
+      priority={priority}
+      isExpanded={isExpanded}
+      style={[taskStyle]}>
+      {/* <CardDescription>{description}</CardDescription> */}
+
+      <CheckBox
+        value={isSelected}
+        onValueChange={handleSelect}
+        tintColors={{true: colors.primary.s300, false: colors.grey.s100}}
+      />
+
+      <DateWrapper>
+        <Pressable onPress={toggleExpansion}>
+          <CardTitle isSelected={isSelected}>
+            {isExpanded
+              ? title
+              : title.length > 30
+              ? title.substring(0, 35) + '...'
+              : title}
+          </CardTitle>
+        </Pressable>
+
+        {/* Renderiza a data apenas se a tarefa não for para "Hoje" */}
+        {formattedDate !== formatDate(new Date()) && (
+          <View style={{flexDirection: 'row'}}>
+            <DateInput>
+              <SelectedDateText isSelected={isSelected}>
+                {formattedDate}
+              </SelectedDateText>
+            </DateInput>
+
+            {/* <DateInput>
+              <SelectedDateText isSelected={isSelected}>
+                {formattedTime}
+              </SelectedDateText>
+            </DateInput> */}
+          </View>
+        )}
+      </DateWrapper>
     </CardContainer>
   );
 };

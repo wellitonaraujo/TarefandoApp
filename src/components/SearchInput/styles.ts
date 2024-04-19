@@ -7,7 +7,7 @@ const screenHeight = Dimensions.get('window').height;
 const buttonSize = screenHeight * 0.06;
 
 export const Container = styled.View`
-  background-color: ${colors.grey.s300};
+  background-color: ${colors.input.s100};
   height: ${buttonSize}px;
   flex-direction: row;
   align-items: center;
@@ -33,4 +33,10 @@ export const PlaceholderText = styled.Text`
 export const SearchIcon = styled(Image)`
   height: 38px;
   width: 38px;
+`;
+
+export const CloseIcon = styled(Image)`
+  height: 24px;
+  width: 24px;
+  margin-right: 5px;
 `;

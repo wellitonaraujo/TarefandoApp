@@ -4,8 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 interface Task {
   title: string;
   description: string;
-  priority: 'low' | 'average' | 'high';
+  priority: 'low' | 'average' | 'high' | null;
   date: Date;
+  isSelected: boolean;
 }
 
 interface TaskContextType {
@@ -25,25 +26,12 @@ const TaskContext = createContext<TaskContextType>({
 export const TaskProvider: React.FC = ({children}) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
-  const addTask = (task: Task) => {
-    const updatedTasks = [...tasks, task];
-    setTasks(updatedTasks);
-    AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
-  };
-
-  // Ao recuperar tarefas do AsyncStorage
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const storedTasks = await AsyncStorage.getItem('tasks');
-        if (storedTasks) {
-          const parsedTasks: Task[] = JSON.parse(storedTasks).map(
-            (task: any) => ({
-              ...task,
-              date: new Date(task.date),
-            }),
-          );
-          setTasks(parsedTasks);
+        const savedTasks = await AsyncStorage.getItem('tasks');
+        if (savedTasks) {
+          setTasks(JSON.parse(savedTasks));
         }
       } catch (error) {
         console.error('Error fetching tasks from AsyncStorage:', error);
@@ -52,15 +40,30 @@ export const TaskProvider: React.FC = ({children}) => {
 
     fetchTasks();
   }, []);
+
+  const saveTasksToStorage = async (updatedTasks: Task[]) => {
+    try {
+      await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    } catch (error) {
+      console.error('Error saving tasks to AsyncStorage:', error);
+    }
+  };
+
+  const addTask = (task: Task) => {
+    const updatedTasks = [...tasks, task];
+    setTasks(updatedTasks);
+    saveTasksToStorage(updatedTasks);
+  };
+
   const deleteTask = (index: number) => {
     const updatedTasks = tasks.filter((_, i) => i !== index);
     setTasks(updatedTasks);
-    AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    saveTasksToStorage(updatedTasks);
   };
 
   const updateTasks = (updatedTasks: Task[]) => {
     setTasks(updatedTasks);
-    AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    saveTasksToStorage(updatedTasks);
   };
 
   return (

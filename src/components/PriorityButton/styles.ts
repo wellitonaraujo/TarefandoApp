@@ -8,24 +8,22 @@ interface PriorityButtonProps {
 }
 
 export const PriorityButton = styled.Pressable<PriorityButtonProps>`
-  border-radius: 40px;
-  z-index: 1;
+  border-radius: 35px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   text-align: center;
   border-width: 1px;
+  margin-right: 10px;
   border-color: ${({selected, borderColor}) =>
     selected ? borderColor : 'transparent'};
 
-  width: 100px;
-  height: 50px;
+  width: 80px;
+  height: 35px;
 `;
 
 export const PriorityWrapper = styled.View`
   flex-direction: row;
-  justify-content: space-between;
-  margin-top: 40px;
 `;
 
 export const PriorityTitle = styled.View`
