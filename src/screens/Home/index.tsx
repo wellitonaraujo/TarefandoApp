@@ -188,25 +188,27 @@ export default function Home() {
           <Logo source={imgs.logo} />
         ) : (
           <>
-            <Pressable onPress={toggleTodaySection}>
-              <SeparatorView>
-                <SeparatorText>Hoje</SeparatorText>
-                <AnimatedSeparatorIcon
-                  source={imgs.arrowbottom}
-                  resizeMode="contain"
-                  style={{
-                    transform: [
-                      {
-                        rotate: todayIconRotation.interpolate({
-                          inputRange: [0, 1],
-                          outputRange: ['0deg', '180deg'],
-                        }),
-                      },
-                    ],
-                  }}
-                />
-              </SeparatorView>
-            </Pressable>
+            {todayTasks.length > 0 && (
+              <TouchableOpacity onPress={toggleTodaySection}>
+                <SeparatorView>
+                  <SeparatorText>Hoje</SeparatorText>
+                  <AnimatedSeparatorIcon
+                    source={imgs.arrowbottom}
+                    resizeMode="contain"
+                    style={{
+                      transform: [
+                        {
+                          rotate: todayIconRotation.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: ['0deg', '180deg'],
+                          }),
+                        },
+                      ],
+                    }}
+                  />
+                </SeparatorView>
+              </TouchableOpacity>
+            )}
             {isTodayExpanded && todayTasks.length > 0 && (
               <>
                 {todayTasks.map((task, index) => (
@@ -228,25 +230,27 @@ export default function Home() {
               </>
             )}
 
-            <Pressable onPress={toggleUpcomingSection}>
-              <SeparatorView>
-                <SeparatorText>Próximas</SeparatorText>
-                <AnimatedSeparatorIcon
-                  resizeMode="contain"
-                  source={imgs.arrowbottom}
-                  style={{
-                    transform: [
-                      {
-                        rotate: upcomingIconRotation.interpolate({
-                          inputRange: [0, 1],
-                          outputRange: ['0deg', '180deg'],
-                        }),
-                      },
-                    ],
-                  }}
-                />
-              </SeparatorView>
-            </Pressable>
+            {upcomingTasks.length > 0 && (
+              <TouchableOpacity onPress={toggleUpcomingSection}>
+                <SeparatorView>
+                  <SeparatorText>Próximas</SeparatorText>
+                  <AnimatedSeparatorIcon
+                    resizeMode="contain"
+                    source={imgs.arrowbottom}
+                    style={{
+                      transform: [
+                        {
+                          rotate: upcomingIconRotation.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: ['0deg', '180deg'],
+                          }),
+                        },
+                      ],
+                    }}
+                  />
+                </SeparatorView>
+              </TouchableOpacity>
+            )}
             {isUpcomingExpanded && upcomingTasks.length > 0 && (
               <>
                 {upcomingTasks.map((task, index) => (

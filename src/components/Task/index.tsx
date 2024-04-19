@@ -73,19 +73,22 @@ const Task: React.FC<TaskProps> = ({
           </CardTitle>
         </Pressable>
 
-        {/* <View style={{flexDirection: 'row'}}>
-          <DateInput>
-            <SelectedDateText isSelected={isSelected}>
-              {formattedDate}
-            </SelectedDateText>
-          </DateInput>
+        {/* Renderiza a data apenas se a tarefa não for para "Hoje" */}
+        {formattedDate !== formatDate(new Date()) && (
+          <View style={{flexDirection: 'row'}}>
+            <DateInput>
+              <SelectedDateText isSelected={isSelected}>
+                {formattedDate}
+              </SelectedDateText>
+            </DateInput>
 
-          <DateInput>
-            <SelectedDateText isSelected={isSelected}>
-              {formattedTime}
-            </SelectedDateText>
-          </DateInput>
-        </View> */}
+            {/* <DateInput>
+              <SelectedDateText isSelected={isSelected}>
+                {formattedTime}
+              </SelectedDateText>
+            </DateInput> */}
+          </View>
+        )}
       </DateWrapper>
     </CardContainer>
   );
