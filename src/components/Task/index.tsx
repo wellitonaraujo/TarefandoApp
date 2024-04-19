@@ -36,7 +36,7 @@ const Task: React.FC<TaskProps> = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const maxDate = new Date();
 
-  maxDate.setDate(maxDate.getDate() + 7);
+  maxDate.setDate(maxDate.getDate() + 31);
 
   const taskStyle = {
     opacity: isSelected ? 0.2 : 1,

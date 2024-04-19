@@ -175,7 +175,7 @@ export default function Home() {
         ) : (
           <>
             {todayTasks.length > 0 && (
-              <TouchableOpacity onPress={toggleTodaySection}>
+              <Pressable onPress={toggleTodaySection}>
                 <SeparatorView>
                   <SeparatorText>Hoje</SeparatorText>
                   <AnimatedSeparatorIcon
@@ -193,7 +193,7 @@ export default function Home() {
                     }}
                   />
                 </SeparatorView>
-              </TouchableOpacity>
+              </Pressable>
             )}
             {isTodayExpanded && todayTasks.length > 0 && (
               <>
@@ -217,7 +217,7 @@ export default function Home() {
             )}
 
             {upcomingTasks.length > 0 && (
-              <TouchableOpacity onPress={toggleUpcomingSection}>
+              <Pressable onPress={toggleUpcomingSection}>
                 <SeparatorView>
                   <SeparatorText>Próximas</SeparatorText>
                   <AnimatedSeparatorIcon
@@ -235,7 +235,7 @@ export default function Home() {
                     }}
                   />
                 </SeparatorView>
-              </TouchableOpacity>
+              </Pressable>
             )}
             {isUpcomingExpanded && upcomingTasks.length > 0 && (
               <>
