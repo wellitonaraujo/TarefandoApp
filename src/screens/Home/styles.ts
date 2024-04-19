@@ -36,3 +36,22 @@ export const Logo = styled.Image`
   align-self: center;
   margin-top: 250px;
 `;
+
+export const SeparatorView = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+`;
+
+export const SeparatorText = styled.Text`
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 10px;
+  opacity: 0.5;
+`;
+
+export const SeparatorIcon = styled.Image`
+  width: 15px;
+  height: 15px;
+  opacity: 0.5;
+`;

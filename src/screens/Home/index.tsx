@@ -1,15 +1,32 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, Animated, Image, ScrollView} from 'react-native';
+import {
+  Alert,
+  Animated,
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import {TaskType} from '../../models/TaskType';
 import {useTask} from '../../context/TaskContext';
 import colors from '../../styles/colors';
 import Task from '../../components/Task';
 import {imgs} from '../imgs';
-import {ButtonContainer, Container, HeaderWrapper, Logo} from './styles';
+import {
+  ButtonContainer,
+  Container,
+  HeaderWrapper,
+  Logo,
+  SeparatorIcon,
+  SeparatorText,
+  SeparatorView,
+} from './styles';
 import NewTaskModal from '../../components/NewTaskModal';
 import SearchInput from '../../components/SearchInput';
 import TrashButton from '../../components/TrashButton';
 import AddButton from '../../components/AddButton';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export default function Home() {
   const {tasks, updateTasks} = useTask();
@@ -18,6 +35,14 @@ export default function Home() {
   const [tasksWithSelection, setTasksWithSelection] = useState<TaskType[]>([]);
   const [animations, setAnimations] = useState<{[key: number]: Animated.Value}>(
     {},
+  );
+  const [isTodayExpanded, setIsTodayExpanded] = useState<boolean>(true);
+  const [isUpcomingExpanded, setIsUpcomingExpanded] = useState<boolean>(true);
+  const [todayIconRotation, setTodayIconRotation] = useState(
+    new Animated.Value(0),
+  );
+  const [upcomingIconRotation, setUpcomingIconRotation] = useState(
+    new Animated.Value(0),
   );
 
   const isAnyTaskSelected = tasksWithSelection.some(task => task.isSelected);
@@ -81,7 +106,6 @@ export default function Home() {
       const now = new Date();
       const taskDate = new Date(task.date);
 
-      // Verifica se a data e a hora atual coincidem exatamente com a data e a hora da tarefa
       if (
         now.getFullYear() === taskDate.getFullYear() &&
         now.getMonth() === taskDate.getMonth() &&
@@ -107,6 +131,46 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [filteredTasks]);
 
+  // Separar as tarefas em tarefas de hoje e tarefas futuras
+  const todayTasks = filteredTasks.filter(task => {
+    const taskDate = new Date(task.date);
+    const currentDate = new Date();
+    return (
+      taskDate.getDate() === currentDate.getDate() &&
+      taskDate.getMonth() === currentDate.getMonth() &&
+      taskDate.getFullYear() === currentDate.getFullYear()
+    );
+  });
+
+  const upcomingTasks = filteredTasks.filter(task => {
+    const taskDate = new Date(task.date);
+    const currentDate = new Date();
+    return (
+      taskDate > currentDate ||
+      (taskDate.getDate() !== currentDate.getDate() &&
+        taskDate.getMonth() !== currentDate.getMonth() &&
+        taskDate.getFullYear() !== currentDate.getFullYear())
+    );
+  });
+
+  const toggleTodaySection = () => {
+    setIsTodayExpanded(!isTodayExpanded);
+    Animated.timing(todayIconRotation, {
+      toValue: isTodayExpanded ? 1 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const toggleUpcomingSection = () => {
+    setIsUpcomingExpanded(!isUpcomingExpanded);
+    Animated.timing(upcomingIconRotation, {
+      toValue: isUpcomingExpanded ? 1 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
   return (
     <Container>
       <HeaderWrapper>
@@ -122,22 +186,81 @@ export default function Home() {
         {filteredTasks.length === 0 ? (
           <Logo source={imgs.logo} />
         ) : (
-          filteredTasks.map((task, index) => (
-            <Animated.View
-              key={index.toString()}
-              style={{transform: [{translateX: animations[index] || 0}]}}>
-              <Task
-                title={task.title}
-                description={task.description}
-                priority={task.priority}
-                date={new Date(task.date)}
-                handleSelect={() =>
-                  handleSelect(tasks.findIndex(t => t === task))
-                }
-                isSelected={task.isSelected}
-              />
-            </Animated.View>
-          ))
+          <>
+            <TouchableOpacity onPress={toggleTodaySection}>
+              <SeparatorView>
+                <SeparatorText>Hoje</SeparatorText>
+                <SeparatorIcon
+                  source={imgs.arrowbottom}
+                  resizeMode="contain"
+                  style={{
+                    transform: [
+                      {
+                        rotate: isTodayExpanded ? '180deg' : '0deg',
+                      },
+                    ],
+                  }}
+                />
+              </SeparatorView>
+            </TouchableOpacity>
+            {isTodayExpanded && todayTasks.length > 0 && (
+              <>
+                {todayTasks.map((task, index) => (
+                  <Animated.View
+                    key={index.toString()}
+                    style={{transform: [{translateX: animations[index] || 0}]}}>
+                    <Task
+                      title={task.title}
+                      description={task.description}
+                      priority={task.priority}
+                      date={new Date(task.date)}
+                      handleSelect={() =>
+                        handleSelect(tasks.findIndex(t => t === task))
+                      }
+                      isSelected={task.isSelected}
+                    />
+                  </Animated.View>
+                ))}
+              </>
+            )}
+
+            <TouchableOpacity onPress={toggleUpcomingSection}>
+              <SeparatorView>
+                <SeparatorText>Próximas</SeparatorText>
+                <SeparatorIcon
+                  resizeMode="contain"
+                  source={imgs.arrowbottom}
+                  style={{
+                    transform: [
+                      {
+                        rotate: isUpcomingExpanded ? '180deg' : '0deg',
+                      },
+                    ],
+                  }}
+                />
+              </SeparatorView>
+            </TouchableOpacity>
+            {isUpcomingExpanded && upcomingTasks.length > 0 && (
+              <>
+                {upcomingTasks.map((task, index) => (
+                  <Animated.View
+                    key={index.toString()}
+                    style={{transform: [{translateX: animations[index] || 0}]}}>
+                    <Task
+                      title={task.title}
+                      description={task.description}
+                      priority={task.priority}
+                      date={new Date(task.date)}
+                      handleSelect={() =>
+                        handleSelect(tasks.findIndex(t => t === task))
+                      }
+                      isSelected={task.isSelected}
+                    />
+                  </Animated.View>
+                ))}
+              </>
+            )}
+          </>
         )}
       </ScrollView>
 

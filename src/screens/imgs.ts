@@ -10,4 +10,5 @@ export const imgs = {
   bell: require('../assets/icons/bell.png'),
   logo: require('../assets/icons/logo.png'),
   close: require('../assets/icons/close.png'),
+  arrowbottom: require('../assets/icons/arrowbottom.png'),
 };
