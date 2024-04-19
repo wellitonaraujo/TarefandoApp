@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import colors from '../../styles/colors';
-import {Dimensions} from 'react-native';
+import {Animated, Dimensions} from 'react-native';
 
 const {width, height} = Dimensions.get('window');
 
@@ -50,7 +50,7 @@ export const SeparatorText = styled.Text`
   opacity: 0.5;
 `;
 
-export const SeparatorIcon = styled.Image`
+export const AnimatedSeparatorIcon = styled(Animated.Image)`
   width: 15px;
   height: 15px;
   opacity: 0.5;

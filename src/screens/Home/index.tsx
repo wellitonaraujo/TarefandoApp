@@ -14,6 +14,7 @@ import colors from '../../styles/colors';
 import Task from '../../components/Task';
 import {imgs} from '../imgs';
 import {
+  AnimatedSeparatorIcon,
   ButtonContainer,
   Container,
   HeaderWrapper,
@@ -187,22 +188,25 @@ export default function Home() {
           <Logo source={imgs.logo} />
         ) : (
           <>
-            <TouchableOpacity onPress={toggleTodaySection}>
+            <Pressable onPress={toggleTodaySection}>
               <SeparatorView>
                 <SeparatorText>Hoje</SeparatorText>
-                <SeparatorIcon
+                <AnimatedSeparatorIcon
                   source={imgs.arrowbottom}
                   resizeMode="contain"
                   style={{
                     transform: [
                       {
-                        rotate: isTodayExpanded ? '180deg' : '0deg',
+                        rotate: todayIconRotation.interpolate({
+                          inputRange: [0, 1],
+                          outputRange: ['0deg', '180deg'],
+                        }),
                       },
                     ],
                   }}
                 />
               </SeparatorView>
-            </TouchableOpacity>
+            </Pressable>
             {isTodayExpanded && todayTasks.length > 0 && (
               <>
                 {todayTasks.map((task, index) => (
@@ -224,22 +228,25 @@ export default function Home() {
               </>
             )}
 
-            <TouchableOpacity onPress={toggleUpcomingSection}>
+            <Pressable onPress={toggleUpcomingSection}>
               <SeparatorView>
                 <SeparatorText>Próximas</SeparatorText>
-                <SeparatorIcon
+                <AnimatedSeparatorIcon
                   resizeMode="contain"
                   source={imgs.arrowbottom}
                   style={{
                     transform: [
                       {
-                        rotate: isUpcomingExpanded ? '180deg' : '0deg',
+                        rotate: upcomingIconRotation.interpolate({
+                          inputRange: [0, 1],
+                          outputRange: ['0deg', '180deg'],
+                        }),
                       },
                     ],
                   }}
                 />
               </SeparatorView>
-            </TouchableOpacity>
+            </Pressable>
             {isUpcomingExpanded && upcomingTasks.length > 0 && (
               <>
                 {upcomingTasks.map((task, index) => (
