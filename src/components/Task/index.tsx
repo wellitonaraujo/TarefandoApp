@@ -73,7 +73,7 @@ const Task: React.FC<TaskProps> = ({
           </CardTitle>
         </Pressable>
 
-        <View style={{flexDirection: 'row'}}>
+        {/* <View style={{flexDirection: 'row'}}>
           <DateInput>
             <SelectedDateText isSelected={isSelected}>
               {formattedDate}
@@ -85,7 +85,7 @@ const Task: React.FC<TaskProps> = ({
               {formattedTime}
             </SelectedDateText>
           </DateInput>
-        </View>
+        </View> */}
       </DateWrapper>
     </CardContainer>
   );

@@ -14,17 +14,31 @@ const PrioritySelector: React.FC<PrioritySelectorProps> = ({
 
   return (
     <PriorityWrapper>
-      {priorities.map(prio => (
-        <PriorityButton
-          key={prio.type}
-          selected={priority === prio.type}
-          onPress={() => handlePriorityPress(prio.type)}
-          borderColor={prio.color}>
-          <Text style={{color: prio.color, letterSpacing: 1.3, fontSize: 16}}>
-            {prio.label}
-          </Text>
-        </PriorityButton>
-      ))}
+      {priorities.map(prio => {
+        if (
+          prio.type === 'low' ||
+          prio.type === 'average' ||
+          prio.type === 'high'
+        ) {
+          return (
+            <PriorityButton
+              key={prio.type}
+              selected={priority === prio.type}
+              onPress={() =>
+                handlePriorityPress(prio.type as 'low' | 'average' | 'high')
+              }
+              borderColor={prio.color}>
+              <Text
+                style={{color: prio.color, letterSpacing: 1.3, fontSize: 14}}>
+                {prio.label}
+              </Text>
+            </PriorityButton>
+          );
+        } else {
+          console.error(`Tipo de prioridade inválido: ${prio.type}`);
+          return null;
+        }
+      })}
     </PriorityWrapper>
   );
 };

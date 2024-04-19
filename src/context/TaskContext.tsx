@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 interface Task {
   title: string;
   description: string;
-  priority: 'low' | 'average' | 'high';
+  priority: 'low' | 'average' | 'high' | null;
   date: Date;
   isSelected: boolean;
 }

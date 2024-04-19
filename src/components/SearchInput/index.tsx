@@ -1,5 +1,5 @@
-import {SearchInputProps} from '../../models/SearchInputProps';
 import {CloseIcon, Container, SearchIcon, StyledInput} from './styles';
+import {SearchInputProps} from '../../models/SearchInputProps';
 import {TouchableOpacity} from 'react-native';
 import colors from '../../styles/colors';
 import {imgs} from '../../screens/imgs';

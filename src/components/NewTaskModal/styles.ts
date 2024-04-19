@@ -1,5 +1,10 @@
 import styled from 'styled-components/native';
 import colors from '../../styles/colors';
+import {TextInputProps} from 'react-native';
+
+interface ModalTextInputTitleProps extends TextInputProps {
+  isEmpty: boolean;
+}
 
 export const ModalContainer = styled.View`
   flex: 1;
@@ -16,15 +21,15 @@ export const ModalContent = styled.View`
   justify-content: space-between;
   padding: 16px;
   width: 100%;
-  height: 400px;
+  height: 265px;
 `;
 
-export const ModalTextInputTitle = styled.TextInput`
+export const ModalTextInputTitle = styled.TextInput<ModalTextInputTitleProps>`
   background-color: ${colors.input.s100};
   color: ${colors.title};
   padding-left: 10px;
-  border-radius: 30px;
-  height: 55px;
+  border-radius: 15px;
+  height: 60px;
   font-size: 16px;
   border-color: ${({isEmpty}: any) =>
     isEmpty ? colors.priority.high : colors.input.s100};
@@ -60,10 +65,10 @@ export const ModalDateInput = styled.Pressable`
 
   background-color: ${colors.input.s200};
   width: 80px;
-  height: 45px;
+  height: 35px;
 `;
 
 export const ModalSelectedDateText = styled.Text`
   color: ${colors.title};
-  font-size: 16px;
+  font-size: 14px;
 `;
