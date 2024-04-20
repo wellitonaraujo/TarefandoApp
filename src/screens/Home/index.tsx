@@ -26,7 +26,6 @@ import NewTaskModal from '../../components/NewTaskModal';
 import SearchInput from '../../components/SearchInput';
 import TrashButton from '../../components/TrashButton';
 import AddButton from '../../components/AddButton';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export default function Home() {
   const {tasks, updateTasks} = useTask();
@@ -74,7 +73,7 @@ export default function Home() {
       const index = parseInt(key, 10);
       if (!updatedAnimations[index]) {
         Animated.timing(animations[index], {
-          toValue: -100,
+          toValue: -10,
           duration: 500,
           useNativeDriver: true,
         }).start();
@@ -129,7 +128,7 @@ export default function Home() {
     );
   });
 
-  const upcomingTasks = sortedTasks.filter(task => {
+  let upcomingTasks = sortedTasks.filter(task => {
     const taskDate = new Date(task.date);
     const currentDate = new Date();
     return (
@@ -137,6 +136,17 @@ export default function Home() {
       (taskDate.getDate() !== currentDate.getDate() &&
         taskDate.getMonth() !== currentDate.getMonth() &&
         taskDate.getFullYear() !== currentDate.getFullYear())
+    );
+  });
+
+  // Remove tarefas que já chegaram ao dia agendado da lista de tarefas futuras
+  upcomingTasks = upcomingTasks.filter(task => {
+    const taskDate = new Date(task.date);
+    const currentDate = new Date();
+    return (
+      taskDate.getDate() !== currentDate.getDate() ||
+      taskDate.getMonth() !== currentDate.getMonth() ||
+      taskDate.getFullYear() !== currentDate.getFullYear()
     );
   });
 
