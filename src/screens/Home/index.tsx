@@ -35,8 +35,7 @@ export default function Home() {
   const [animations, setAnimations] = useState<{[key: number]: Animated.Value}>(
     {},
   );
-  const [isTodayExpanded, setIsTodayExpanded] = useState<boolean>(true);
-  const [isUpcomingExpanded, setIsUpcomingExpanded] = useState<boolean>(true);
+
   const [todayIconRotation, setTodayIconRotation] = useState(
     new Animated.Value(0),
   );
@@ -44,8 +43,11 @@ export default function Home() {
     new Animated.Value(0),
   );
 
-  const [isPastExpanded, setIsPastExpanded] = useState(false);
-  const [pastIconRotation] = useState(new Animated.Value(0));
+  const [pastIconRotation] = useState(new Animated.Value(1));
+
+  const [isTodayExpanded, setIsTodayExpanded] = useState<boolean>(true);
+  const [isUpcomingExpanded, setIsUpcomingExpanded] = useState<boolean>(true);
+  const [isPastExpanded, setIsPastExpanded] = useState<boolean>(false);
 
   const isAnyTaskSelected = tasksWithSelection.some(task => task.isSelected);
   const isTask = tasksWithSelection.length > 0;
