@@ -44,6 +44,9 @@ export default function Home() {
     new Animated.Value(0),
   );
 
+  const [isPastExpanded, setIsPastExpanded] = useState(false);
+  const [pastIconRotation] = useState(new Animated.Value(0));
+
   const isAnyTaskSelected = tasksWithSelection.some(task => task.isSelected);
   const isTask = tasksWithSelection.length > 0;
 
@@ -117,7 +120,7 @@ export default function Home() {
     return dateA - dateB;
   });
 
-  // Separar as tarefas em tarefas de hoje e tarefas futuras
+  // Separar as tarefas em tarefas de hoje, futuras, passadas e presente
   const todayTasks = sortedTasks.filter(task => {
     const taskDate = new Date(task.date);
     const currentDate = new Date();
@@ -132,21 +135,21 @@ export default function Home() {
     const taskDate = new Date(task.date);
     const currentDate = new Date();
     return (
-      taskDate > currentDate ||
-      (taskDate.getDate() !== currentDate.getDate() &&
-        taskDate.getMonth() !== currentDate.getMonth() &&
+      taskDate > currentDate &&
+      (taskDate.getDate() !== currentDate.getDate() ||
+        taskDate.getMonth() !== currentDate.getMonth() ||
         taskDate.getFullYear() !== currentDate.getFullYear())
     );
   });
 
-  // Remove tarefas que já chegaram ao dia agendado da lista de tarefas futuras
-  upcomingTasks = upcomingTasks.filter(task => {
+  let pastTasks = sortedTasks.filter(task => {
     const taskDate = new Date(task.date);
     const currentDate = new Date();
     return (
-      taskDate.getDate() !== currentDate.getDate() ||
-      taskDate.getMonth() !== currentDate.getMonth() ||
-      taskDate.getFullYear() !== currentDate.getFullYear()
+      taskDate < currentDate &&
+      (taskDate.getDate() !== currentDate.getDate() ||
+        taskDate.getMonth() !== currentDate.getMonth() ||
+        taskDate.getFullYear() !== currentDate.getFullYear())
     );
   });
 
@@ -168,6 +171,15 @@ export default function Home() {
     }).start();
   };
 
+  const togglePastSection = () => {
+    setIsPastExpanded(!isPastExpanded);
+    Animated.timing(pastIconRotation, {
+      toValue: isPastExpanded ? 1 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
   return (
     <Container>
       <HeaderWrapper>
@@ -184,6 +196,48 @@ export default function Home() {
           <Logo source={imgs.logo} />
         ) : (
           <>
+            {pastTasks.length > 0 && (
+              <Pressable onPress={togglePastSection}>
+                <SeparatorView>
+                  <SeparatorText>Passadas</SeparatorText>
+                  <AnimatedSeparatorIcon
+                    resizeMode="contain"
+                    source={imgs.arrowbottom}
+                    style={{
+                      transform: [
+                        {
+                          rotate: pastIconRotation.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: ['0deg', '180deg'],
+                          }),
+                        },
+                      ],
+                    }}
+                  />
+                </SeparatorView>
+              </Pressable>
+            )}
+            {isPastExpanded && pastTasks.length > 0 && (
+              <>
+                {pastTasks.map((task, index) => (
+                  <Animated.View
+                    key={index.toString()}
+                    style={{transform: [{translateX: animations[index] || 0}]}}>
+                    <Task
+                      title={task.title}
+                      description={task.description}
+                      priority={task.priority}
+                      date={new Date(task.date)}
+                      handleSelect={() =>
+                        handleSelect(tasks.findIndex(t => t === task))
+                      }
+                      isSelected={task.isSelected}
+                    />
+                  </Animated.View>
+                ))}
+              </>
+            )}
+
             {todayTasks.length > 0 && (
               <Pressable onPress={toggleTodaySection}>
                 <SeparatorView>
