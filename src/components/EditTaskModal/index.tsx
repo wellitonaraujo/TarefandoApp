@@ -1,4 +1,3 @@
-// EditTaskModal.js
 import React, {useState, useEffect} from 'react';
 import {Platform, View, Modal, TouchableWithoutFeedback} from 'react-native';
 import {
@@ -14,14 +13,15 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import PrioritySelector from '../PriorityButton';
 import {formatDate, formatTime} from '../../utils/dateFormat';
 import PrimaryButton from '../PrimaryButton';
-import {useTask} from '../../context/TaskContext';
 import colors from '../../styles/colors';
 import {imgs} from '../../screens/imgs';
+import SecondaryButton from '../SecondaryButton';
+import {TaskType} from '../../models/TaskType';
 
 interface EditTaskModalProps {
   visible: boolean;
   onClose: () => void;
-  task: TaskType; // Adicionando a propriedade 'task'
+  task: TaskType;
 }
 
 const EditTaskModal: React.FC<EditTaskModalProps> = ({
@@ -30,7 +30,6 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
   task,
 }) => {
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
   const [priority, setPriority] = useState<'low' | 'average' | 'high' | null>(
     'low',
   );
@@ -41,12 +40,13 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
   const [isEmpty, setIsEmpty] = useState(false);
 
   useEffect(() => {
-    // Preencher os campos do modal com os detalhes da tarefa recebida
-    setTitle(task.title);
-    setDescription(task.description);
-    setPriority(task.priority);
-    setDate(new Date(task.date));
-    setSelectedDate(new Date(task.date));
+    // Preencher os campos do modal com os detalhes da tarefa recebida, se houver uma tarefa selecionada
+    if (task) {
+      setTitle(task.title || '');
+      setPriority(task.priority || 'low');
+      setDate(new Date(task.date));
+      setSelectedDate(new Date(task.date));
+    }
   }, [task]);
 
   const handlePickerChange = (event: any, selectedDate?: Date) => {
@@ -65,27 +65,20 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
     }
   };
 
-  const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setPriority('low');
-    setDate(new Date());
-    setSelectedDate(null);
-    setIsEmpty(false);
-  };
-
   const handleSave = () => {
     if (!title) {
       setIsEmpty(true);
       return;
     }
-    // Atualizar a tarefa existente em vez de adicionar uma nova tarefa
+    const priorityToSave = priority || 'low';
     task.title = title;
-    task.description = description;
-    task.priority = priority;
+    task.priority = priorityToSave;
     task.date = selectedDate || new Date();
     onClose();
-    resetForm();
+  };
+
+  const handleCancel = () => {
+    onClose();
   };
 
   const currentDate = new Date();
@@ -108,19 +101,21 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
         <ModalContainer>
           <TouchableWithoutFeedback onPress={() => {}}>
             <ModalContent>
-              <View>
-                <ModalTextInputTitle
-                  placeholder="Insira sua nova tarefa"
-                  value={title}
-                  onChangeText={text => {
-                    setTitle(text);
-                    setIsEmpty(false);
-                  }}
-                  maxLength={80}
-                  placeholderTextColor={colors.grey.s100}
-                  isEmpty={isEmpty}
-                />
-              </View>
+              <ModalTextInputTitle
+                placeholder="Insira o novo nome da tarefa"
+                value={title}
+                onChangeText={text => {
+                  setTitle(text);
+                  setIsEmpty(false);
+                }}
+                maxLength={200}
+                placeholderTextColor={colors.grey.s100}
+                isEmpty={isEmpty}
+                multiline
+                numberOfLines={6}
+                textAlignVertical="top"
+              />
+
               <ModalDateWrapper>
                 <PrioritySelector
                   key={priority}
@@ -153,7 +148,8 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
                   />
                 )}
               </ModalDateWrapper>
-              <PrimaryButton title="Salvar" onPress={handleSave} />
+              <PrimaryButton title="Salvar alterações" onPress={handleSave} />
+              <SecondaryButton title="Cancelar" onPress={handleCancel} />
             </ModalContent>
           </TouchableWithoutFeedback>
         </ModalContainer>

@@ -3,7 +3,7 @@ import colors from '../../styles/colors';
 
 interface CardContainerProps {
   priority: 'low' | 'average' | 'high';
-  isExpanded: boolean;
+  // isExpanded: boolean;
 }
 
 export const CardContainer = styled.View<CardContainerProps>`
@@ -27,7 +27,7 @@ export const CardContainer = styled.View<CardContainerProps>`
         return '#000000';
     }
   }};
-  max-height: ${({isExpanded}) => (isExpanded ? 'none' : '70px')};
+  height: 60px;
 
   transition: max-height 0.3s ease;
   padding-bottom: 10px;

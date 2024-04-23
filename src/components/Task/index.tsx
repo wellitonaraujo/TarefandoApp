@@ -20,8 +20,9 @@ interface TaskProps {
   description: string;
   priority: 'low' | 'average' | 'high';
   date: Date;
-  handleSelect: () => void;
+  handleSelect: () => Promise<void>;
   isSelected: boolean;
+  onPress?: () => void; // tornar onPress opcional
 }
 
 const Task: React.FC<TaskProps> = ({
@@ -30,6 +31,7 @@ const Task: React.FC<TaskProps> = ({
   date,
   handleSelect,
   isSelected,
+  onPress,
 }) => {
   const formattedDate = formatDate(date);
   const formattedTime = formatTime(date);
@@ -49,48 +51,51 @@ const Task: React.FC<TaskProps> = ({
     }
   };
 
+  const handlePress = () => {
+    if (onPress) {
+      onPress();
+    }
+  };
+
   return (
-    <CardContainer
-      priority={priority}
-      isExpanded={isExpanded}
-      style={[taskStyle]}>
-      {/* <CardDescription>{description}</CardDescription> */}
+    <Pressable onPress={handlePress}>
+      <CardContainer priority={priority} style={[taskStyle]}>
+        <CheckBox
+          value={isSelected}
+          onValueChange={handleSelect}
+          tintColors={{true: colors.primary.s300, false: colors.grey.s100}}
+        />
 
-      <CheckBox
-        value={isSelected}
-        onValueChange={handleSelect}
-        tintColors={{true: colors.primary.s300, false: colors.grey.s100}}
-      />
+        <DateWrapper>
+          <Pressable onPress={handlePress}>
+            <CardTitle isSelected={isSelected}>
+              {isExpanded
+                ? title
+                : title.length > 30
+                ? title.substring(0, 35) + '...'
+                : title}
+            </CardTitle>
+          </Pressable>
 
-      <DateWrapper>
-        <Pressable onPress={toggleExpansion}>
-          <CardTitle isSelected={isSelected}>
-            {isExpanded
-              ? title
-              : title.length > 30
-              ? title.substring(0, 35) + '...'
-              : title}
-          </CardTitle>
-        </Pressable>
+          {/* Renderiza a data apenas se a tarefa não for para "Hoje" */}
+          {formattedDate !== formatDate(new Date()) && (
+            <View style={{flexDirection: 'row'}}>
+              <DateInput>
+                <SelectedDateText isSelected={isSelected}>
+                  {formattedDate}
+                </SelectedDateText>
+              </DateInput>
 
-        {/* Renderiza a data apenas se a tarefa não for para "Hoje" */}
-        {formattedDate !== formatDate(new Date()) && (
-          <View style={{flexDirection: 'row'}}>
-            <DateInput>
-              <SelectedDateText isSelected={isSelected}>
-                {formattedDate}
-              </SelectedDateText>
-            </DateInput>
-
-            {/* <DateInput>
+              {/* <DateInput>
               <SelectedDateText isSelected={isSelected}>
                 {formattedTime}
               </SelectedDateText>
             </DateInput> */}
-          </View>
-        )}
-      </DateWrapper>
-    </CardContainer>
+            </View>
+          )}
+        </DateWrapper>
+      </CardContainer>
+    </Pressable>
   );
 };
 

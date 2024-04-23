@@ -26,6 +26,7 @@ import NewTaskModal from '../../components/NewTaskModal';
 import SearchInput from '../../components/SearchInput';
 import TrashButton from '../../components/TrashButton';
 import AddButton from '../../components/AddButton';
+import EditTaskModal from '../../components/EditTaskModal';
 
 export default function Home() {
   const {tasks, updateTasks} = useTask();
@@ -182,6 +183,16 @@ export default function Home() {
     }).start();
   };
 
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<TaskType | null>(null);
+
+  const handleTaskPress = (task: TaskType) => {
+    console.log('Tarefa selecionada:', task); // Verifique se a tarefa está correta
+    setSelectedTask(task);
+    setEditModalVisible(true);
+    console.log('Cliquei para abrir o modal de edição');
+  };
+
   return (
     <Container>
       <HeaderWrapper>
@@ -234,6 +245,7 @@ export default function Home() {
                         handleSelect(tasks.findIndex(t => t === task))
                       }
                       isSelected={task.isSelected}
+                      onPress={() => handleTaskPress(task)}
                     />
                   </Animated.View>
                 ))}
@@ -276,6 +288,7 @@ export default function Home() {
                         handleSelect(tasks.findIndex(t => t === task))
                       }
                       isSelected={task.isSelected}
+                      onPress={() => handleTaskPress(task)}
                     />
                   </Animated.View>
                 ))}
@@ -318,6 +331,7 @@ export default function Home() {
                         handleSelect(tasks.findIndex(t => t === task))
                       }
                       isSelected={task.isSelected}
+                      onPress={() => handleTaskPress(task)}
                     />
                   </Animated.View>
                 ))}
@@ -328,6 +342,13 @@ export default function Home() {
       </ScrollView>
 
       <NewTaskModal visible={modalVisible} onClose={toggleModal} />
+
+      <EditTaskModal
+        visible={editModalVisible}
+        onClose={() => setEditModalVisible(false)}
+        task={selectedTask}
+      />
+
       <ButtonContainer>
         <AddButton
           icon={imgs.plus}
