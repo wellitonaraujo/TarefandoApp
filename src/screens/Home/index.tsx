@@ -19,7 +19,6 @@ import {
   Container,
   HeaderWrapper,
   Logo,
-  SeparatorIcon,
   SeparatorText,
   SeparatorView,
 } from './styles';
@@ -27,7 +26,7 @@ import NewTaskModal from '../../components/NewTaskModal';
 import SearchInput from '../../components/SearchInput';
 import TrashButton from '../../components/TrashButton';
 import AddButton from '../../components/AddButton';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import EditTaskModal from '../../components/EditTaskModal';
 
 export default function Home() {
   const {tasks, updateTasks} = useTask();
@@ -37,14 +36,19 @@ export default function Home() {
   const [animations, setAnimations] = useState<{[key: number]: Animated.Value}>(
     {},
   );
-  const [isTodayExpanded, setIsTodayExpanded] = useState<boolean>(true);
-  const [isUpcomingExpanded, setIsUpcomingExpanded] = useState<boolean>(true);
+
   const [todayIconRotation, setTodayIconRotation] = useState(
     new Animated.Value(0),
   );
   const [upcomingIconRotation, setUpcomingIconRotation] = useState(
     new Animated.Value(0),
   );
+
+  const [pastIconRotation] = useState(new Animated.Value(1));
+
+  const [isTodayExpanded, setIsTodayExpanded] = useState<boolean>(true);
+  const [isUpcomingExpanded, setIsUpcomingExpanded] = useState<boolean>(true);
+  const [isPastExpanded, setIsPastExpanded] = useState<boolean>(false);
 
   const isAnyTaskSelected = tasksWithSelection.some(task => task.isSelected);
   const isTask = tasksWithSelection.length > 0;
@@ -62,20 +66,30 @@ export default function Home() {
   };
 
   const handleDeleteTask = () => {
+    const updatedTasks = tasksWithSelection.filter(task => !task.isSelected);
+    const updatedAnimations: {[key: number]: Animated.Value} = {};
+
+    // Atualiza as animações apenas para as tarefas que permanecem
+    updatedTasks.forEach((task, index) => {
+      updatedAnimations[index] = animations[index] || new Animated.Value(0);
+    });
+
+    // Animação para as tarefas que foram excluídas
     Object.keys(animations).forEach(key => {
       const index = parseInt(key, 10);
-      Animated.timing(animations[index], {
-        toValue: -100,
-        duration: 500,
-        useNativeDriver: true,
-      }).start(() => {
-        const updatedTasks = tasksWithSelection.filter(
-          task => !task.isSelected,
-        );
-        updateTasks(updatedTasks);
-        setTasksWithSelection(updatedTasks);
-      });
+      if (!updatedAnimations[index]) {
+        Animated.timing(animations[index], {
+          toValue: -10,
+          duration: 500,
+          useNativeDriver: true,
+        }).start();
+      }
     });
+
+    // Atualiza o estado das tarefas e das animações
+    updateTasks(updatedTasks);
+    setTasksWithSelection(updatedTasks);
+    setAnimations(updatedAnimations);
   };
 
   const handleSelect = async (index: number) => {
@@ -102,38 +116,15 @@ export default function Home() {
     setAnimations(newAnimations);
   }, [tasksWithSelection]);
 
-  // useEffect(() => {
-  //   const checkScheduledTask = task => {
-  //     const now = new Date();
-  //     const taskDate = new Date(task.date);
+  // Ordenar as tarefas com base na data
+  const sortedTasks = [...filteredTasks].sort((a, b) => {
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    return dateA - dateB;
+  });
 
-  //     if (
-  //       now.getFullYear() === taskDate.getFullYear() &&
-  //       now.getMonth() === taskDate.getMonth() &&
-  //       now.getDate() === taskDate.getDate() &&
-  //       now.getHours() === taskDate.getHours() &&
-  //       now.getMinutes() === taskDate.getMinutes()
-  //     ) {
-  //       console.log(`Task "${task.title}" is scheduled for now.`);
-  //       Alert.alert(
-  //         'Tarefa Agendada',
-  //         `A tarefa "${task.title}" está agendada para agora`,
-  //       );
-  //     }
-  //   };
-
-  //   const interval = setInterval(() => {
-  //     console.log('Checking scheduled tasks...');
-  //     filteredTasks.forEach(task => {
-  //       checkScheduledTask(task);
-  //     });
-  //   }, 60000); // Verifica a cada minuto
-
-  //   return () => clearInterval(interval);
-  // }, [filteredTasks]);
-
-  // Separar as tarefas em tarefas de hoje e tarefas futuras
-  const todayTasks = filteredTasks.filter(task => {
+  // Separar as tarefas em tarefas de hoje, futuras, passadas e presente
+  const todayTasks = sortedTasks.filter(task => {
     const taskDate = new Date(task.date);
     const currentDate = new Date();
     return (
@@ -143,13 +134,24 @@ export default function Home() {
     );
   });
 
-  const upcomingTasks = filteredTasks.filter(task => {
+  let upcomingTasks = sortedTasks.filter(task => {
     const taskDate = new Date(task.date);
     const currentDate = new Date();
     return (
-      taskDate > currentDate ||
-      (taskDate.getDate() !== currentDate.getDate() &&
-        taskDate.getMonth() !== currentDate.getMonth() &&
+      taskDate > currentDate &&
+      (taskDate.getDate() !== currentDate.getDate() ||
+        taskDate.getMonth() !== currentDate.getMonth() ||
+        taskDate.getFullYear() !== currentDate.getFullYear())
+    );
+  });
+
+  let pastTasks = sortedTasks.filter(task => {
+    const taskDate = new Date(task.date);
+    const currentDate = new Date();
+    return (
+      taskDate < currentDate &&
+      (taskDate.getDate() !== currentDate.getDate() ||
+        taskDate.getMonth() !== currentDate.getMonth() ||
         taskDate.getFullYear() !== currentDate.getFullYear())
     );
   });
@@ -172,6 +174,23 @@ export default function Home() {
     }).start();
   };
 
+  const togglePastSection = () => {
+    setIsPastExpanded(!isPastExpanded);
+    Animated.timing(pastIconRotation, {
+      toValue: isPastExpanded ? 1 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<TaskType | null>(null);
+
+  const handleTaskPress = (task: TaskType) => {
+    setSelectedTask(task);
+    setEditModalVisible(true);
+  };
+
   return (
     <Container>
       <HeaderWrapper>
@@ -188,8 +207,51 @@ export default function Home() {
           <Logo source={imgs.logo} />
         ) : (
           <>
+            {pastTasks.length > 0 && (
+              <Pressable onPress={togglePastSection}>
+                <SeparatorView>
+                  <SeparatorText>Passadas</SeparatorText>
+                  <AnimatedSeparatorIcon
+                    resizeMode="contain"
+                    source={imgs.arrowbottom}
+                    style={{
+                      transform: [
+                        {
+                          rotate: pastIconRotation.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: ['0deg', '180deg'],
+                          }),
+                        },
+                      ],
+                    }}
+                  />
+                </SeparatorView>
+              </Pressable>
+            )}
+            {isPastExpanded && pastTasks.length > 0 && (
+              <>
+                {pastTasks.map((task, index) => (
+                  <Animated.View
+                    key={index.toString()}
+                    style={{transform: [{translateX: animations[index] || 0}]}}>
+                    <Task
+                      title={task.title}
+                      description={task.description}
+                      priority={task.priority}
+                      date={new Date(task.date)}
+                      handleSelect={() =>
+                        handleSelect(tasks.findIndex(t => t === task))
+                      }
+                      isSelected={task.isSelected}
+                      onPress={() => handleTaskPress(task)}
+                    />
+                  </Animated.View>
+                ))}
+              </>
+            )}
+
             {todayTasks.length > 0 && (
-              <TouchableOpacity onPress={toggleTodaySection}>
+              <Pressable onPress={toggleTodaySection}>
                 <SeparatorView>
                   <SeparatorText>Hoje</SeparatorText>
                   <AnimatedSeparatorIcon
@@ -207,7 +269,7 @@ export default function Home() {
                     }}
                   />
                 </SeparatorView>
-              </TouchableOpacity>
+              </Pressable>
             )}
             {isTodayExpanded && todayTasks.length > 0 && (
               <>
@@ -224,6 +286,7 @@ export default function Home() {
                         handleSelect(tasks.findIndex(t => t === task))
                       }
                       isSelected={task.isSelected}
+                      onPress={() => handleTaskPress(task)}
                     />
                   </Animated.View>
                 ))}
@@ -231,7 +294,7 @@ export default function Home() {
             )}
 
             {upcomingTasks.length > 0 && (
-              <TouchableOpacity onPress={toggleUpcomingSection}>
+              <Pressable onPress={toggleUpcomingSection}>
                 <SeparatorView>
                   <SeparatorText>Próximas</SeparatorText>
                   <AnimatedSeparatorIcon
@@ -249,7 +312,7 @@ export default function Home() {
                     }}
                   />
                 </SeparatorView>
-              </TouchableOpacity>
+              </Pressable>
             )}
             {isUpcomingExpanded && upcomingTasks.length > 0 && (
               <>
@@ -266,6 +329,7 @@ export default function Home() {
                         handleSelect(tasks.findIndex(t => t === task))
                       }
                       isSelected={task.isSelected}
+                      onPress={() => handleTaskPress(task)}
                     />
                   </Animated.View>
                 ))}
@@ -276,6 +340,13 @@ export default function Home() {
       </ScrollView>
 
       <NewTaskModal visible={modalVisible} onClose={toggleModal} />
+
+      <EditTaskModal
+        visible={editModalVisible}
+        onClose={() => setEditModalVisible(false)}
+        task={selectedTask}
+      />
+
       <ButtonContainer>
         <AddButton
           icon={imgs.plus}

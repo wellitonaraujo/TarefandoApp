@@ -1,3 +1,4 @@
+import * as Animatable from 'react-native-animatable';
 import {ImageSourcePropType} from 'react-native';
 import {CreateTask, Icon} from './styles';
 import React from 'react';
@@ -14,9 +15,11 @@ const AddButton: React.FC<AddButtonProps> = ({
   backgroundColor,
 }) => {
   return (
-    <CreateTask onPress={onPress} backgroundColor={backgroundColor}>
-      <Icon source={icon} />
-    </CreateTask>
+    <Animatable.View animation="pulse" iterationCount={Infinity}>
+      <CreateTask onPress={onPress} backgroundColor={backgroundColor}>
+        <Icon source={icon} />
+      </CreateTask>
+    </Animatable.View>
   );
 };
 

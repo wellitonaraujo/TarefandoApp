@@ -3,14 +3,14 @@ import colors from '../../styles/colors';
 
 interface CardContainerProps {
   priority: 'low' | 'average' | 'high';
-  isExpanded: boolean;
+  // isExpanded: boolean;
 }
 
 export const CardContainer = styled.View<CardContainerProps>`
   background-color: ${colors.grey.s300};
   border-radius: 8px;
   padding: 6px;
-  margin: 7px 0;
+  margin: 10px 0;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
@@ -27,7 +27,7 @@ export const CardContainer = styled.View<CardContainerProps>`
         return '#000000';
     }
   }};
-  max-height: ${({isExpanded}) => (isExpanded ? 'none' : '70px')};
+  height: 60px;
 
   transition: max-height 0.3s ease;
   padding-bottom: 10px;

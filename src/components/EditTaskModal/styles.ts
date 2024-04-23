@@ -21,15 +21,14 @@ export const ModalContent = styled.View`
   justify-content: space-between;
   padding: 16px;
   width: 100%;
-  height: 340px;
+  height: 400px;
 `;
 
 export const ModalTextInputTitle = styled.TextInput<ModalTextInputTitleProps>`
   background-color: ${colors.input.s100};
   color: ${colors.title};
-  padding-left: 10px;
+  padding: 10px;
   border-radius: 15px;
-  height: 60px;
   font-size: 18px;
   border-color: ${({isEmpty}: any) =>
     isEmpty ? colors.priority.high : colors.input.s100};
