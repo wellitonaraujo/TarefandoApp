@@ -22,7 +22,7 @@ interface TaskProps {
   date: Date;
   handleSelect: () => Promise<void>;
   isSelected: boolean;
-  onPress?: () => void; // tornar onPress opcional
+  onPress?: () => void;
 }
 
 const Task: React.FC<TaskProps> = ({
@@ -38,7 +38,7 @@ const Task: React.FC<TaskProps> = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const maxDate = new Date();
 
-  maxDate.setDate(maxDate.getDate() + 31);
+  maxDate.setDate(maxDate.getDate() + 365);
 
   const taskStyle = {
     opacity: isSelected ? 0.2 : 1,

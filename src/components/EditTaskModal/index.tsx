@@ -108,7 +108,7 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
                   setTitle(text);
                   setIsEmpty(false);
                 }}
-                maxLength={200}
+                maxLength={320}
                 placeholderTextColor={colors.grey.s100}
                 isEmpty={isEmpty}
                 multiline
@@ -148,8 +148,10 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
                   />
                 )}
               </ModalDateWrapper>
-              <PrimaryButton title="Salvar alterações" onPress={handleSave} />
-              <SecondaryButton title="Cancelar" onPress={handleCancel} />
+              <View>
+                <PrimaryButton title="Salvar alterações" onPress={handleSave} />
+                <SecondaryButton title="Cancelar" onPress={handleCancel} />
+              </View>
             </ModalContent>
           </TouchableWithoutFeedback>
         </ModalContainer>

@@ -105,9 +105,12 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
                     setTitle(text);
                     setIsEmpty(false);
                   }}
-                  maxLength={80}
+                  maxLength={320}
                   placeholderTextColor={colors.grey.s100}
                   isEmpty={isEmpty}
+                  multiline
+                  numberOfLines={6}
+                  textAlignVertical="top"
                 />
               </View>
               <ModalDateWrapper>

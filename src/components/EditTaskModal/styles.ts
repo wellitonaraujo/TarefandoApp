@@ -21,7 +21,7 @@ export const ModalContent = styled.View`
   justify-content: space-between;
   padding: 16px;
   width: 100%;
-  height: 365px;
+  height: 400px;
 `;
 
 export const ModalTextInputTitle = styled.TextInput<ModalTextInputTitleProps>`
@@ -29,11 +29,11 @@ export const ModalTextInputTitle = styled.TextInput<ModalTextInputTitleProps>`
   color: ${colors.title};
   padding: 10px;
   border-radius: 15px;
-  font-size: 16px;
+  font-size: 18px;
   border-color: ${({isEmpty}: any) =>
     isEmpty ? colors.priority.high : colors.input.s100};
   border-width: 1px;
-  height: 90px;
+  height: 120px;
 `;
 
 export const ModalTitle = styled.Text`

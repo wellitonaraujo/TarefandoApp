@@ -187,10 +187,8 @@ export default function Home() {
   const [selectedTask, setSelectedTask] = useState<TaskType | null>(null);
 
   const handleTaskPress = (task: TaskType) => {
-    console.log('Tarefa selecionada:', task); // Verifique se a tarefa está correta
     setSelectedTask(task);
     setEditModalVisible(true);
-    console.log('Cliquei para abrir o modal de edição');
   };
 
   return (

@@ -5,7 +5,7 @@ import colors from '../../styles/colors';
 export const ButtonContainer = styled(TouchableOpacity)`
   height: 60px;
   width: 100%;
-  border-radius: 15px;
+  border-radius: 50px;
 
   justify-content: center;
 

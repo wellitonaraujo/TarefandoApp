@@ -3,10 +3,8 @@ import {TouchableOpacity} from 'react-native';
 import colors from '../../styles/colors';
 
 export const ButtonContainer = styled(TouchableOpacity)`
-  height: 60px;
-  width: 100%;
-  border-radius: 15px;
   justify-content: center;
+  margin: 30px 0;
 `;
 
 export const ButtonText = styled.Text<{textColor?: string}>`
