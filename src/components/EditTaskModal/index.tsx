@@ -89,7 +89,7 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
   const formattedTime = formatTime(date);
   const minDate = new Date();
   const maxDate = new Date();
-  maxDate.setDate(maxDate.getDate() + 30);
+  maxDate.setDate(maxDate.getDate() + 365);
 
   return (
     <Modal

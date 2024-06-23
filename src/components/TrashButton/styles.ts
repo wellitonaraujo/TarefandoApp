@@ -3,7 +3,7 @@ import colors from '../../styles/colors';
 import {Dimensions} from 'react-native';
 
 const screenHeight = Dimensions.get('window').height;
-const buttonSize = screenHeight * 0.06;
+const buttonSize = screenHeight * 0.055;
 const iconSize = buttonSize * 0.4;
 
 export const HeaderContainer = styled.View`

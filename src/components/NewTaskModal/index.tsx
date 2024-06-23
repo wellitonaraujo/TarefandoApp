@@ -52,7 +52,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
 
   const minDate = new Date();
   const maxDate = new Date();
-  maxDate.setDate(maxDate.getDate() + 7);
+  maxDate.setDate(maxDate.getDate() + 365);
 
   const handlePressPriority = (
     selectedPriority: 'low' | 'average' | 'high' | null,

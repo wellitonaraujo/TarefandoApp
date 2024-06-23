@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import colors from '../../styles/colors';
 
 const screenHeight = Dimensions.get('window').height;
-const buttonSize = screenHeight * 0.06;
+const buttonSize = screenHeight * 0.055;
 
 export const Container = styled.View`
   background-color: ${colors.input.s100};
@@ -15,6 +15,7 @@ export const Container = styled.View`
   font-size: 30px;
   padding: 0 8px;
   width: 80%;
+  height: ${buttonSize}px;
 `;
 
 export const StyledInput = styled(TextInput)`
@@ -31,8 +32,8 @@ export const PlaceholderText = styled.Text`
 `;
 
 export const SearchIcon = styled(Image)`
-  height: 38px;
-  width: 38px;
+  height: 28px;
+  width: 28px;
 `;
 
 export const CloseIcon = styled(Image)`
