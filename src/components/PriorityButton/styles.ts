@@ -19,7 +19,7 @@ export const PriorityButton = styled.Pressable<PriorityButtonProps>`
     selected ? borderColor : 'transparent'};
 
   width: 80px;
-  height: 35px;
+  height: 30px;
 `;
 
 export const PriorityWrapper = styled.View`

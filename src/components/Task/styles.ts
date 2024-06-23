@@ -14,8 +14,8 @@ export const CardContainer = styled.View<CardContainerProps>`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  border-bottom-width: 5px;
-  border-bottom-color: ${({priority}) => {
+  border-left-width: 2px;
+  border-left-color: ${({priority}) => {
     switch (priority) {
       case 'low':
         return '#CCFE03';
@@ -27,7 +27,7 @@ export const CardContainer = styled.View<CardContainerProps>`
         return '#000000';
     }
   }};
-  height: 60px;
+  height: 50px;
 
   transition: max-height 0.3s ease;
   padding-bottom: 10px;

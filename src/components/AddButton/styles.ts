@@ -1,5 +1,6 @@
 import {Dimensions, Image} from 'react-native';
 import styled from 'styled-components/native';
+import colors from '../../styles/colors';
 
 interface CreateTaskProps {
   backgroundColor?: string;

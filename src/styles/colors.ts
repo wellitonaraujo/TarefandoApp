@@ -4,7 +4,7 @@ const colors = {
   title: '#D9D9D9',
 
   primary: {
-    s300: '#CCFE03',
+    s300: '#FF5701',
   },
   grey: {
     s400: '#1F242F',

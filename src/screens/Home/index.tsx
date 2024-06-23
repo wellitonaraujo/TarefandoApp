@@ -204,7 +204,7 @@ export default function Home() {
       </HeaderWrapper>
       <ScrollView showsVerticalScrollIndicator={false}>
         {filteredTasks.length === 0 ? (
-          <Logo source={imgs.logo} />
+          <Logo source={imgs.logo} tintColor={colors.title}/>
         ) : (
           <>
             {pastTasks.length > 0 && (
