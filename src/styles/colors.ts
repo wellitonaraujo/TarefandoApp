@@ -24,7 +24,7 @@ const colors = {
   priority: {
     high: '#C30000',
     average: '#00C31F',
-    low: '#CCFE03',
+    low: '#FF5701',
   },
   warning: {
     s300: '#',

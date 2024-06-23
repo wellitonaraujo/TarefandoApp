@@ -15,8 +15,8 @@ export const ModalContainer = styled.View`
 
 export const ModalContent = styled.View`
   background-color: ${colors.background};
-  border-top-right-radius: 15px;
-  border-top-left-radius: 15px;
+  border-top-right-radius: 17px;
+  border-top-left-radius: 17px;
   flex-direction: column;
   justify-content: space-between;
   padding: 16px;

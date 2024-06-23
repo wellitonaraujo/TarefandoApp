@@ -83,7 +83,6 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
       isSelected: false,
     });
 
-    onClose();
     resetForm();
   };
 
@@ -114,7 +113,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
                 />
               </View>
               <ModalDateWrapper>
-                <PrioritySelector
+                {/* <PrioritySelector
                   key={priority}
                   onPressPriority={handlePressPriority}
                   priority={priority}
@@ -123,7 +122,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
                     {type: 'average', color: '#...', label: 'Average'},
                     {type: 'high', color: '#...', label: 'High'},
                   ]}
-                />
+                /> */}
 
                 <ModalDateInput
                   onPress={() => {

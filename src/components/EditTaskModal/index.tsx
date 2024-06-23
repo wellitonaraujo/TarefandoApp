@@ -117,7 +117,7 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
               />
 
               <ModalDateWrapper>
-                <PrioritySelector
+                {/* <PrioritySelector
                   key={priority}
                   onPressPriority={handlePressPriority}
                   priority={priority}
@@ -126,7 +126,7 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
                     {type: 'average', color: '#...', label: 'Average'},
                     {type: 'high', color: '#...', label: 'High'},
                   ]}
-                />
+                /> */}
                 <ModalDateInput
                   onPress={() => {
                     setShowPicker(true);

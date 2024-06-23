@@ -10,10 +10,10 @@ import {
 
 import {getColorForPriority} from '../../utils/getColorForPriority';
 import {formatDate, formatTime} from '../../utils/dateFormat';
-import CheckBox from '@react-native-community/checkbox';
 import colors from '../../styles/colors';
 import {Pressable, View} from 'react-native';
 import React, {useState} from 'react';
+import CustomCheckBox from '../CustomCheckBox';
 
 interface TaskProps {
   title: string;
@@ -60,12 +60,15 @@ const Task: React.FC<TaskProps> = ({
   return (
     <Pressable onPress={handlePress}>
       <CardContainer priority={priority} style={[taskStyle]}>
-        <CheckBox
+     <View style={{opacity: isSelected? 1 : 1}}>
+     
+       <CustomCheckBox
           value={isSelected}
           onValueChange={handleSelect}
-          tintColors={{true: colors.primary.s300, false: colors.grey.s100}}
+          tintColors={{ true: colors.primary.s300, false: colors.grey.s100 }}
         />
 
+     </View>
         <DateWrapper>
           <Pressable onPress={handlePress}>
             <CardTitle isSelected={isSelected}>

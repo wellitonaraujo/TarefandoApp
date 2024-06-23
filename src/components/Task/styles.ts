@@ -18,7 +18,7 @@ export const CardContainer = styled.View<CardContainerProps>`
   border-left-color: ${({priority}) => {
     switch (priority) {
       case 'low':
-        return '#CCFE03';
+        return '#FF5701';
       case 'average':
         return '#00C31F';
       case 'high':
@@ -27,7 +27,7 @@ export const CardContainer = styled.View<CardContainerProps>`
         return '#000000';
     }
   }};
-  height: 50px;
+  height: 45px;
 
   transition: max-height 0.3s ease;
   padding-bottom: 10px;
@@ -68,10 +68,11 @@ export const DateInput = styled.Pressable`
 
 export const SelectedDateText = styled.Text<{isSelected: boolean}>`
   color: ${colors.title};
-  font-size: 12px;
+  font-size: 10px;
   margin-top: 4px;
   letter-spacing: 1.8px;
   text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
+  color: ${colors.grey.s100};
 `;
 
 export const Icon = styled.Image`
