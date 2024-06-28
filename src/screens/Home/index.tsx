@@ -197,10 +197,12 @@ export default function Home() {
 
 
   const handleTaskPress = (task: TaskType) => {
-    setSelectedTask(task);
-    setEditModalVisible(true);
+    if (!task.isSelected) {
+      setSelectedTask(task);
+      setEditModalVisible(true);
+    }
   };
-
+  
   return (
     <Container>
       <HeaderWrapper>
