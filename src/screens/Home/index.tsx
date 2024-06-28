@@ -29,26 +29,24 @@ import AddButton from '../../components/AddButton';
 import EditTaskModal from '../../components/EditTaskModal';
 
 export default function Home() {
-  const {tasks, updateTasks} = useTask();
+  const { tasks, updateTasks } = useTask();
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [tasksWithSelection, setTasksWithSelection] = useState<TaskType[]>([]);
-  const [animations, setAnimations] = useState<{[key: number]: Animated.Value}>(
-    {},
-  );
+  const [animations, setAnimations] = useState<{ [key: number]: Animated.Value }>({});
 
-  const [todayIconRotation, setTodayIconRotation] = useState(
-    new Animated.Value(0),
-  );
-  const [upcomingIconRotation, setUpcomingIconRotation] = useState(
-    new Animated.Value(0),
-  );
-
+  const [todayIconRotation, setTodayIconRotation] = useState(new Animated.Value(0));
+  const [upcomingIconRotation, setUpcomingIconRotation] = useState(new Animated.Value(0));
   const [pastIconRotation] = useState(new Animated.Value(1));
+  const [completedIconRotation] = useState(new Animated.Value(1));
 
   const [isTodayExpanded, setIsTodayExpanded] = useState<boolean>(true);
   const [isUpcomingExpanded, setIsUpcomingExpanded] = useState<boolean>(true);
   const [isPastExpanded, setIsPastExpanded] = useState<boolean>(false);
+  const [isCompletedExpanded, setIsCompletedExpanded] = useState<boolean>(false);
+
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<TaskType | null>(null);
 
   const isAnyTaskSelected = tasksWithSelection.some(task => task.isSelected);
   const isTask = tasksWithSelection.length > 0;
@@ -67,7 +65,7 @@ export default function Home() {
 
   const handleDeleteTask = () => {
     const updatedTasks = tasksWithSelection.filter(task => !task.isSelected);
-    const updatedAnimations: {[key: number]: Animated.Value} = {};
+    const updatedAnimations: { [key: number]: Animated.Value } = {};
 
     // Atualiza as animações apenas para as tarefas que permanecem
     updatedTasks.forEach((task, index) => {
@@ -107,7 +105,7 @@ export default function Home() {
   }, [tasks]);
 
   useEffect(() => {
-    const newAnimations: {[key: number]: Animated.Value} = {};
+    const newAnimations: { [key: number]: Animated.Value } = {};
     tasksWithSelection.forEach((task, index) => {
       if (task.isSelected) {
         newAnimations[index] = new Animated.Value(0);
@@ -123,38 +121,43 @@ export default function Home() {
     return dateA - dateB;
   });
 
-  // Separar as tarefas em tarefas de hoje, futuras, passadas e presente
+  // Separar as tarefas em tarefas de hoje, futuras, passadas e concluídas
   const todayTasks = sortedTasks.filter(task => {
     const taskDate = new Date(task.date);
     const currentDate = new Date();
     return (
       taskDate.getDate() === currentDate.getDate() &&
       taskDate.getMonth() === currentDate.getMonth() &&
-      taskDate.getFullYear() === currentDate.getFullYear()
+      taskDate.getFullYear() === currentDate.getFullYear() &&
+      !task.isSelected
     );
   });
 
-  let upcomingTasks = sortedTasks.filter(task => {
+  const upcomingTasks = sortedTasks.filter(task => {
     const taskDate = new Date(task.date);
     const currentDate = new Date();
     return (
       taskDate > currentDate &&
       (taskDate.getDate() !== currentDate.getDate() ||
         taskDate.getMonth() !== currentDate.getMonth() ||
-        taskDate.getFullYear() !== currentDate.getFullYear())
+        taskDate.getFullYear() !== currentDate.getFullYear()) &&
+      !task.isSelected
     );
   });
 
-  let pastTasks = sortedTasks.filter(task => {
+  const pastTasks = sortedTasks.filter(task => {
     const taskDate = new Date(task.date);
     const currentDate = new Date();
     return (
       taskDate < currentDate &&
       (taskDate.getDate() !== currentDate.getDate() ||
         taskDate.getMonth() !== currentDate.getMonth() ||
-        taskDate.getFullYear() !== currentDate.getFullYear())
+        taskDate.getFullYear() !== currentDate.getFullYear()) &&
+      !task.isSelected
     );
   });
+
+  const completedTasks = sortedTasks.filter(task => task.isSelected);
 
   const toggleTodaySection = () => {
     setIsTodayExpanded(!isTodayExpanded);
@@ -183,9 +186,6 @@ export default function Home() {
     }).start();
   };
 
-  const [isCompletedExpanded, setIsCompletedExpanded] = useState<boolean>(false);
-  const [completedIconRotation] = useState(new Animated.Value(1));
-
   const toggleCompletedSection = () => {
     setIsCompletedExpanded(!isCompletedExpanded);
     Animated.timing(completedIconRotation, {
@@ -195,9 +195,6 @@ export default function Home() {
     }).start();
   };
 
-  const [editModalVisible, setEditModalVisible] = useState(false);
-  const [selectedTask, setSelectedTask] = useState<TaskType | null>(null);
-  let completedTasks = sortedTasks.filter(task => task.isSelected);
 
   const handleTaskPress = (task: TaskType) => {
     setSelectedTask(task);
