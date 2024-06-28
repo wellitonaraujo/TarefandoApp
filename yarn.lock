@@ -5807,7 +5807,7 @@ react-native-picker-select@^9.1.3:
 
 react-native-responsive-fontsize@^0.5.1:
   version "0.5.1"
-  resolved "https://registry.npmjs.org/react-native-responsive-fontsize/-/react-native-responsive-fontsize-0.5.1.tgz"
+  resolved "https://registry.yarnpkg.com/react-native-responsive-fontsize/-/react-native-responsive-fontsize-0.5.1.tgz#c39fa2212ecced2bac879211a7b25106534f72d2"
   integrity sha512-G77iPzrf3BHxMxVm6G3Mw3vPImIdq+jLLXhYoOjWei6i9J3/jzUNUhNdRWvp49Csb5prhbVBLPM+pYZz+b3ESQ==
   dependencies:
     react-native-iphone-x-helper "^1.3.1"

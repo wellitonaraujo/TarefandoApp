@@ -60,42 +60,42 @@ const Task: React.FC<TaskProps> = ({
   return (
     <Pressable onPress={handlePress}>
       <CardContainer priority={priority} style={[taskStyle]}>
-     <View style={{opacity: isSelected? 1 : 1}}>
-     
-       <CustomCheckBox
-          value={isSelected}
-          onValueChange={handleSelect}
-          tintColors={{ true: colors.primary.s300, false: colors.grey.s100 }}
-        />
+        <View style={{opacity: isSelected? 1 : 1}}>
+        
+          <CustomCheckBox
+              value={isSelected}
+              onValueChange={handleSelect}
+              tintColors={{ true: colors.primary.s300, false: colors.grey.s100 }}
+            />
 
-     </View>
+        </View>
         <DateWrapper>
-          <Pressable onPress={handlePress}>
-            <CardTitle isSelected={isSelected}>
-              {isExpanded
-                ? title
-                : title.length > 30
-                ? title.substring(0, 35) + '...'
-                : title}
-            </CardTitle>
-          </Pressable>
+              <Pressable onPress={handlePress}>
+                <CardTitle isSelected={isSelected}>
+                  {isExpanded
+                    ? title
+                    : title.length > 30
+                    ? title.substring(0, 40) + '...'
+                    : title}
+                </CardTitle>
+              </Pressable>
 
-          {/* Renderiza a data apenas se a tarefa não for para "Hoje" */}
-          {formattedDate !== formatDate(new Date()) && (
-            <View style={{flexDirection: 'row'}}>
-              <DateInput>
-                <SelectedDateText isSelected={isSelected}>
-                  {formattedDate}
-                </SelectedDateText>
-              </DateInput>
+              {/* Renderiza a data apenas se a tarefa não for para "Hoje" */}
+              {formattedDate !== formatDate(new Date()) && (
+                <View style={{flexDirection: 'row'}}>
+                  <DateInput>
+                    <SelectedDateText isSelected={isSelected}>
+                      {formattedDate}
+                    </SelectedDateText>
+                  </DateInput>
 
-              {/* <DateInput>
-              <SelectedDateText isSelected={isSelected}>
-                {formattedTime}
-              </SelectedDateText>
-            </DateInput> */}
-            </View>
-          )}
+                  {/* <DateInput>
+                  <SelectedDateText isSelected={isSelected}>
+                    {formattedTime}
+                  </SelectedDateText>
+                </DateInput> */}
+                </View>
+              )}
         </DateWrapper>
       </CardContainer>
     </Pressable>

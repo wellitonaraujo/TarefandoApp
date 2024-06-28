@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import colors from '../../styles/colors';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 interface CardContainerProps {
   priority: 'low' | 'average' | 'high';
@@ -8,13 +9,13 @@ interface CardContainerProps {
 
 export const CardContainer = styled.View<CardContainerProps>`
   background-color: ${colors.grey.s300};
-  border-radius: 8px;
-  padding: 6px;
+  border-radius: ${RFValue(8)}px;;
+  padding: ${RFValue(10)}px;
   margin: 10px 0;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  border-left-width: 2px;
+  border-left-width: ${RFValue(2)}px;
   border-left-color: ${({priority}) => {
     switch (priority) {
       case 'low':
@@ -27,7 +28,7 @@ export const CardContainer = styled.View<CardContainerProps>`
         return '#000000';
     }
   }};
-  height: 45px;
+  height: ${RFValue(50)}px;
 
   transition: max-height 0.3s ease;
   padding-bottom: 10px;
@@ -37,10 +38,8 @@ export const CardTitle = styled.Text<{
   isSelected: boolean;
 }>`
   color: ${colors.title};
-  font-size: 16px;
-  font-weight: 400;
+  font-size: ${RFValue(13)}px;
   letter-spacing: 1.4px;
-  padding-right: 50px;
   text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
 `;
 

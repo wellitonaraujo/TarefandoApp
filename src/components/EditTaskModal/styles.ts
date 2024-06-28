@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import colors from '../../styles/colors';
 import {TextInputProps} from 'react-native';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 interface ModalTextInputTitleProps extends TextInputProps {
   isEmpty: boolean;
@@ -15,37 +16,37 @@ export const ModalContainer = styled.View`
 
 export const ModalContent = styled.View`
   background-color: ${colors.background};
-  border-top-right-radius: 15px;
-  border-top-left-radius: 15px;
+  border-top-right-radius: ${RFValue(8)}px;
+  border-top-left-radius: ${RFValue(8)}px;
   flex-direction: column;
   justify-content: space-between;
-  padding: 16px;
+  padding: ${RFValue(16)}px;;
   width: 100%;
-  height: 380px;
+  height: ${RFValue(380)}px;
 `;
 
 export const ModalTextInputTitle = styled.TextInput<ModalTextInputTitleProps>`
   background-color: ${colors.input.s100};
   color: ${colors.title};
   padding: 10px;
-  border-radius: 15px;
-  font-size: 18px;
+  border-radius: ${RFValue(8)}px;
+  font-size: ${RFValue(15)}px;
   border-color: ${({isEmpty}: any) =>
     isEmpty ? colors.priority.high : colors.input.s100};
   border-width: 1px;
-  height: 120px;
+  height: ${RFValue(120)}px;
 `;
 
 export const ModalTitle = styled.Text`
   color: ${colors.title};
   margin: 0 0 5px 10px;
   letter-spacing: 1.3px;
-  font-size: 16px;
+  font-size: ${RFValue(15)}px;
 `;
 
 export const ModalIcon = styled.Image`
-  width: 16px;
-  height: 16px;
+  width: ${RFValue(15)}px;
+  height: ${RFValue(15)}px;
   opacity: 0.5;
 `;
 
@@ -55,20 +56,19 @@ export const ModalDateWrapper = styled.View`
 `;
 
 export const ModalDateInput = styled.Pressable`
-  border-radius: 40px;
+  border-radius: ${RFValue(40)}px;
   z-index: 1;
   flex-direction: row;
   justify-content: space-around;
-  padding: 0 5px;
+  padding: 0 ${RFValue(5)}px;
   align-items: center;
   text-align: center;
-
   background-color: ${colors.input.s200};
-  width: 80px;
-  height: 35px;
+  width: ${RFValue(80)}px;
+  height: ${RFValue(35)}px;
 `;
 
 export const ModalSelectedDateText = styled.Text`
   color: ${colors.title};
-  font-size: 14px;
+  font-size: ${RFValue(14)}px;
 `;

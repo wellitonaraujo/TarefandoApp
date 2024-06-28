@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import colors from '../../styles/colors';
 import {Animated, Dimensions} from 'react-native';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 const {width, height} = Dimensions.get('window');
 
@@ -44,10 +45,11 @@ export const SeparatorView = styled.View`
 `;
 
 export const SeparatorText = styled.Text`
-  font-size: 16px;
+ font-size: ${({ fontSize }) => RFValue(fontSize ?? 14)}px;
   font-weight: bold;
   margin-right: 10px;
   opacity: 0.5;
+  color: white;
 `;
 
 export const AnimatedSeparatorIcon = styled(Animated.Image)`
