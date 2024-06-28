@@ -183,8 +183,21 @@ export default function Home() {
     }).start();
   };
 
+  const [isCompletedExpanded, setIsCompletedExpanded] = useState<boolean>(false);
+  const [completedIconRotation] = useState(new Animated.Value(1));
+
+  const toggleCompletedSection = () => {
+    setIsCompletedExpanded(!isCompletedExpanded);
+    Animated.timing(completedIconRotation, {
+      toValue: isCompletedExpanded ? 1 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useState<TaskType | null>(null);
+  let completedTasks = sortedTasks.filter(task => task.isSelected);
 
   const handleTaskPress = (task: TaskType) => {
     setSelectedTask(task);
@@ -194,7 +207,6 @@ export default function Home() {
   return (
     <Container>
       <HeaderWrapper>
-        <SearchInput placeholder="Buscar tarefa..." onSearch={handleSearch} />
         <TrashButton
           rightImageSource={imgs.trash}
           isTask={isTask}
@@ -204,7 +216,7 @@ export default function Home() {
       </HeaderWrapper>
       <ScrollView showsVerticalScrollIndicator={false}>
         {filteredTasks.length === 0 ? (
-          <Logo source={imgs.logo} tintColor={colors.title}/>
+          <Logo source={imgs.logo} tintColor={colors.title} />
         ) : (
           <>
             {pastTasks.length > 0 && (
@@ -233,7 +245,8 @@ export default function Home() {
                 {pastTasks.map((task, index) => (
                   <Animated.View
                     key={index.toString()}
-                    style={{transform: [{translateX: animations[index] || 0}]}}>
+                    style={{ transform: [{ translateX: animations[index] || 0 }] }}
+                  >
                     <Task
                       title={task.title}
                       description={task.description}
@@ -276,7 +289,8 @@ export default function Home() {
                 {todayTasks.map((task, index) => (
                   <Animated.View
                     key={index.toString()}
-                    style={{transform: [{translateX: animations[index] || 0}]}}>
+                    style={{ transform: [{ translateX: animations[index] || 0 }] }}
+                  >
                     <Task
                       title={task.title}
                       description={task.description}
@@ -319,7 +333,52 @@ export default function Home() {
                 {upcomingTasks.map((task, index) => (
                   <Animated.View
                     key={index.toString()}
-                    style={{transform: [{translateX: animations[index] || 0}]}}>
+                    style={{ transform: [{ translateX: animations[index] || 0 }] }}
+                  >
+                    <Task
+                      title={task.title}
+                      description={task.description}
+                      priority={task.priority}
+                      date={new Date(task.date)}
+                      handleSelect={() =>
+                        handleSelect(tasks.findIndex(t => t === task))
+                      }
+                      isSelected={task.isSelected}
+                      onPress={() => handleTaskPress(task)}
+                    />
+                  </Animated.View>
+                ))}
+              </>
+            )}
+
+            {completedTasks.length > 0 && (
+              <Pressable onPress={toggleCompletedSection}>
+                <SeparatorView>
+                  <SeparatorText>Concluídas</SeparatorText>
+                  <AnimatedSeparatorIcon
+                    resizeMode="contain"
+                    source={imgs.arrowbottom}
+                    style={{
+                      transform: [
+                        {
+                          rotate: completedIconRotation.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: ['0deg', '180deg'],
+                          }),
+                        },
+                      ],
+                    }}
+                  />
+                </SeparatorView>
+              </Pressable>
+            )}
+            {isCompletedExpanded && completedTasks.length > 0 && (
+              <>
+                {completedTasks.map((task, index) => (
+                  <Animated.View
+                    key={index.toString()}
+                    style={{ transform: [{ translateX: animations[index] || 0 }] }}
+                  >
                     <Task
                       title={task.title}
                       description={task.description}

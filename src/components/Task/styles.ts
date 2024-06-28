@@ -36,7 +36,7 @@ export const CardContainer = styled.View<CardContainerProps>`
     }
   }};
   width: 100%;
-  height: ${RFValue(45)}px;
+  height: ${RFValue(40)}px;
   transition: max-height 0.3s ease;
 
 `;
@@ -45,7 +45,7 @@ export const CardTitle = styled.Text<{
   isSelected: boolean;
 }>`
   color: ${colors.title};
-  font-size: ${RFValue(13)}px;
+  font-size: ${RFValue(14)}px;
   letter-spacing: 1.4px;
   text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
 `;
@@ -58,7 +58,6 @@ export const CardRow = styled.View`
 export const DateWrapper = styled.View`
   flex-direction: column;
   justify-content: space-between;
-  margin-left: 10px;
 `;
 
 export const DateInput = styled.Pressable`
@@ -67,8 +66,7 @@ export const DateInput = styled.Pressable`
 
 export const SelectedDateText = styled.Text<{isSelected: boolean}>`
   color: ${colors.title};
-  font-size: 10px;
-  margin-top: 4px;
+  font-size:${RFValue(10)}px;
   letter-spacing: 1.8px;
   text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
   color: ${colors.grey.s100};

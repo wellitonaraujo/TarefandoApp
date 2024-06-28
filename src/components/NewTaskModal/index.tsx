@@ -88,6 +88,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
     });
     setIsEmpty(true);
     resetForm();
+    onClose()
   };
 
   return (

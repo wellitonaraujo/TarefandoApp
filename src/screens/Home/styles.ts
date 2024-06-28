@@ -26,9 +26,8 @@ export const ButtonContainer = styled.View`
 
 export const HeaderWrapper = styled.View`
   flex-direction: row;
-  margin: 30px 0;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-end;
+  justify-content: flex-end
 `;
 
 export const Logo = styled.Image`
@@ -36,7 +35,7 @@ export const Logo = styled.Image`
   width: ${RFValue(150)}px;
   height: ${RFValue(150)}px;
   align-self: center;
-  margin-top: ${verticalScale(80)}px;
+  margin-top: ${verticalScale(90)}px;
 `;
 
 export const SeparatorView = styled.View`
