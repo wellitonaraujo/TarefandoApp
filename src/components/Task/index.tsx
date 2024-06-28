@@ -6,6 +6,7 @@ import {
   CardTitle,
   DateInput,
   Icon,
+  TaskContainer,
 } from './styles';
 
 import {getColorForPriority} from '../../utils/getColorForPriority';
@@ -41,7 +42,7 @@ const Task: React.FC<TaskProps> = ({
   maxDate.setDate(maxDate.getDate() + 365);
 
   const taskStyle = {
-    opacity: isSelected ? 0.2 : 1,
+    opacity: isSelected ? 0.3 : 1,
     borderColor: isSelected ? 'transparent' : getColorForPriority(priority),
   };
 
@@ -57,47 +58,48 @@ const Task: React.FC<TaskProps> = ({
     }
   };
 
-  return (
+  return  (
     <Pressable onPress={handlePress}>
-      <CardContainer priority={priority} style={[taskStyle]}>
-        <View style={{opacity: isSelected? 1 : 1}}>
-        
-          <CustomCheckBox
-              value={isSelected}
-              onValueChange={handleSelect}
-              tintColors={{ true: colors.primary.s300, false: colors.grey.s100 }}
-            />
-
-        </View>
-        <DateWrapper>
-              <Pressable onPress={handlePress}>
-                <CardTitle isSelected={isSelected}>
-                  {isExpanded
-                    ? title
-                    : title.length > 30
+      <TaskContainer>
+      
+        <CardContainer priority={priority} style={[taskStyle]}>
+          <View style={{ opacity: isSelected ? 1 : 1 }}>
+          </View>
+          <DateWrapper>
+            <Pressable onPress={handlePress}>
+              <CardTitle isSelected={isSelected}>
+                {isExpanded
+                  ? title
+                  : title.length > 30
                     ? title.substring(0, 40) + '...'
                     : title}
-                </CardTitle>
-              </Pressable>
+              </CardTitle>
+            </Pressable>
 
-              {/* Renderiza a data apenas se a tarefa não for para "Hoje" */}
-              {formattedDate !== formatDate(new Date()) && (
-                <View style={{flexDirection: 'row'}}>
-                  <DateInput>
-                    <SelectedDateText isSelected={isSelected}>
-                      {formattedDate}
-                    </SelectedDateText>
-                  </DateInput>
+            {/* Renderiza a data apenas se a tarefa não for para "Hoje" */}
+            {formattedDate !== formatDate(new Date()) && (
+              <View style={{ flexDirection: 'row' }}>
+                <DateInput>
+                  <SelectedDateText isSelected={isSelected}>
+                    {formattedDate}
+                  </SelectedDateText>
+                </DateInput>
 
-                  {/* <DateInput>
+                {/* <DateInput>
                   <SelectedDateText isSelected={isSelected}>
                     {formattedTime}
                   </SelectedDateText>
                 </DateInput> */}
-                </View>
-              )}
-        </DateWrapper>
-      </CardContainer>
+              </View>
+            )}
+          </DateWrapper>
+        </CardContainer>
+        <CustomCheckBox
+          value={isSelected}
+          onValueChange={handleSelect}
+          tintColors={{ true: colors.primary.s300, false: colors.grey.s100 }}
+        />
+      </TaskContainer>
     </Pressable>
   );
 };

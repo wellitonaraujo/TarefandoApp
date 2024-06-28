@@ -5,11 +5,18 @@ import { RFValue } from 'react-native-responsive-fontsize';
 interface CardContainerProps {
   priority: 'low' | 'average' | 'high';
   // isExpanded: boolean;
+  isSelected?: boolean;
 }
 
+export const TaskContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
 export const CardContainer = styled.View<CardContainerProps>`
+  flex: 1;
   background-color: ${colors.grey.s300};
-  border-radius: ${RFValue(8)}px;;
+  border-radius: ${RFValue(5)}px;;
   padding: ${RFValue(10)}px;
   margin: 10px 0;
   flex-direction: row;
@@ -28,10 +35,10 @@ export const CardContainer = styled.View<CardContainerProps>`
         return '#000000';
     }
   }};
-  height: ${RFValue(50)}px;
-
+  width: 100%;
+  height: ${RFValue(45)}px;
   transition: max-height 0.3s ease;
-  padding-bottom: 10px;
+
 `;
 
 export const CardTitle = styled.Text<{
@@ -41,13 +48,6 @@ export const CardTitle = styled.Text<{
   font-size: ${RFValue(13)}px;
   letter-spacing: 1.4px;
   text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
-`;
-
-export const CardDescription = styled.Text`
-  color: ${colors.grey.s100};
-  font-size: 14px;
-  margin-bottom: 16px;
-  letter-spacing: 1.3px;
 `;
 
 export const CardRow = styled.View`

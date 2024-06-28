@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 import colors from '../../styles/colors';
 import {Animated, Dimensions} from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { verticalScale } from '../../utils/metrics';
 
 const {width, height} = Dimensions.get('window');
 
@@ -32,20 +33,20 @@ export const HeaderWrapper = styled.View`
 
 export const Logo = styled.Image`
   opacity: 0.2;
-  width: 150px;
-  height: 150px;
+  width: ${RFValue(150)}px;
+  height: ${RFValue(150)}px;
   align-self: center;
-  margin-top: 250px;
+  margin-top: ${verticalScale(80)}px;
 `;
 
 export const SeparatorView = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-top: 10px;
+  margin-top: ${RFValue(8)}px;
 `;
 
 export const SeparatorText = styled.Text`
- font-size: ${({ fontSize }) => RFValue(fontSize ?? 14)}px;
+ font-size: ${RFValue(14)}px;
   font-weight: bold;
   margin-right: 10px;
   opacity: 0.5;

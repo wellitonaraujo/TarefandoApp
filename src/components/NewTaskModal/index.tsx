@@ -35,6 +35,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
   const [pickerMode, setPickerMode] = useState<'date' | 'time'>('date');
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isEmpty, setIsEmpty] = useState(false);
+
   const handlePickerChange = (event: any, selectedDate?: Date) => {
     setShowPicker(Platform.OS === 'ios');
     if (selectedDate) {
@@ -44,6 +45,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
   };
 
   const currentDate = new Date();
+  
   const formattedDate =
     selectedDate && selectedDate.toDateString() !== currentDate.toDateString()
       ? formatDate(selectedDate)
@@ -52,6 +54,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
 
   const minDate = new Date();
   const maxDate = new Date();
+  
   maxDate.setDate(maxDate.getDate() + 365);
 
   const handlePressPriority = (
@@ -63,11 +66,12 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
   };
 
   const resetForm = () => {
+    setIsEmpty(false);
     setTitle('');
     setPriority('low');
     setDate(new Date());
     setSelectedDate(null);
-    setIsEmpty(false);
+
   };
 
   const handleSave = () => {
@@ -82,7 +86,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
       date: selectedDate || new Date(),
       isSelected: false,
     });
-
+    setIsEmpty(true);
     resetForm();
   };
 
