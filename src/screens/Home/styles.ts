@@ -35,7 +35,7 @@ export const Logo = styled.Image`
   width: ${RFValue(150)}px;
   height: ${RFValue(150)}px;
   align-self: center;
-  margin-top: ${verticalScale(90)}px;
+  margin-top: ${verticalScale(110)}px;
 `;
 
 export const SeparatorView = styled.View`

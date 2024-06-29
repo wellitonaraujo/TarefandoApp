@@ -8,6 +8,7 @@ const CustomCheckBox = ({ value, onValueChange, tintColors }) => {
       value={value}
       onValueChange={onValueChange}
       tintColors={tintColors}
+      
     />
   );
 };

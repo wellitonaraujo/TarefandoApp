@@ -16,9 +16,9 @@ export const TaskContainer = styled.View`
 export const CardContainer = styled.View<CardContainerProps>`
   flex: 1;
   background-color: ${colors.grey.s300};
-  border-radius: ${RFValue(5)}px;;
-  padding: ${RFValue(10)}px;
-  margin: 10px 0;
+  border-radius: ${RFValue(8)}px;;
+  padding: 0 ${RFValue(2)}px;
+  margin:  ${RFValue(5)}px  0;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
@@ -36,7 +36,7 @@ export const CardContainer = styled.View<CardContainerProps>`
     }
   }};
   width: 100%;
-  height: ${RFValue(40)}px;
+  height: ${RFValue(38)}px;
   transition: max-height 0.3s ease;
 
 `;
@@ -45,7 +45,7 @@ export const CardTitle = styled.Text<{
   isSelected: boolean;
 }>`
   color: ${colors.title};
-  font-size: ${RFValue(14)}px;
+  font-size: ${RFValue(13)}px;
   letter-spacing: 1.4px;
   text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
 `;
@@ -66,14 +66,14 @@ export const DateInput = styled.Pressable`
 
 export const SelectedDateText = styled.Text<{isSelected: boolean}>`
   color: ${colors.title};
-  font-size:${RFValue(10)}px;
+  font-size: ${RFValue(10)}px;
   letter-spacing: 1.8px;
   text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
   color: ${colors.grey.s100};
 `;
 
 export const Icon = styled.Image`
-  width: 15px;
-  height: 15px;
-  opacity: 0.6;
+  width: ${RFValue(18)}px;
+  height: ${RFValue(18)}px;
+  margin-left: ${RFValue(10)}px;
 `;

@@ -202,17 +202,45 @@ export default function Home() {
       setEditModalVisible(true);
     }
   };
+
+  const handleDeleteSpecificTask = (taskToDelete: TaskType) => {
+    const updatedTasks = tasksWithSelection.filter(task => task !== taskToDelete);
+    const updatedAnimations: { [key: number]: Animated.Value } = {};
+  
+    // Atualiza as animações apenas para as tarefas que permanecem
+    updatedTasks.forEach((task, index) => {
+      updatedAnimations[index] = animations[tasksWithSelection.indexOf(task)] || new Animated.Value(0);
+    });
+  
+    // Animação para as tarefas que foram excluídas
+    const taskIndex = tasksWithSelection.indexOf(taskToDelete);
+    if (taskIndex !== -1 && animations[taskIndex]) {
+      Animated.timing(animations[taskIndex], {
+        toValue: -10,
+        duration: 500,
+        useNativeDriver: true,
+      }).start(() => {
+        // Após a animação terminar, remova a animação da tarefa excluída
+        delete animations[taskIndex];
+      });
+    }
+  
+    // Atualiza o estado das tarefas e das animações
+    updateTasks(updatedTasks);
+    setTasksWithSelection(updatedTasks);
+    setAnimations(updatedAnimations);
+  };
   
   return (
     <Container>
-      <HeaderWrapper>
+      {/* <HeaderWrapper>
         <TrashButton
           rightImageSource={imgs.trash}
           isTask={isTask}
           isAnyTaskSelected={isAnyTaskSelected}
           onDelete={handleDeleteTask}
         />
-      </HeaderWrapper>
+      </HeaderWrapper> */}
       <ScrollView showsVerticalScrollIndicator={false}>
         {filteredTasks.length === 0 ? (
           <Logo source={imgs.logo} tintColor={colors.title} />
@@ -256,6 +284,8 @@ export default function Home() {
                       }
                       isSelected={task.isSelected}
                       onPress={() => handleTaskPress(task)}
+                      onDelete={() => handleDeleteSpecificTask(task)}
+                      
                     />
                   </Animated.View>
                 ))}
@@ -300,6 +330,7 @@ export default function Home() {
                       }
                       isSelected={task.isSelected}
                       onPress={() => handleTaskPress(task)}
+                      onDelete={() => handleDeleteSpecificTask(task)}
                     />
                   </Animated.View>
                 ))}
@@ -344,6 +375,7 @@ export default function Home() {
                       }
                       isSelected={task.isSelected}
                       onPress={() => handleTaskPress(task)}
+                      onDelete={() => handleDeleteSpecificTask(task)}
                     />
                   </Animated.View>
                 ))}
@@ -388,6 +420,7 @@ export default function Home() {
                       }
                       isSelected={task.isSelected}
                       onPress={() => handleTaskPress(task)}
+                      onDelete={() => handleDeleteSpecificTask(task)}
                     />
                   </Animated.View>
                 ))}

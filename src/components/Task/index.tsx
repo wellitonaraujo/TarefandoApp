@@ -12,9 +12,10 @@ import {
 import {getColorForPriority} from '../../utils/getColorForPriority';
 import {formatDate, formatTime} from '../../utils/dateFormat';
 import colors from '../../styles/colors';
-import {Pressable, View} from 'react-native';
+import {Image, Pressable, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import CustomCheckBox from '../CustomCheckBox';
+import { imgs } from '../../screens/imgs';
 
 interface TaskProps {
   title: string;
@@ -24,6 +25,7 @@ interface TaskProps {
   handleSelect: () => Promise<void>;
   isSelected: boolean;
   onPress?: () => void;
+  onDelete: () => void;
 }
 
 const Task: React.FC<TaskProps> = ({
@@ -33,6 +35,7 @@ const Task: React.FC<TaskProps> = ({
   handleSelect,
   isSelected,
   onPress,
+  onDelete 
 }) => {
   const formattedDate = formatDate(date);
   const formattedTime = formatTime(date);
@@ -61,19 +64,19 @@ const Task: React.FC<TaskProps> = ({
   return  (
     <Pressable onPress={handlePress}>
       <TaskContainer>
-      
         <CardContainer priority={priority} style={[taskStyle]}>
+        <CustomCheckBox
+          value={isSelected}
+          onValueChange={handleSelect}
+          tintColors={{ true: colors.priority.average, false: colors.grey.s100 }}
+        />
           <View style={{ opacity: isSelected ? 1 : 1 }}>
           </View>
           <DateWrapper>
             <Pressable onPress={handlePress}>
-              <CardTitle isSelected={isSelected}>
-                {isExpanded
-                  ? title
-                  : title.length > 30
-                    ? title.substring(0, 40) + '...'
-                    : title}
-              </CardTitle>
+            <CardTitle isSelected={isSelected}>
+              {title.length <= 30 ? title : title.substring(0, 30) + '...'}
+            </CardTitle>
             </Pressable>
 
             {/* Renderiza a data apenas se a tarefa não for para "Hoje" */}
@@ -94,11 +97,11 @@ const Task: React.FC<TaskProps> = ({
             )}
           </DateWrapper>
         </CardContainer>
-        <CustomCheckBox
-          value={isSelected}
-          onValueChange={handleSelect}
-          tintColors={{ true: colors.primary.s300, false: colors.grey.s100 }}
-        />
+   
+        <TouchableOpacity onPress={onDelete}>
+            <Icon source={imgs.delete}/>
+        </TouchableOpacity>
+
       </TaskContainer>
     </Pressable>
   );
