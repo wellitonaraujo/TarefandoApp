@@ -22,19 +22,19 @@ export const ModalContent = styled.View`
   justify-content: space-between;
   padding: ${RFValue(16)}px;;
   width: 100%;
-  height: ${RFValue(330)}px;
+  height: ${RFValue(270)}px;
 `;
 
 export const ModalTextInputTitle = styled.TextInput<ModalTextInputTitleProps>`
-  background-color: ${colors.input.s100};
+  background-color: ${colors.input.s200};
   color: ${colors.title};
   padding: 10px;
   border-radius: ${RFValue(8)}px;
-  font-size: ${RFValue(15)}px;
+  font-size: ${RFValue(13)}px;
   border-color: ${({isEmpty}: any) =>
     isEmpty ? colors.priority.high : colors.input.s100};
   border-width: 1px;
-  height: ${RFValue(120)}px;
+  height: ${RFValue(80)}px;
 `;
 
 export const ModalTitle = styled.Text`
@@ -45,18 +45,18 @@ export const ModalTitle = styled.Text`
 `;
 
 export const ModalIcon = styled.Image`
-  width: ${RFValue(13)}px;
-  height: ${RFValue(13)}px;
+  width: ${RFValue(12)}px;
+  height: ${RFValue(12)}px;
   opacity: 0.5;
 `;
 
 export const ModalDateWrapper = styled.View`
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
 `;
 
 export const ModalDateInput = styled.Pressable`
-  border-radius: ${RFValue(40)}px;
+  border-radius: ${RFValue(8)}px;
   z-index: 1;
   flex-direction: row;
   justify-content: space-around;
@@ -64,11 +64,11 @@ export const ModalDateInput = styled.Pressable`
   align-items: center;
   text-align: center;
   background-color: ${colors.input.s200};
-  width: ${RFValue(70)}px;
-  height: ${RFValue(30)}px;
+  width: ${RFValue(65)}px;
+  height: ${RFValue(25)}px;
 `;
 
 export const ModalSelectedDateText = styled.Text`
   color: ${colors.title};
-  font-size: ${RFValue(13)}px;
+  font-size: ${RFValue(12)}px;
 `;

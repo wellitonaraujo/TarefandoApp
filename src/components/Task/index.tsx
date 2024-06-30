@@ -26,6 +26,7 @@ interface TaskProps {
   isSelected: boolean;
   onPress?: () => void;
   onDelete: () => void;
+  dateColor?: string; 
 }
 
 const Task: React.FC<TaskProps> = ({
@@ -35,7 +36,8 @@ const Task: React.FC<TaskProps> = ({
   handleSelect,
   isSelected,
   onPress,
-  onDelete 
+  onDelete,
+  dateColor = colors.grey.s100
 }) => {
   const formattedDate = formatDate(date);
   const formattedTime = formatTime(date);
@@ -68,7 +70,7 @@ const Task: React.FC<TaskProps> = ({
         <CustomCheckBox
           value={isSelected}
           onValueChange={handleSelect}
-          tintColors={{ true: colors.priority.average, false: colors.grey.s100 }}
+          tintColors={{ true: colors.primary.s300, false: colors.grey.s100 }}
         />
           <View style={{ opacity: isSelected ? 1 : 1 }}>
           </View>
@@ -83,7 +85,7 @@ const Task: React.FC<TaskProps> = ({
             {formattedDate !== formatDate(new Date()) && (
               <View style={{ flexDirection: 'row' }}>
                 <DateInput>
-                  <SelectedDateText isSelected={isSelected}>
+                  <SelectedDateText style={{ color: dateColor }} isSelected={isSelected}>
                     {formattedDate}
                   </SelectedDateText>
                 </DateInput>

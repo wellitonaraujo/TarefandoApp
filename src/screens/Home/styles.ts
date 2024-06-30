@@ -35,17 +35,18 @@ export const Logo = styled.Image`
   width: ${RFValue(150)}px;
   height: ${RFValue(150)}px;
   align-self: center;
-  margin-top: ${verticalScale(110)}px;
+  margin-top: ${verticalScale(130)}px;
 `;
 
 export const SeparatorView = styled.View`
   flex-direction: row;
   align-items: center;
+  margin-bottom: ${RFValue(8)}px;
   margin-top: ${RFValue(8)}px;
 `;
 
 export const SeparatorText = styled.Text`
- font-size: ${RFValue(14)}px;
+ font-size: ${RFValue(12)}px;
   font-weight: bold;
   margin-right: 10px;
   opacity: 0.5;

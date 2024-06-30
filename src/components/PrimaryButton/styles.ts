@@ -4,9 +4,9 @@ import colors from '../../styles/colors';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 export const ButtonContainer = styled(TouchableOpacity)`
-  height: ${RFValue(50)}px;
+  height: ${RFValue(45)}px;
   width: 100%;
-  border-radius: ${RFValue(50)}px;
+  border-radius: ${RFValue(12)}px;
   justify-content: center;
   background-color: ${colors.primary.s300};
 `;

@@ -5,7 +5,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 
 export const ButtonContainer = styled(TouchableOpacity)`
   justify-content: center;
-  margin:  ${RFValue(20)}px 0;
+  margin:  ${RFValue(20)}px 0 ${RFValue(10)}px 0;
 `;
 
 export const ButtonText = styled.Text<{textColor?: string}>`

@@ -249,7 +249,7 @@ export default function Home() {
             {pastTasks.length > 0 && (
               <Pressable onPress={togglePastSection}>
                 <SeparatorView>
-                  <SeparatorText>Passadas</SeparatorText>
+                  <SeparatorText>Atrasadas</SeparatorText>
                   <AnimatedSeparatorIcon
                     resizeMode="contain"
                     source={imgs.arrowbottom}
@@ -285,7 +285,7 @@ export default function Home() {
                       isSelected={task.isSelected}
                       onPress={() => handleTaskPress(task)}
                       onDelete={() => handleDeleteSpecificTask(task)}
-                      
+                     dateColor={colors.priority.high}
                     />
                   </Animated.View>
                 ))}

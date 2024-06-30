@@ -1,13 +1,12 @@
 import {Dimensions, Image} from 'react-native';
 import styled from 'styled-components/native';
-import colors from '../../styles/colors';
 
 interface CreateTaskProps {
   backgroundColor?: string;
 }
 
 const screenHeight = Dimensions.get('window').height;
-const buttonSize = screenHeight * 0.07;
+const buttonSize = screenHeight * 0.065;
 const marginTop = screenHeight * 0.03;
 const iconSize = buttonSize * 0.28;
 
