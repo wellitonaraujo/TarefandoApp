@@ -437,7 +437,7 @@ export default function Home() {
         <AddButton
           icon={imgs.plus}
           onPress={toggleModal}
-          backgroundColor={colors.primary.s300}
+          backgroundColor={colors.priority.average}
         />
       </S.ButtonContainer>
     </S.Container>

@@ -47,11 +47,10 @@ export const SeparatorView = styled.View`
 `;
 
 export const SeparatorText = styled.Text`
-  font-size: ${RFValue(12)}px;
+  font-size: ${moderateScale(14)}px;
   font-weight: bold;
   margin-right: 10px;
-  opacity: 0.5;
-  color: white;
+  color: ${colors.white};
 `;
 
 export const AnimatedSeparatorIcon = styled(Animated.Image)`
@@ -65,6 +64,5 @@ export const HeaderTitle = styled.Text`
  font-size: ${RFValue(18)}px;
   font-weight: bold;
   margin-right: 10px;
-  opacity: 0.5;
-  color: ${colors.title};
+  color: ${colors.white};
 `;

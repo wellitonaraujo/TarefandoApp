@@ -3,6 +3,9 @@ const colors = {
 
   title: '#D9D9D9',
 
+
+  white: '#FFFFFF',
+
   primary: {
     s300: '#FF5701',
   },

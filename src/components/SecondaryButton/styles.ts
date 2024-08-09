@@ -9,8 +9,9 @@ export const ButtonContainer = styled(TouchableOpacity)`
 `;
 
 export const ButtonText = styled.Text<{textColor?: string}>`
-  color: ${({textColor}) => textColor || colors.title};
-  letter-spacing: 1.2px;
+  color: ${({textColor}) => textColor || colors.white};
+  line-height: ${verticalScale(24)}px;
   text-align: center;
-  font-size: ${moderateScale(15)}px;
+  font-size: ${moderateScale(16)}px;
+  font-weight: 800;
 `;

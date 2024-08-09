@@ -1,10 +1,8 @@
 import { horizontalScale, moderateScale, verticalScale } from '@/src/utils/metrics';
-import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 import colors from '../../styles/colors';
 
 interface CardContainerProps {
-  priority: 'low' | 'average' | 'high';
   isSelected?: boolean;
 }
 
@@ -22,19 +20,7 @@ export const CardContainer = styled.View<CardContainerProps>`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  border-left-width: ${RFValue(2)}px;
-  border-left-color: ${({priority}) => {
-    switch (priority) {
-      case 'low':
-        return '#FF5701';
-      case 'average':
-        return '#00C31F';
-      case 'high':
-        return '#C30000';
-      default:
-        return '#000000';
-    }
-  }};
+  border-left-width: ${horizontalScale(2)}px;
   width: 100%;
   height: ${verticalScale(45)}px;
   transition: max-height 0.3s ease;
@@ -44,9 +30,10 @@ export const CardContainer = styled.View<CardContainerProps>`
 export const CardTitle = styled.Text<{
   isSelected: boolean;
 }>`
-  color: ${colors.title};
+  color: ${colors.white};
   font-size: ${moderateScale(14)}px;
   letter-spacing: 1.4px;
+  font-weight: 800;
   text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
 `;
 
@@ -59,7 +46,7 @@ export const CardRow = styled.View`
 export const DateWrapper = styled.View`
   flex-direction: column;
   justify-content: space-between;
-  margin-left: ${moderateScale(5)}px;
+  margin-left: ${moderateScale(10)}px;
 `;
 
 export const DateInput = styled.Pressable`

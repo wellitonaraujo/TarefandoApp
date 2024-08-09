@@ -26,7 +26,6 @@ export const ModalContent = styled.View`
   height: ${verticalScale(350)}px;
 `;
 
-
 export const ModalTextInputTitle = styled.TextInput<ModalTextInputTitleProps>`
   background-color: ${colors.input.s200};
   color: ${colors.title};

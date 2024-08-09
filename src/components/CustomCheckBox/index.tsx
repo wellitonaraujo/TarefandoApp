@@ -1,27 +1,20 @@
-import CheckBox from '@react-native-community/checkbox';
+import * as S from "./styles"
 
 interface CustomCheckBoxProps {
   value: boolean;
   onValueChange: (newValue: boolean) => void;
-  tintColors?: {
-    true: string;
-    false: string;
-  };
 }
 
-const CustomCheckBox: React.FC<CustomCheckBoxProps> = ({ 
-  value, 
-  onValueChange, 
-  tintColors 
-}) => {
+const CustomCheckBox: React.FC<CustomCheckBoxProps> = ({ value, onValueChange }) => {
   return (
-    <CheckBox
+    <S.StyledTouchableOpacity
+      activeOpacity={1}
+      onPress={() => onValueChange(!value)}
       value={value}
-      onValueChange={onValueChange}
-      tintColors={tintColors}
-    />
+    >
+      {value && <S.Checkmark />}
+    </S.StyledTouchableOpacity>
   );
 };
 
-export default CustomCheckBox;
-
+export default CustomCheckBox

@@ -40,8 +40,6 @@ const Task: React.FC<TaskProps> = ({
   dateColor = colors.grey.s100
 }) => {
   const formattedDate = formatDate(date);
-  const formattedTime = formatTime(date);
-  const [isExpanded, setIsExpanded] = useState(false);
   const maxDate = new Date();
 
   maxDate.setDate(maxDate.getDate() + 365);
@@ -60,14 +58,15 @@ const Task: React.FC<TaskProps> = ({
   return  (
     <Pressable onPress={handlePress}>
       <TaskContainer>
-        <CardContainer priority={priority} style={[taskStyle]}>
-        <CustomCheckBox
+      <CustomCheckBox
           value={isSelected}
           onValueChange={handleSelect}
           tintColors={{ 
-            true: colors.primary.s300, 
+            true: colors.priority.average, 
             false: colors.grey.s100 }}
         />
+        <CardContainer style={[taskStyle]}>
+       
           <View style={{ opacity: isSelected ? 1 : 1 }}>
           </View>
           <DateWrapper>
