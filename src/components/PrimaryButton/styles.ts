@@ -1,21 +1,21 @@
 import styled from 'styled-components/native';
 import {TouchableOpacity} from 'react-native';
 import colors from '../../styles/colors';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { moderateScale, verticalScale } from '@/src/utils/metrics';
 
 export const ButtonContainer = styled(TouchableOpacity)`
-  height: 60px;
+  height: ${verticalScale(56)}px;
   width: 100%;
-  border-radius: 50px;
-
+  border-radius: ${moderateScale(18)}px;
   justify-content: center;
-
-  border-width: 1px;
-  background-color: ${colors.primary.s300};
+  background-color: ${colors.priority.average};
 `;
 
 export const ButtonText = styled.Text<{textColor?: string}>`
-  color: ${({textColor}) => textColor || colors.title};
-  letter-spacing: 1.2px;
+  color: ${({textColor}) => textColor || colors.white};
+  line-height: ${verticalScale(24)}px;
   text-align: center;
-  font-size: 16px;
+  font-size: ${moderateScale(16)}px;
+  font-weight: 800;
 `;

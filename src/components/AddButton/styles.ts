@@ -1,28 +1,21 @@
-import {Dimensions, Image} from 'react-native';
+import { horizontalScale, moderateScale, verticalScale } from '@/src/utils/metrics';
 import styled from 'styled-components/native';
-import colors from '../../styles/colors';
+import {Image} from 'react-native';
 
 interface CreateTaskProps {
   backgroundColor?: string;
 }
 
-const screenHeight = Dimensions.get('window').height;
-const buttonSize = screenHeight * 0.07;
-const marginTop = screenHeight * 0.03;
-const iconSize = buttonSize * 0.28;
-
 export const CreateTask = styled.TouchableOpacity<CreateTaskProps>`
-  width: ${buttonSize}px;
-  height: ${buttonSize}px;
+  width: ${moderateScale(60)}px;
+  height: ${moderateScale(60)}px;
   background-color: ${props => props.backgroundColor};
-  border-radius: ${buttonSize}px;
+  border-radius: ${moderateScale(60)}px;
   justify-content: center;
   align-items: center;
-  align-self: flex-end;
-  margin-top: ${marginTop}px;
 `;
 
 export const Icon = styled(Image)`
-  width: ${iconSize}px;
-  height: ${iconSize}px;
+  width: ${moderateScale(18)}px;
+  height: ${moderateScale(18)}px;
 `;

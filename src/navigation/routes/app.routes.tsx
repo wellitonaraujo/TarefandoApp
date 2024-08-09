@@ -1,6 +1,4 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import NewTask from '../../screens/NewTask';
-import colors from '../../styles/colors';
 import Home from '../../screens/Home';
 import React from 'react';
 
@@ -15,18 +13,7 @@ const AppRoutes: React.FC = () => (
         headerBackTitleVisible: false,
       }}>
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen
-        name="NewTask"
-        component={NewTask}
-        options={{
-          headerTransparent: true,
-          headerTitle: 'Nova Tarefa',
-          headerTitleAlign: 'center',
-
-          headerBackTitleVisible: false,
-          headerTintColor: colors.title,
-        }}
-      />
+    
     </Stack.Navigator>
   </>
 );

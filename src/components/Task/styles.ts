@@ -1,81 +1,68 @@
+import { horizontalScale, moderateScale, verticalScale } from '@/src/utils/metrics';
 import styled from 'styled-components/native';
 import colors from '../../styles/colors';
 
 interface CardContainerProps {
-  priority: 'low' | 'average' | 'high';
-  // isExpanded: boolean;
+  isSelected?: boolean;
 }
 
+export const TaskContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
 export const CardContainer = styled.View<CardContainerProps>`
+  flex: 1;
   background-color: ${colors.grey.s300};
-  border-radius: 8px;
-  padding: 6px;
-  margin: 10px 0;
+  border-radius: ${moderateScale(12)}px;;
+  padding: 0 ${horizontalScale(5)}px;
+  margin:  ${verticalScale(5)}px  0;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  border-left-width: 2px;
-  border-left-color: ${({priority}) => {
-    switch (priority) {
-      case 'low':
-        return '#CCFE03';
-      case 'average':
-        return '#00C31F';
-      case 'high':
-        return '#C30000';
-      default:
-        return '#000000';
-    }
-  }};
-  height: 50px;
-
+  border-left-width: ${horizontalScale(2)}px;
+  width: 100%;
+  height: ${verticalScale(45)}px;
   transition: max-height 0.3s ease;
-  padding-bottom: 10px;
+
 `;
 
 export const CardTitle = styled.Text<{
   isSelected: boolean;
 }>`
-  color: ${colors.title};
-  font-size: 16px;
-  font-weight: 400;
+  color: ${colors.white};
+  font-size: ${moderateScale(14)}px;
   letter-spacing: 1.4px;
-  padding-right: 50px;
+  font-weight: 800;
   text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
-`;
-
-export const CardDescription = styled.Text`
-  color: ${colors.grey.s100};
-  font-size: 14px;
-  margin-bottom: 16px;
-  letter-spacing: 1.3px;
 `;
 
 export const CardRow = styled.View`
   flex-direction: row;
   align-items: center;
+  
 `;
 
 export const DateWrapper = styled.View`
   flex-direction: column;
   justify-content: space-between;
-  margin-left: 10px;
+  margin-left: ${moderateScale(10)}px;
 `;
 
 export const DateInput = styled.Pressable`
-  width: 50px;
+ 
 `;
 
 export const SelectedDateText = styled.Text<{isSelected: boolean}>`
   color: ${colors.title};
-  font-size: 12px;
-  margin-top: 4px;
+  font-size: ${moderateScale(10)}px;
   letter-spacing: 1.8px;
   text-decoration: ${({isSelected}) => (isSelected ? 'line-through' : 'none')};
+  color: ${colors.grey.s100};
 `;
 
 export const Icon = styled.Image`
-  width: 15px;
-  height: 15px;
-  opacity: 0.6;
+  width: ${moderateScale(18)}px;
+  height: ${moderateScale(18)}px;
+  margin-left: ${moderateScale(10)}px;
 `;

@@ -1,7 +1,7 @@
 export const getColorForPriority = (priority: 'low' | 'average' | 'high') => {
   switch (priority) {
     case 'low':
-      return '#CCFE03';
+      return '#33B9A5';
     case 'average':
       return '#00C31F';
     case 'high':

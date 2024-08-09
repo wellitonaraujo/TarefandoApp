@@ -10,7 +10,6 @@ import {
   ModalTextInputTitle,
 } from './styles';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import PrioritySelector from '../../components/PriorityButton';
 import {formatDate, formatTime} from '../../utils/dateFormat';
 import PrimaryButton from '../../components/PrimaryButton';
 import {useTask} from '../../context/TaskContext';
@@ -35,6 +34,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
   const [pickerMode, setPickerMode] = useState<'date' | 'time'>('date');
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isEmpty, setIsEmpty] = useState(false);
+
   const handlePickerChange = (event: any, selectedDate?: Date) => {
     setShowPicker(Platform.OS === 'ios');
     if (selectedDate) {
@@ -44,14 +44,15 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
   };
 
   const currentDate = new Date();
+  
   const formattedDate =
     selectedDate && selectedDate.toDateString() !== currentDate.toDateString()
       ? formatDate(selectedDate)
       : 'Hoje';
-  const formattedTime = formatTime(date);
 
   const minDate = new Date();
   const maxDate = new Date();
+  
   maxDate.setDate(maxDate.getDate() + 365);
 
   const handlePressPriority = (
@@ -63,11 +64,12 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
   };
 
   const resetForm = () => {
+    setIsEmpty(false);
     setTitle('');
     setPriority('low');
     setDate(new Date());
     setSelectedDate(null);
-    setIsEmpty(false);
+
   };
 
   const handleSave = () => {
@@ -82,9 +84,9 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
       date: selectedDate || new Date(),
       isSelected: false,
     });
-
-    onClose();
+    setIsEmpty(true);
     resetForm();
+    onClose()
   };
 
   return (
@@ -114,7 +116,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
                 />
               </View>
               <ModalDateWrapper>
-                <PrioritySelector
+                {/* <PrioritySelector
                   key={priority}
                   onPressPriority={handlePressPriority}
                   priority={priority}
@@ -123,7 +125,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
                     {type: 'average', color: '#...', label: 'Average'},
                     {type: 'high', color: '#...', label: 'High'},
                   ]}
-                />
+                /> */}
 
                 <ModalDateInput
                   onPress={() => {
@@ -148,7 +150,11 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
                 )}
               </ModalDateWrapper>
 
-              <PrimaryButton title="Salvar" onPress={handleSave} />
+              <PrimaryButton 
+                title="Salvar"
+                 onPress={handleSave}
+                 disabled={!title} 
+                />
             </ModalContent>
           </TouchableWithoutFeedback>
         </ModalContainer>

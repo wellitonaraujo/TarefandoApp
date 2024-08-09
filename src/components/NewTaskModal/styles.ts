@@ -1,6 +1,8 @@
 import styled from 'styled-components/native';
 import colors from '../../styles/colors';
 import {TextInputProps} from 'react-native';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { horizontalScale, moderateScale, verticalScale } from '@/src/utils/metrics';
 
 interface ModalTextInputTitleProps extends TextInputProps {
   isEmpty: boolean;
@@ -15,61 +17,50 @@ export const ModalContainer = styled.View`
 
 export const ModalContent = styled.View`
   background-color: ${colors.background};
-  border-top-right-radius: 15px;
-  border-top-left-radius: 15px;
+  border-top-right-radius:${verticalScale(18)}px;
+  border-top-left-radius: ${verticalScale(18)}px;
   flex-direction: column;
   justify-content: space-between;
-  padding: 16px;
+  padding:  ${moderateScale(24)}px;
   width: 100%;
-  height: 300px;
+  height: ${verticalScale(280)}px;
 `;
 
 export const ModalTextInputTitle = styled.TextInput<ModalTextInputTitleProps>`
-  background-color: ${colors.input.s100};
+  background-color: ${colors.input.s200};
   color: ${colors.title};
-  padding-left: 10px;
-  border-radius: 15px;
-  height: 60px;
-  font-size: 18px;
-  border-color: ${({isEmpty}: any) =>
-    isEmpty ? colors.priority.high : colors.input.s100};
-  border-width: 1px;
-  height: 120px;
+  padding: ${moderateScale(12)}px;
+  border-radius: ${moderateScale(12)}px;
+  font-size: ${moderateScale(14)}px;
+  height: ${verticalScale(90)}px;
 `;
 
-export const ModalTitle = styled.Text`
-  color: ${colors.title};
-  margin: 0 0 5px 10px;
-  letter-spacing: 1.3px;
-  font-size: 16px;
-`;
 
 export const ModalIcon = styled.Image`
-  width: 16px;
-  height: 16px;
+  width: ${RFValue(14)}px;
+  height: ${RFValue(14)}px;
   opacity: 0.5;
 `;
 
 export const ModalDateWrapper = styled.View`
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
 `;
 
 export const ModalDateInput = styled.Pressable`
-  border-radius: 40px;
+  border-radius: ${moderateScale(12)}px;
   z-index: 1;
   flex-direction: row;
   justify-content: space-around;
-  padding: 0 5px;
+  padding: 0 ${horizontalScale(5)}px;
   align-items: center;
   text-align: center;
-
   background-color: ${colors.input.s200};
-  width: 80px;
-  height: 35px;
+  width: ${verticalScale(90)}px;
+  height: ${horizontalScale(35)}px;
 `;
 
 export const ModalSelectedDateText = styled.Text`
   color: ${colors.title};
-  font-size: 14px;
+  font-size: ${moderateScale(13)}px;
 `;

@@ -3,6 +3,9 @@ const colors = {
 
   title: '#D9D9D9',
 
+
+  white: '#FFFFFF',
+
   primary: {
     s300: '#FF5701',
   },
@@ -23,8 +26,8 @@ const colors = {
   },
   priority: {
     high: '#C30000',
-    average: '#00C31F',
-    low: '#CCFE03',
+    average: '#33B9A5',
+    low: '#FF5701',
   },
   warning: {
     s300: '#',
