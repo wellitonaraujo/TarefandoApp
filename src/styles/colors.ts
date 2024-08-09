@@ -23,7 +23,7 @@ const colors = {
   },
   priority: {
     high: '#C30000',
-    average: '#00C31F',
+    average: '#33B9A5',
     low: '#FF5701',
   },
   warning: {

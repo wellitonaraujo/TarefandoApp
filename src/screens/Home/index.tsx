@@ -13,17 +13,11 @@ import {useTask} from '../../context/TaskContext';
 import colors from '../../styles/colors';
 import Task from '../../components/Task';
 import {imgs} from '../imgs';
-import {
-  AnimatedSeparatorIcon,
-  ButtonContainer,
-  Container,
-  HeaderWrapper,
-  Logo,
-  SeparatorText,
-  SeparatorView,
-} from './styles';
+
+import * as S from "./styles"
+
 import NewTaskModal from '../../components/NewTaskModal';
-import SearchInput from '../../components/SearchInput';
+
 import TrashButton from '../../components/TrashButton';
 import AddButton from '../../components/AddButton';
 import EditTaskModal from '../../components/EditTaskModal';
@@ -232,25 +226,26 @@ export default function Home() {
   };
   
   return (
-    <Container>
-      {/* <HeaderWrapper>
+    <S.Container>
+      <S.HeaderWrapper>
+        <S.HeaderTitle>Minhas Tarefas</S.HeaderTitle>
         <TrashButton
           rightImageSource={imgs.trash}
           isTask={isTask}
           isAnyTaskSelected={isAnyTaskSelected}
           onDelete={handleDeleteTask}
         />
-      </HeaderWrapper> */}
+      </S.HeaderWrapper>
       <ScrollView showsVerticalScrollIndicator={false}>
         {filteredTasks.length === 0 ? (
-          <Logo source={imgs.logo} tintColor={colors.title} />
+          <S.Logo source={imgs.logo} tintColor={colors.title} />
         ) : (
           <>
             {pastTasks.length > 0 && (
               <Pressable onPress={togglePastSection}>
-                <SeparatorView>
-                  <SeparatorText>Atrasadas</SeparatorText>
-                  <AnimatedSeparatorIcon
+                <S.SeparatorView>
+                  <S.SeparatorText>Atrasadas</S.SeparatorText>
+                  <S.AnimatedSeparatorIcon
                     resizeMode="contain"
                     source={imgs.arrowbottom}
                     style={{
@@ -264,7 +259,7 @@ export default function Home() {
                       ],
                     }}
                   />
-                </SeparatorView>
+                </S.SeparatorView>
               </Pressable>
             )}
             {isPastExpanded && pastTasks.length > 0 && (
@@ -294,9 +289,9 @@ export default function Home() {
 
             {todayTasks.length > 0 && (
               <Pressable onPress={toggleTodaySection}>
-                <SeparatorView>
-                  <SeparatorText>Hoje</SeparatorText>
-                  <AnimatedSeparatorIcon
+                <S.SeparatorView>
+                  <S.SeparatorText>Hoje</S.SeparatorText>
+                  <S.AnimatedSeparatorIcon
                     source={imgs.arrowbottom}
                     resizeMode="contain"
                     style={{
@@ -310,7 +305,7 @@ export default function Home() {
                       ],
                     }}
                   />
-                </SeparatorView>
+                </S.SeparatorView>
               </Pressable>
             )}
             {isTodayExpanded && todayTasks.length > 0 && (
@@ -339,9 +334,9 @@ export default function Home() {
 
             {upcomingTasks.length > 0 && (
               <Pressable onPress={toggleUpcomingSection}>
-                <SeparatorView>
-                  <SeparatorText>Próximas</SeparatorText>
-                  <AnimatedSeparatorIcon
+                <S.SeparatorView>
+                  <S.SeparatorText>Próximas</S.SeparatorText>
+                  <S.AnimatedSeparatorIcon
                     resizeMode="contain"
                     source={imgs.arrowbottom}
                     style={{
@@ -355,7 +350,7 @@ export default function Home() {
                       ],
                     }}
                   />
-                </SeparatorView>
+                </S.SeparatorView>
               </Pressable>
             )}
             {isUpcomingExpanded && upcomingTasks.length > 0 && (
@@ -384,9 +379,9 @@ export default function Home() {
 
             {completedTasks.length > 0 && (
               <Pressable onPress={toggleCompletedSection}>
-                <SeparatorView>
-                  <SeparatorText>Concluídas</SeparatorText>
-                  <AnimatedSeparatorIcon
+                <S.SeparatorView>
+                  <S.SeparatorText>Concluídas</S.SeparatorText>
+                  <S.AnimatedSeparatorIcon
                     resizeMode="contain"
                     source={imgs.arrowbottom}
                     style={{
@@ -400,7 +395,7 @@ export default function Home() {
                       ],
                     }}
                   />
-                </SeparatorView>
+                </S.SeparatorView>
               </Pressable>
             )}
             {isCompletedExpanded && completedTasks.length > 0 && (
@@ -438,13 +433,13 @@ export default function Home() {
         task={selectedTask}
       />
 
-      <ButtonContainer>
+      <S.ButtonContainer>
         <AddButton
           icon={imgs.plus}
           onPress={toggleModal}
           backgroundColor={colors.primary.s300}
         />
-      </ButtonContainer>
-    </Container>
+      </S.ButtonContainer>
+    </S.Container>
   );
 }

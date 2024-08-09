@@ -10,7 +10,6 @@ import {
   ModalTextInputTitle,
 } from './styles';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import PrioritySelector from '../../components/PriorityButton';
 import {formatDate, formatTime} from '../../utils/dateFormat';
 import PrimaryButton from '../../components/PrimaryButton';
 import {useTask} from '../../context/TaskContext';
@@ -50,7 +49,6 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
     selectedDate && selectedDate.toDateString() !== currentDate.toDateString()
       ? formatDate(selectedDate)
       : 'Hoje';
-  const formattedTime = formatTime(date);
 
   const minDate = new Date();
   const maxDate = new Date();
@@ -152,7 +150,11 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
                 )}
               </ModalDateWrapper>
 
-              <PrimaryButton title="Salvar" onPress={handleSave} />
+              <PrimaryButton 
+                title="Salvar"
+                 onPress={handleSave}
+                 disabled={!title} 
+                />
             </ModalContent>
           </TouchableWithoutFeedback>
         </ModalContainer>

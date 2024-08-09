@@ -8,6 +8,7 @@ import {
   ModalIcon,
   ModalSelectedDateText,
   ModalTextInputTitle,
+  Title,
 } from './styles';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import PrioritySelector from '../PriorityButton';
@@ -17,6 +18,7 @@ import colors from '../../styles/colors';
 import {imgs} from '../../screens/imgs';
 import SecondaryButton from '../SecondaryButton';
 import {TaskType} from '../../models/TaskType';
+import { HeaderTitle } from '@/src/screens/Home/styles';
 
 interface EditTaskModalProps {
   visible: boolean;
@@ -40,7 +42,6 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
   const [isEmpty, setIsEmpty] = useState(false);
 
   useEffect(() => {
-    // Preencher os campos do modal com os detalhes da tarefa recebida, se houver uma tarefa selecionada
     if (task) {
       setTitle(task.title || '');
       setPriority(task.priority || 'low');
@@ -54,14 +55,6 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
     if (selectedDate) {
       setDate(selectedDate);
       setSelectedDate(selectedDate);
-    }
-  };
-
-  const handlePressPriority = (
-    selectedPriority: 'low' | 'average' | 'high' | null,
-  ) => {
-    if (selectedPriority !== null) {
-      setPriority(selectedPriority);
     }
   };
 
@@ -81,12 +74,29 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
     onClose();
   };
 
+  const resetForm = () => {
+    if (task) {
+      setTitle(task.title || '');
+      setPriority(task.priority || 'low');
+      const taskDate = new Date(task.date);
+      setDate(taskDate);
+      setSelectedDate(taskDate);
+      setIsEmpty(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!visible) {
+      resetForm();
+    }
+  }, [visible])
+
   const currentDate = new Date();
   const formattedDate =
     selectedDate && selectedDate.toDateString() !== currentDate.toDateString()
       ? formatDate(selectedDate)
       : 'Hoje';
-  const formattedTime = formatTime(date);
+
   const minDate = new Date();
   const maxDate = new Date();
   maxDate.setDate(maxDate.getDate() + 365);
@@ -101,6 +111,7 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
         <ModalContainer>
           <TouchableWithoutFeedback onPress={() => {}}>
             <ModalContent>
+
               <ModalTextInputTitle
                 placeholder="Insira o novo nome da tarefa"
                 value={title}
@@ -117,16 +128,6 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
               />
 
               <ModalDateWrapper>
-                {/* <PrioritySelector
-                  key={priority}
-                  onPressPriority={handlePressPriority}
-                  priority={priority}
-                  priorities={[
-                    {type: 'low', color: '#...', label: 'Low'},
-                    {type: 'average', color: '#...', label: 'Average'},
-                    {type: 'high', color: '#...', label: 'High'},
-                  ]}
-                /> */}
                 <ModalDateInput
                   onPress={() => {
                     setShowPicker(true);
@@ -149,7 +150,11 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
                 )}
               </ModalDateWrapper>
               <View>
-                <PrimaryButton title="Salvar alterações" onPress={handleSave} />
+                <PrimaryButton 
+                  title="Salvar alterações" 
+                  onPress={handleSave} 
+                  disabled={!title}
+                />
                 <SecondaryButton title="Cancelar" onPress={handleCancel} />
               </View>
             </ModalContent>

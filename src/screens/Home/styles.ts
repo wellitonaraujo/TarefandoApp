@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import colors from '../../styles/colors';
 import {Animated, Dimensions} from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { verticalScale } from '../../utils/metrics';
+import { moderateScale, verticalScale } from '../../utils/metrics';
 
 const {width, height} = Dimensions.get('window');
 
@@ -27,13 +27,14 @@ export const ButtonContainer = styled.View`
 export const HeaderWrapper = styled.View`
   flex-direction: row;
   align-items: flex-end;
-  justify-content: flex-end
+  justify-content: space-between;
+  margin-bottom: ${verticalScale(20)}px;
 `;
 
 export const Logo = styled.Image`
   opacity: 0.2;
-  width: ${RFValue(150)}px;
-  height: ${RFValue(150)}px;
+  width: ${moderateScale(150)}px;
+  height: ${moderateScale(150)}px;
   align-self: center;
   margin-top: ${verticalScale(130)}px;
 `;
@@ -46,7 +47,7 @@ export const SeparatorView = styled.View`
 `;
 
 export const SeparatorText = styled.Text`
- font-size: ${RFValue(12)}px;
+  font-size: ${RFValue(12)}px;
   font-weight: bold;
   margin-right: 10px;
   opacity: 0.5;
@@ -58,4 +59,12 @@ export const AnimatedSeparatorIcon = styled(Animated.Image)`
   height: 13px;
   opacity: 0.5;
   margin-top: 2px;
+`;
+
+export const HeaderTitle = styled.Text`
+ font-size: ${RFValue(18)}px;
+  font-weight: bold;
+  margin-right: 10px;
+  opacity: 0.5;
+  color: ${colors.title};
 `;

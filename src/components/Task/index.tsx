@@ -51,12 +51,6 @@ const Task: React.FC<TaskProps> = ({
     borderColor: isSelected ? 'transparent' : getColorForPriority(priority),
   };
 
-  const toggleExpansion = () => {
-    if (title.length > 35) {
-      setIsExpanded(!isExpanded);
-    }
-  };
-
   const handlePress = () => {
     if (onPress) {
       onPress();
@@ -70,18 +64,19 @@ const Task: React.FC<TaskProps> = ({
         <CustomCheckBox
           value={isSelected}
           onValueChange={handleSelect}
-          tintColors={{ true: colors.primary.s300, false: colors.grey.s100 }}
+          tintColors={{ 
+            true: colors.primary.s300, 
+            false: colors.grey.s100 }}
         />
           <View style={{ opacity: isSelected ? 1 : 1 }}>
           </View>
           <DateWrapper>
             <Pressable onPress={handlePress}>
             <CardTitle isSelected={isSelected}>
-              {title.length <= 30 ? title : title.substring(0, 30) + '...'}
+              {title.length <= 25 ? title : title.substring(0, 25) + '...'}
             </CardTitle>
             </Pressable>
 
-            {/* Renderiza a data apenas se a tarefa não for para "Hoje" */}
             {formattedDate !== formatDate(new Date()) && (
               <View style={{ flexDirection: 'row' }}>
                 <DateInput>
@@ -89,12 +84,6 @@ const Task: React.FC<TaskProps> = ({
                     {formattedDate}
                   </SelectedDateText>
                 </DateInput>
-
-                {/* <DateInput>
-                  <SelectedDateText isSelected={isSelected}>
-                    {formattedTime}
-                  </SelectedDateText>
-                </DateInput> */}
               </View>
             )}
           </DateWrapper>
