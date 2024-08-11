@@ -1,82 +1,32 @@
-import React, {useEffect, useState} from 'react';
-import {Platform, View, Modal, TouchableWithoutFeedback} from 'react-native';
+import { View, Modal, TouchableWithoutFeedback } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {formatDate} from '../../utils/dateFormat';
 import PrimaryButton from '../../components/PrimaryButton';
-import {useTask} from '../../context/TaskContext';
-import colors from '../../styles/colors';
-import {imgs} from '../../screens/imgs';
-
+import { useNewTaskModal } from './useNewTaskModal';
+import { imgs } from '../../screens/imgs';
+import colors from '@/src/styles/colors';
 import * as S from "./styles";
+import React from 'react';
 
 interface NewTaskModalProps {
   visible: boolean;
   onClose: () => void;
 }
 
-const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
-  const [title, setTitle] = useState('');
-  const [priority, setPriority] = useState<'low' | 'average' | 'high' | null>(
-    'low',
-  );
-
-  const {addTask} = useTask();
-  const [date, setDate] = useState(new Date());
-  const [showPicker, setShowPicker] = useState(false);
-  const [pickerMode, setPickerMode] = useState<'date' | 'time'>('date');
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [isEmpty, setIsEmpty] = useState(false);
-
-  const handlePickerChange = (event: any, selectedDate?: Date) => {
-    setShowPicker(Platform.OS === 'ios');
-    if (selectedDate) {
-      setDate(selectedDate);
-      setSelectedDate(selectedDate);
-    }
-  };
-
-  const currentDate = new Date();
-  
-  const formattedDate =
-    selectedDate && selectedDate.toDateString() !== currentDate.toDateString()
-      ? formatDate(selectedDate)
-      : 'Hoje';
-
-  const minDate = new Date();
-  const maxDate = new Date();
-  
-  maxDate.setDate(maxDate.getDate() + 365);
-
-  const resetForm = () => {
-    setIsEmpty(false);
-    setTitle('');
-    setPriority('low');
-    setDate(new Date());
-    setSelectedDate(null);
-    setIsEmpty(false);
-  };
-
-  const handleSave = () => {
-    if (!title) {
-      setIsEmpty(true);
-      return;
-    }
-    addTask({
-      title,
-      priority,
-      date: selectedDate || new Date(),
-      isSelected: false,
-    });
-    setIsEmpty(true);
-    resetForm();
-    onClose()
-  };
-
-  useEffect(() => {
-    if (!visible) {
-      resetForm();
-    }
-  }, [visible])
+const NewTaskModal: React.FC<NewTaskModalProps> = ({ visible, onClose }) => {
+  const {
+    title,
+    setTitle,
+    priority,
+    date,
+    showPicker,
+    setShowPicker,
+    pickerMode,
+    formattedDate,
+    handlePickerChange,
+    handleSave,
+    isEmpty,
+    setPickerMode
+  } = useNewTaskModal({ visible, onClose });
 
   return (
     <Modal
@@ -94,7 +44,6 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
                   value={title}
                   onChangeText={text => {
                     setTitle(text);
-                    setIsEmpty(false);
                   }}
                   maxLength={320}
                   placeholderTextColor={colors.grey.s100}
@@ -119,8 +68,11 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
                     value={date}
                     mode={pickerMode}
                     is24Hour={true}
-                    minimumDate={minDate}
-                    maximumDate={maxDate}
+                    minimumDate={new Date()}
+                    maximumDate={new Date(
+                      new Date().setFullYear(
+                        new Date().getFullYear() + 1)
+                      )}
                     display="default"
                     onChange={handlePickerChange}
                     locale="pt-BR"
@@ -130,9 +82,9 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
 
               <PrimaryButton 
                 title="Salvar"
-                 onPress={handleSave}
-                 disabled={!title} 
-                />
+                onPress={handleSave}
+                disabled={!title} 
+              />
             </S.ModalContent>
           </TouchableWithoutFeedback>
         </S.ModalContainer>
