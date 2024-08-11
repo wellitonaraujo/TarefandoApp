@@ -1,157 +1,46 @@
-import React, {useEffect, useState} from 'react';
-import {
-  Alert,
-  Animated,
-  Image,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
-import {TaskType} from '../../models/TaskType';
-import {useTask} from '../../context/TaskContext';
-import colors from '../../styles/colors';
-import Task from '../../components/Task';
-import {imgs} from '../imgs';
-
-import * as S from "./styles"
-
-import NewTaskModal from '../../components/NewTaskModal';
-
-import TrashButton from '../../components/TrashButton';
-import AddButton from '../../components/AddButton';
+import { Animated, Pressable, ScrollView } from 'react-native';
+import { useAnimations } from '@/src/hooks/useAnimations';
 import EditTaskModal from '../../components/EditTaskModal';
+import NewTaskModal from '../../components/NewTaskModal';
+import AddButton from '../../components/AddButton';
+import { useModals } from '@/src/hooks/useModals';
+import { useTasks } from '@/src/hooks/useTasks';
+import Task from '../../components/Task';
+import colors from '@/src/styles/colors';
+import { imgs } from '../imgs';
+import * as S from "./styles";
+import React from 'react';
 
 export default function Home() {
-  const { tasks, updateTasks } = useTask();
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [tasksWithSelection, setTasksWithSelection] = useState<TaskType[]>([]);
-  const [animations, setAnimations] = useState<{ [key: number]: Animated.Value }>({});
+  const {
+    tasksWithSelection,
+    todayIconRotation,
+    upcomingIconRotation,
+    pastIconRotation,
+    completedIconRotation,
+    isTodayExpanded,
+    setIsTodayExpanded,
+    isUpcomingExpanded,
+    setIsUpcomingExpanded,
+    isPastExpanded,
+    setIsPastExpanded,
+    isCompletedExpanded,
+    setIsCompletedExpanded,
+    editModalVisible,
+    setEditModalVisible,
+    selectedTask,
+    setSelectedTask,
+    filteredTasks,
+    todayTasks,
+    upcomingTasks,
+    pastTasks,
+    completedTasks,
+    handleSelect,
+    handleDeleteSpecificTask,
+  } = useTasks();
 
-  const [todayIconRotation, setTodayIconRotation] = useState(new Animated.Value(0));
-  const [upcomingIconRotation, setUpcomingIconRotation] = useState(new Animated.Value(0));
-  const [pastIconRotation] = useState(new Animated.Value(1));
-  const [completedIconRotation] = useState(new Animated.Value(1));
-
-  const [isTodayExpanded, setIsTodayExpanded] = useState<boolean>(true);
-  const [isUpcomingExpanded, setIsUpcomingExpanded] = useState<boolean>(true);
-  const [isPastExpanded, setIsPastExpanded] = useState<boolean>(false);
-  const [isCompletedExpanded, setIsCompletedExpanded] = useState<boolean>(false);
-
-  const [editModalVisible, setEditModalVisible] = useState(false);
-  const [selectedTask, setSelectedTask] = useState<TaskType | null>(null);
-
-  const isAnyTaskSelected = tasksWithSelection.some(task => task.isSelected);
-  const isTask = tasksWithSelection.length > 0;
-
-  const filteredTasks = tasksWithSelection.filter(task =>
-    task.title.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
-
-  const toggleModal = () => {
-    setModalVisible(!modalVisible);
-  };
-
-  const handleSearch = (text: string) => {
-    setSearchTerm(text);
-  };
-
-  const handleDeleteTask = () => {
-    const updatedTasks = tasksWithSelection.filter(task => !task.isSelected);
-    const updatedAnimations: { [key: number]: Animated.Value } = {};
-
-    // Atualiza as animações apenas para as tarefas que permanecem
-    updatedTasks.forEach((task, index) => {
-      updatedAnimations[index] = animations[index] || new Animated.Value(0);
-    });
-
-    // Animação para as tarefas que foram excluídas
-    Object.keys(animations).forEach(key => {
-      const index = parseInt(key, 10);
-      if (!updatedAnimations[index]) {
-        Animated.timing(animations[index], {
-          toValue: -10,
-          duration: 500,
-          useNativeDriver: true,
-        }).start();
-      }
-    });
-
-    // Atualiza o estado das tarefas e das animações
-    updateTasks(updatedTasks);
-    setTasksWithSelection(updatedTasks);
-    setAnimations(updatedAnimations);
-  };
-
-  const handleSelect = async (index: number) => {
-    const updatedTasks = [...tasksWithSelection];
-    updatedTasks[index] = {
-      ...updatedTasks[index],
-      isSelected: !updatedTasks[index].isSelected,
-    };
-    setTasksWithSelection(updatedTasks);
-    updateTasks(updatedTasks);
-  };
-
-  useEffect(() => {
-    setTasksWithSelection(tasks);
-  }, [tasks]);
-
-  useEffect(() => {
-    const newAnimations: { [key: number]: Animated.Value } = {};
-    tasksWithSelection.forEach((task, index) => {
-      if (task.isSelected) {
-        newAnimations[index] = new Animated.Value(0);
-      }
-    });
-    setAnimations(newAnimations);
-  }, [tasksWithSelection]);
-
-  // Ordenar as tarefas com base na data
-  const sortedTasks = [...filteredTasks].sort((a, b) => {
-    const dateA = new Date(a.date).getTime();
-    const dateB = new Date(b.date).getTime();
-    return dateA - dateB;
-  });
-
-  // Separar as tarefas em tarefas de hoje, futuras, passadas e concluídas
-  const todayTasks = sortedTasks.filter(task => {
-    const taskDate = new Date(task.date);
-    const currentDate = new Date();
-    return (
-      taskDate.getDate() === currentDate.getDate() &&
-      taskDate.getMonth() === currentDate.getMonth() &&
-      taskDate.getFullYear() === currentDate.getFullYear() &&
-      !task.isSelected
-    );
-  });
-
-  const upcomingTasks = sortedTasks.filter(task => {
-    const taskDate = new Date(task.date);
-    const currentDate = new Date();
-    return (
-      taskDate > currentDate &&
-      (taskDate.getDate() !== currentDate.getDate() ||
-        taskDate.getMonth() !== currentDate.getMonth() ||
-        taskDate.getFullYear() !== currentDate.getFullYear()) &&
-      !task.isSelected
-    );
-  });
-
-  const pastTasks = sortedTasks.filter(task => {
-    const taskDate = new Date(task.date);
-    const currentDate = new Date();
-    return (
-      taskDate < currentDate &&
-      (taskDate.getDate() !== currentDate.getDate() ||
-        taskDate.getMonth() !== currentDate.getMonth() ||
-        taskDate.getFullYear() !== currentDate.getFullYear()) &&
-      !task.isSelected
-    );
-  });
-
-  const completedTasks = sortedTasks.filter(task => task.isSelected);
+  const { animations } = useAnimations(tasksWithSelection);
+  const { modalVisible, toggleModal } = useModals();
 
   const toggleTodaySection = () => {
     setIsTodayExpanded(!isTodayExpanded);
@@ -189,49 +78,15 @@ export default function Home() {
     }).start();
   };
 
-
-  const handleTaskPress = (task: TaskType) => {
-    if (!task.isSelected) {
-      setSelectedTask(task);
-      setEditModalVisible(true);
-    }
+  const openEditModal = (task) => {
+    setSelectedTask(task);
+    setEditModalVisible(true);
   };
 
-  const handleDeleteSpecificTask = (taskToDelete: TaskType) => {
-    const updatedTasks = tasksWithSelection.filter(task => task !== taskToDelete);
-    const updatedAnimations: { [key: number]: Animated.Value } = {};
-  
-    updatedTasks.forEach((task, index) => {
-      updatedAnimations[index] = animations[tasksWithSelection.indexOf(task)] || new Animated.Value(0);
-    });
-  
-    const taskIndex = tasksWithSelection.indexOf(taskToDelete);
-    if (taskIndex !== -1 && animations[taskIndex]) {
-      Animated.timing(animations[taskIndex], {
-        toValue: -10,
-        duration: 500,
-        useNativeDriver: true,
-      }).start(() => {
-        delete animations[taskIndex];
-      });
-    }
-  
-
-    updateTasks(updatedTasks);
-    setTasksWithSelection(updatedTasks);
-    setAnimations(updatedAnimations);
-  };
-  
   return (
     <S.Container>
       <S.HeaderWrapper>
         <S.HeaderTitle>Minhas Tarefas</S.HeaderTitle>
-        {/* <TrashButton
-          rightImageSource={imgs.trash}
-          isTask={isTask}
-          isAnyTaskSelected={isAnyTaskSelected}
-          onDelete={handleDeleteTask}
-        /> */}
       </S.HeaderWrapper>
       <ScrollView showsVerticalScrollIndicator={false}>
         {filteredTasks.length === 0 ? (
@@ -272,12 +127,12 @@ export default function Home() {
                       priority={task.priority}
                       date={new Date(task.date)}
                       handleSelect={() =>
-                        handleSelect(tasks.findIndex(t => t === task))
+                        handleSelect(tasksWithSelection.findIndex(t => t === task))
                       }
                       isSelected={task.isSelected}
-                      onPress={() => handleTaskPress(task)}
+                      onPress={() => openEditModal(task)}
                       onDelete={() => handleDeleteSpecificTask(task)}
-                     dateColor={colors.priority.high}
+                      dateColor={colors.priority.high}
                     />
                   </Animated.View>
                 ))}
@@ -318,10 +173,10 @@ export default function Home() {
                       priority={task.priority}
                       date={new Date(task.date)}
                       handleSelect={() =>
-                        handleSelect(tasks.findIndex(t => t === task))
+                        handleSelect(tasksWithSelection.findIndex(t => t === task))
                       }
                       isSelected={task.isSelected}
-                      onPress={() => handleTaskPress(task)}
+                      onPress={() => openEditModal(task)}
                       onDelete={() => handleDeleteSpecificTask(task)}
                     />
                   </Animated.View>
@@ -363,10 +218,10 @@ export default function Home() {
                       priority={task.priority}
                       date={new Date(task.date)}
                       handleSelect={() =>
-                        handleSelect(tasks.findIndex(t => t === task))
+                        handleSelect(tasksWithSelection.findIndex(t => t === task))
                       }
                       isSelected={task.isSelected}
-                      onPress={() => handleTaskPress(task)}
+                      onPress={() => openEditModal(task)}
                       onDelete={() => handleDeleteSpecificTask(task)}
                     />
                   </Animated.View>
@@ -408,10 +263,10 @@ export default function Home() {
                       priority={task.priority}
                       date={new Date(task.date)}
                       handleSelect={() =>
-                        handleSelect(tasks.findIndex(t => t === task))
+                        handleSelect(tasksWithSelection.findIndex(t => t === task))
                       }
                       isSelected={task.isSelected}
-                      onPress={() => handleTaskPress(task)}
+                      onPress={() => openEditModal(task)}
                       onDelete={() => handleDeleteSpecificTask(task)}
                     />
                   </Animated.View>
@@ -422,14 +277,6 @@ export default function Home() {
         )}
       </ScrollView>
 
-      <NewTaskModal visible={modalVisible} onClose={toggleModal} />
-
-      <EditTaskModal
-        visible={editModalVisible}
-        onClose={() => setEditModalVisible(false)}
-        task={selectedTask}
-      />
-
       <S.ButtonContainer>
         <AddButton
           icon={imgs.plus}
@@ -437,6 +284,13 @@ export default function Home() {
           backgroundColor={colors.priority.average}
         />
       </S.ButtonContainer>
+    
+      <NewTaskModal visible={modalVisible} onClose={toggleModal} />
+      <EditTaskModal
+        visible={editModalVisible}
+        onClose={() => setEditModalVisible(false)}
+        task={selectedTask}
+      />
     </S.Container>
   );
 }
