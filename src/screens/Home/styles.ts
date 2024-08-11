@@ -9,18 +9,17 @@ const {width, height} = Dimensions.get('window');
 export const Container = styled.View`
   flex: 1;
   background-color: ${colors.background};
-  padding: 16px;
+  padding: ${moderateScale(16)}px;
 `;
 
 export const FilterContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 10px;
 `;
 
 export const ButtonContainer = styled.View`
-  bottom: ${height * 0.03}px;
-  right: ${width * 0.05}px;
+  bottom: ${moderateScale(25)}px;
+  right: ${moderateScale(16)}px;
   position: absolute;
 `;
 
@@ -28,7 +27,7 @@ export const HeaderWrapper = styled.View`
   flex-direction: row;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: ${verticalScale(20)}px;
+  margin: ${verticalScale(20)}px 0;
 `;
 
 export const Logo = styled.Image`
@@ -36,7 +35,7 @@ export const Logo = styled.Image`
   width: ${moderateScale(150)}px;
   height: ${moderateScale(150)}px;
   align-self: center;
-  margin-top: ${verticalScale(130)}px;
+  margin-top: ${verticalScale(250)}px;
 `;
 
 export const SeparatorView = styled.View`

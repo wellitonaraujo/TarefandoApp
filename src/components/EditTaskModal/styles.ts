@@ -56,11 +56,11 @@ export const ModalDateInput = styled.Pressable`
   align-items: center;
   text-align: center;
   background-color: ${colors.input.s200};
-  width: ${verticalScale(90)}px;
+  width: ${verticalScale(80)}px;
   height: ${horizontalScale(35)}px;
 `;
 
 export const ModalSelectedDateText = styled.Text`
-  color: ${colors.title};
+  color: ${colors.priority.average};
   font-size: ${moderateScale(13)}px;
 `;

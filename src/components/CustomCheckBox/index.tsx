@@ -1,3 +1,4 @@
+import { imgs } from "@/src/screens/imgs";
 import * as S from "./styles"
 
 interface CustomCheckBoxProps {
@@ -12,7 +13,7 @@ const CustomCheckBox: React.FC<CustomCheckBoxProps> = ({ value, onValueChange })
       onPress={() => onValueChange(!value)}
       value={value}
     >
-      {value && <S.Checkmark />}
+      {value && <S.Checkmark source={imgs.check} />}
     </S.StyledTouchableOpacity>
   );
 };

@@ -1,20 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Platform, View, Modal, TouchableWithoutFeedback} from 'react-native';
-import {
-  ModalContainer,
-  ModalContent,
-  ModalDateInput,
-  ModalDateWrapper,
-  ModalIcon,
-  ModalSelectedDateText,
-  ModalTextInputTitle,
-} from './styles';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {formatDate, formatTime} from '../../utils/dateFormat';
+import {formatDate} from '../../utils/dateFormat';
 import PrimaryButton from '../../components/PrimaryButton';
 import {useTask} from '../../context/TaskContext';
 import colors from '../../styles/colors';
 import {imgs} from '../../screens/imgs';
+
+import * as S from "./styles";
 
 interface NewTaskModalProps {
   visible: boolean;
@@ -23,7 +16,6 @@ interface NewTaskModalProps {
 
 const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
   const [priority, setPriority] = useState<'low' | 'average' | 'high' | null>(
     'low',
   );
@@ -55,21 +47,13 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
   
   maxDate.setDate(maxDate.getDate() + 365);
 
-  const handlePressPriority = (
-    selectedPriority: 'low' | 'average' | 'high' | null,
-  ) => {
-    if (selectedPriority !== null) {
-      setPriority(selectedPriority);
-    }
-  };
-
   const resetForm = () => {
     setIsEmpty(false);
     setTitle('');
     setPriority('low');
     setDate(new Date());
     setSelectedDate(null);
-
+    setIsEmpty(false);
   };
 
   const handleSave = () => {
@@ -79,7 +63,6 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
     }
     addTask({
       title,
-      description,
       priority,
       date: selectedDate || new Date(),
       isSelected: false,
@@ -89,6 +72,12 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
     onClose()
   };
 
+  useEffect(() => {
+    if (!visible) {
+      resetForm();
+    }
+  }, [visible])
+
   return (
     <Modal
       visible={visible}
@@ -96,11 +85,11 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
       animationType="slide"
       onRequestClose={onClose}>
       <TouchableWithoutFeedback onPress={onClose}>
-        <ModalContainer>
+        <S.ModalContainer>
           <TouchableWithoutFeedback onPress={() => {}}>
-            <ModalContent>
+            <S.ModalContent>
               <View>
-                <ModalTextInputTitle
+                <S.ModalTextInputTitle
                   placeholder="Insira sua nova tarefa"
                   value={title}
                   onChangeText={text => {
@@ -115,26 +104,15 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
                   textAlignVertical="top"
                 />
               </View>
-              <ModalDateWrapper>
-                {/* <PrioritySelector
-                  key={priority}
-                  onPressPriority={handlePressPriority}
-                  priority={priority}
-                  priorities={[
-                    {type: 'low', color: '#...', label: 'Low'},
-                    {type: 'average', color: '#...', label: 'Average'},
-                    {type: 'high', color: '#...', label: 'High'},
-                  ]}
-                /> */}
-
-                <ModalDateInput
+              <S.ModalDateWrapper>
+                <S.ModalDateInput
                   onPress={() => {
                     setShowPicker(true);
                     setPickerMode('date');
                   }}>
-                  <ModalIcon source={imgs.calender} />
-                  <ModalSelectedDateText>{formattedDate}</ModalSelectedDateText>
-                </ModalDateInput>
+                  <S.ModalIcon source={imgs.calender} />
+                  <S.ModalSelectedDateText>{formattedDate}</S.ModalSelectedDateText>
+                </S.ModalDateInput>
 
                 {showPicker && (
                   <DateTimePicker
@@ -148,16 +126,16 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({visible, onClose}) => {
                     locale="pt-BR"
                   />
                 )}
-              </ModalDateWrapper>
+              </S.ModalDateWrapper>
 
               <PrimaryButton 
                 title="Salvar"
                  onPress={handleSave}
                  disabled={!title} 
                 />
-            </ModalContent>
+            </S.ModalContent>
           </TouchableWithoutFeedback>
-        </ModalContainer>
+        </S.ModalContainer>
       </TouchableWithoutFeedback>
     </Modal>
   );

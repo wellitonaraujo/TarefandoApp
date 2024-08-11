@@ -18,7 +18,7 @@ const AddButton: React.FC<AddButtonProps> = ({
   return (
     <Animatable.View animation="pulse" iterationCount={Infinity}>
       <CreateTask onPress={onPress} backgroundColor={backgroundColor}>
-        <Icon source={icon} tintColor={colors.title}/>
+        <Icon source={icon} tintColor={colors.white}/>
       </CreateTask>
     </Animatable.View>
   );

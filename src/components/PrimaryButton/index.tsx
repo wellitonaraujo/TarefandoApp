@@ -9,7 +9,7 @@ interface ButtonProps extends TouchableOpacityProps {
 
 const PrimaryButton: React.FC<ButtonProps> = ({title,disabled, ...props}) => {
   return (
-    <ButtonContainer disabled={disabled} style={{opacity: disabled ? 0.5 : 1}} {...props}>
+    <ButtonContainer disabled={disabled} style={{opacity: disabled ? 0.3 : 1}} {...props}>
       <ButtonText>{title}</ButtonText>
     </ButtonContainer>
   );

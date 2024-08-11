@@ -12,4 +12,5 @@ export const imgs = {
   close: require('../assets/icons/close.png'),
   arrowbottom: require('../assets/icons/arrowbottom.png'),
   delete: require('../assets/icons/deleteicon.png'),
+  check: require('../assets/icons/check.png'),
 };

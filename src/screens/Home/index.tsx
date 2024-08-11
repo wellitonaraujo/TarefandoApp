@@ -201,12 +201,10 @@ export default function Home() {
     const updatedTasks = tasksWithSelection.filter(task => task !== taskToDelete);
     const updatedAnimations: { [key: number]: Animated.Value } = {};
   
-    // Atualiza as animações apenas para as tarefas que permanecem
     updatedTasks.forEach((task, index) => {
       updatedAnimations[index] = animations[tasksWithSelection.indexOf(task)] || new Animated.Value(0);
     });
   
-    // Animação para as tarefas que foram excluídas
     const taskIndex = tasksWithSelection.indexOf(taskToDelete);
     if (taskIndex !== -1 && animations[taskIndex]) {
       Animated.timing(animations[taskIndex], {
@@ -214,12 +212,11 @@ export default function Home() {
         duration: 500,
         useNativeDriver: true,
       }).start(() => {
-        // Após a animação terminar, remova a animação da tarefa excluída
         delete animations[taskIndex];
       });
     }
   
-    // Atualiza o estado das tarefas e das animações
+
     updateTasks(updatedTasks);
     setTasksWithSelection(updatedTasks);
     setAnimations(updatedAnimations);
@@ -229,12 +226,12 @@ export default function Home() {
     <S.Container>
       <S.HeaderWrapper>
         <S.HeaderTitle>Minhas Tarefas</S.HeaderTitle>
-        <TrashButton
+        {/* <TrashButton
           rightImageSource={imgs.trash}
           isTask={isTask}
           isAnyTaskSelected={isAnyTaskSelected}
           onDelete={handleDeleteTask}
-        />
+        /> */}
       </S.HeaderWrapper>
       <ScrollView showsVerticalScrollIndicator={false}>
         {filteredTasks.length === 0 ? (

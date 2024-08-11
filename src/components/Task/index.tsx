@@ -1,21 +1,9 @@
-import {
-  SelectedDateText,
-  DateWrapper,
-  CardContainer,
-  CardRow,
-  CardTitle,
-  DateInput,
-  Icon,
-  TaskContainer,
-} from './styles';
 
-import {getColorForPriority} from '../../utils/getColorForPriority';
-import {formatDate, formatTime} from '../../utils/dateFormat';
-import colors from '../../styles/colors';
-import {Image, Pressable, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import { Pressable, TouchableOpacity, View} from 'react-native';
 import CustomCheckBox from '../CustomCheckBox';
-import { imgs } from '../../screens/imgs';
+import {imgs} from '../../screens/imgs';;
+import {useTask} from './useTask';
+import * as S from './styles';
 
 interface TaskProps {
   title: string;
@@ -26,7 +14,7 @@ interface TaskProps {
   isSelected: boolean;
   onPress?: () => void;
   onDelete: () => void;
-  dateColor?: string; 
+  dateColor?: string;
 }
 
 const Task: React.FC<TaskProps> = ({
@@ -37,62 +25,59 @@ const Task: React.FC<TaskProps> = ({
   isSelected,
   onPress,
   onDelete,
-  dateColor = colors.grey.s100
+  dateColor,
 }) => {
-  const formattedDate = formatDate(date);
-  const maxDate = new Date();
+  const {
+    formattedDate,
+    taskStyle,
+    handlePress,
+    showFormattedDate,
+  } = useTask({
+    title,
+    priority,
+    date,
+    isSelected,
+    dateColor,
+    onPress,
+  });
 
-  maxDate.setDate(maxDate.getDate() + 365);
-
-  const taskStyle = {
-    opacity: isSelected ? 0.3 : 1,
-    borderColor: isSelected ? 'transparent' : getColorForPriority(priority),
-  };
-
-  const handlePress = () => {
-    if (onPress) {
-      onPress();
-    }
-  };
-
-  return  (
+  return (
     <Pressable onPress={handlePress}>
-      <TaskContainer>
-      <CustomCheckBox
-          value={isSelected}
-          onValueChange={handleSelect}
-          tintColors={{ 
-            true: colors.priority.average, 
-            false: colors.grey.s100 }}
-        />
-        <CardContainer style={[taskStyle]}>
-       
-          <View style={{ opacity: isSelected ? 1 : 1 }}>
-          </View>
-          <DateWrapper>
+      <S.TaskContainer>
+        <S.CardContainer>
+          <CustomCheckBox 
+            value={isSelected} 
+            onValueChange={handleSelect} 
+          />
+          <S.DateWrapper style={[taskStyle]}>
             <Pressable onPress={handlePress}>
-            <CardTitle isSelected={isSelected}>
-              {title.length <= 25 ? title : title.substring(0, 25) + '...'}
-            </CardTitle>
+              <S.CardTitle isSelected={isSelected}>
+                {
+                  title.length <= 25 
+                  ? title 
+                  : title.substring(0, 27) + '...'
+                }
+              </S.CardTitle>
             </Pressable>
 
-            {formattedDate !== formatDate(new Date()) && (
-              <View style={{ flexDirection: 'row' }}>
-                <DateInput>
-                  <SelectedDateText style={{ color: dateColor }} isSelected={isSelected}>
+            {showFormattedDate && (
+              <S.DateRow>
+                <S.DateInput>
+                  <S.SelectedDateText 
+                    style={{color: dateColor}} 
+                    isSelected={isSelected}
+                  >
                     {formattedDate}
-                  </SelectedDateText>
-                </DateInput>
-              </View>
+                  </S.SelectedDateText>
+                </S.DateInput>
+              </S.DateRow>
             )}
-          </DateWrapper>
-        </CardContainer>
-   
+          </S.DateWrapper>
+        </S.CardContainer>
         <TouchableOpacity onPress={onDelete}>
-            <Icon source={imgs.delete}/>
+          <S.Icon source={imgs.delete} />
         </TouchableOpacity>
-
-      </TaskContainer>
+      </S.TaskContainer>
     </Pressable>
   );
 };
