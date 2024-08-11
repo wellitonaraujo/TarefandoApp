@@ -21,10 +21,10 @@ export const CardContainer = styled.View<CardContainerProps>`
   justify-content: flex-start;
   align-items: center;
   border-left-width: ${horizontalScale(2)}px;
+  border-left-color: ${colors.priority.average};
   width: 100%;
   height: ${verticalScale(45)}px;
   transition: max-height 0.3s ease;
-
 `;
 
 export const CardTitle = styled.Text<{
@@ -40,7 +40,6 @@ export const CardTitle = styled.Text<{
 export const CardRow = styled.View`
   flex-direction: row;
   align-items: center;
-  
 `;
 
 export const DateWrapper = styled.View`
@@ -49,8 +48,11 @@ export const DateWrapper = styled.View`
   margin-left: ${moderateScale(10)}px;
 `;
 
+export const DateRow = styled.View`
+  flex-direction: row;
+`;
+
 export const DateInput = styled.Pressable`
- 
 `;
 
 export const SelectedDateText = styled.Text<{isSelected: boolean}>`

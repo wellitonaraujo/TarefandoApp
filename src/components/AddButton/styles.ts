@@ -7,10 +7,10 @@ interface CreateTaskProps {
 }
 
 export const CreateTask = styled.TouchableOpacity<CreateTaskProps>`
-  width: ${moderateScale(60)}px;
-  height: ${moderateScale(60)}px;
+  width: ${moderateScale(55)}px;
+  height: ${moderateScale(55)}px;
   background-color: ${props => props.backgroundColor};
-  border-radius: ${moderateScale(60)}px;
+  border-radius: ${moderateScale(55)}px;
   justify-content: center;
   align-items: center;
 `;

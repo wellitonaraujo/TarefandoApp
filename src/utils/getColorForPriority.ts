@@ -1,4 +1,4 @@
-export const getColorForPriority = (priority: 'low' | 'average' | 'high') => {
+export const getColorForPriority = (priority: 'low' | 'average' | 'high' | null) => {
   switch (priority) {
     case 'low':
       return '#33B9A5';
