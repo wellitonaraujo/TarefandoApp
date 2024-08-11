@@ -10,7 +10,7 @@ import React from 'react';
 interface EditTaskModalProps {
   visible: boolean;
   onClose: () => void;
-  task: TaskType;
+  task: TaskType | null;
 }
 
 const EditTaskModal: React.FC<EditTaskModalProps> = ({

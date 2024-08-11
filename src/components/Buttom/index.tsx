@@ -1,7 +1,6 @@
-// src/components/Button/index.tsx
-import React from 'react';
 import { TouchableOpacityProps } from 'react-native';
 import * as S from './styles';
+import React from 'react';
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
@@ -9,10 +8,21 @@ interface ButtonProps extends TouchableOpacityProps {
   disabled?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ title, variant = 'primary', disabled, ...props }) => {
+const Button: React.FC<ButtonProps> = ({ 
+  title, 
+  variant = 'primary', 
+  disabled, 
+  ...props 
+}) => {
   return (
-    <S.ButtonContainer variant={variant} disabled={disabled} style={{ opacity: disabled ? 0.3 : 1 }} {...props}>
-      <S.ButtonText>{title}</S.ButtonText>
+    <S.ButtonContainer 
+      variant={variant} 
+      disabled={disabled}
+      style={{ opacity: disabled ? 0.3 : 1 }} 
+       {...props}>
+      <S.ButtonText>
+        {title}
+      </S.ButtonText>
     </S.ButtonContainer>
   );
 };

@@ -1,5 +1,6 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { imgs } from '@/src/screens/imgs';
+import colors from '@/src/styles/colors';
 import * as S from './styles';
 
 interface DatePickerProps {
@@ -31,7 +32,10 @@ interface DatePickerProps {
           setShowPicker(true);
           setPickerMode('date');
         }}>
-        <S.ModalIcon source={imgs.calender} />
+        <S.ModalIcon 
+          source={imgs.calender} 
+          tintColor={colors.priority.average}
+        />
         <S.ModalSelectedDateText>{formattedDate}</S.ModalSelectedDateText>
       </S.ModalDateInput>
       {showPicker && (
@@ -49,5 +53,4 @@ interface DatePickerProps {
     </S.ModalDateWrapper>
   );
   
-
   export default DatePicker;

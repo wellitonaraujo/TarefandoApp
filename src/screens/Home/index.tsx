@@ -4,6 +4,7 @@ import EditTaskModal from '../../components/EditTaskModal';
 import NewTaskModal from '../../components/NewTaskModal';
 import AddButton from '../../components/AddButton';
 import { useModals } from '@/src/hooks/useModals';
+import { TaskType } from '@/src/models/TaskType';
 import { useTasks } from '@/src/hooks/useTasks';
 import Task from '../../components/Task';
 import colors from '@/src/styles/colors';
@@ -78,7 +79,7 @@ export default function Home() {
     }).start();
   };
 
-  const openEditModal = (task) => {
+  const openEditModal = (task: TaskType) => {
     setSelectedTask(task);
     setEditModalVisible(true);
   };
@@ -123,7 +124,6 @@ export default function Home() {
                   >
                     <Task
                       title={task.title}
-                      description={task.description}
                       priority={task.priority}
                       date={new Date(task.date)}
                       handleSelect={() =>
@@ -169,7 +169,6 @@ export default function Home() {
                   >
                     <Task
                       title={task.title}
-                      description={task.description}
                       priority={task.priority}
                       date={new Date(task.date)}
                       handleSelect={() =>
@@ -214,7 +213,6 @@ export default function Home() {
                   >
                     <Task
                       title={task.title}
-                      description={task.description}
                       priority={task.priority}
                       date={new Date(task.date)}
                       handleSelect={() =>
@@ -259,7 +257,6 @@ export default function Home() {
                   >
                     <Task
                       title={task.title}
-                      description={task.description}
                       priority={task.priority}
                       date={new Date(task.date)}
                       handleSelect={() =>

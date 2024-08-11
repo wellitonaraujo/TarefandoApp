@@ -4,7 +4,7 @@ import {TaskType} from '../../models/TaskType';
 import {Platform} from 'react-native';
 
 interface UseEditTaskModalProps {
-  task: TaskType;
+  task: TaskType | null;
   visible: boolean;
   onClose: () => void;
 }
@@ -45,10 +45,12 @@ const [priority, setPriority] = useState<'low' | 'average' | 'high' | null>(
       setIsEmpty(true);
       return;
     }
-    const priorityToSave = priority || 'low';
-    task.title = title;
-    task.priority = priorityToSave;
-    task.date = selectedDate || new Date();
+    if (task) {
+      const priorityToSave = priority || 'low';
+      task.title = title;
+      task.priority = priorityToSave;
+      task.date = selectedDate || new Date();
+    }
     onClose();
   }, [title, priority, selectedDate, task, onClose]);
 
@@ -88,6 +90,7 @@ const [priority, setPriority] = useState<'low' | 'average' | 'high' | null>(
     date.setDate(date.getDate() + 365);
     return date;
   }, []);
+  
 
   return {
     title,

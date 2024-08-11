@@ -5,7 +5,7 @@ import colors from '../../styles/colors';
 
 interface UseTaskProps {
   title: string;
-  priority: 'low' | 'average' | 'high';
+  priority: 'low' | 'average' | 'high' | null;
   date: Date;
   isSelected: boolean;
   dateColor?: string;

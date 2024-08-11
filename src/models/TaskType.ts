@@ -1,7 +1,6 @@
 export interface TaskType {
   title: string;
-  description: string;
-  priority: 'low' | 'average' | 'high';
+  priority: 'low' | 'average' | 'high' | null; 
   date: Date;
   isSelected: boolean;
 }

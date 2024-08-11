@@ -6,8 +6,8 @@ import * as S from './styles';
 
 interface TaskProps {
   title: string;
-  description: string;
-  priority: 'low' | 'average' | 'high';
+
+  priority: 'low' | 'average' | 'high' | null;
   date: Date;
   handleSelect: () => Promise<void>;
   isSelected: boolean;
@@ -63,7 +63,6 @@ const Task: React.FC<TaskProps> = ({
               <S.DateRow>
                 <S.DateInput>
                   <S.SelectedDateText 
-                    style={{color: dateColor}} 
                     isSelected={isSelected}
                   >
                     {formattedDate}
