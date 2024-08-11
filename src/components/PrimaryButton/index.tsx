@@ -1,6 +1,5 @@
-import {ButtonContainer, ButtonText} from './styles';
 import {TouchableOpacityProps} from 'react-native';
-import React from 'react';
+import * as S from './styles';
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
@@ -9,9 +8,12 @@ interface ButtonProps extends TouchableOpacityProps {
 
 const PrimaryButton: React.FC<ButtonProps> = ({title,disabled, ...props}) => {
   return (
-    <ButtonContainer disabled={disabled} style={{opacity: disabled ? 0.3 : 1}} {...props}>
-      <ButtonText>{title}</ButtonText>
-    </ButtonContainer>
+    <S.ButtonContainer 
+      disabled={disabled} 
+      style={{opacity: disabled ? 0.3 : 1}} 
+      {...props}>
+      <S.ButtonText>{title}</S.ButtonText>
+    </S.ButtonContainer>
   );
 };
 

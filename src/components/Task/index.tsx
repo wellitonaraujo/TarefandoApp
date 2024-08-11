@@ -1,5 +1,5 @@
 
-import { Pressable, TouchableOpacity, View} from 'react-native';
+import { Pressable, TouchableOpacity } from 'react-native';
 import CustomCheckBox from '../CustomCheckBox';
 import {imgs} from '../../screens/imgs';;
 import {useTask} from './useTask';

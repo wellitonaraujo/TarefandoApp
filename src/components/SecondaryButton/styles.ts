@@ -1,7 +1,7 @@
+import { moderateScale, verticalScale } from '@/src/utils/metrics';
 import styled from 'styled-components/native';
 import {TouchableOpacity} from 'react-native';
 import colors from '../../styles/colors';
-import { moderateScale, verticalScale } from '@/src/utils/metrics';
 
 export const ButtonContainer = styled(TouchableOpacity)`
   justify-content: center;
