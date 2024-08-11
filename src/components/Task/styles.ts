@@ -15,7 +15,7 @@ export const CardContainer = styled.View<CardContainerProps>`
   flex: 1;
   background-color: ${colors.grey.s300};
   border-radius: ${moderateScale(12)}px;;
-  padding: 0 ${horizontalScale(5)}px;
+  padding: ${verticalScale(10)}px ${horizontalScale(5)}px;
   margin:  ${verticalScale(5)}px  0;
   flex-direction: row;
   justify-content: flex-start;

@@ -52,7 +52,7 @@ const Task: React.FC<TaskProps> = ({
             <Pressable onPress={handlePress}>
               <S.CardTitle isSelected={isSelected}>
                 {
-                  title.length <= 25 
+                  title.length <= 26
                   ? title 
                   : title.substring(0, 27) + '...'
                 }
