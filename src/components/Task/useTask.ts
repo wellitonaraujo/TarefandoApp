@@ -21,7 +21,7 @@ export const useTask = ({
 }: UseTaskProps) => {
   const formattedDate = useMemo(() => formatDate(date), [date]);
   const taskStyle = useMemo(() => ({
-    opacity: isSelected ? 0.2 : 1,
+    opacity: isSelected ? 0.3 : 1,
     borderColor: isSelected ? 'transparent' : getColorForPriority(priority),
   }), [isSelected, priority]);
 

@@ -1,9 +1,8 @@
 import { View, Modal, TouchableWithoutFeedback } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import PrimaryButton from '../../components/PrimaryButton';
 import { useNewTaskModal } from './useNewTaskModal';
-import { imgs } from '../../screens/imgs';
-import colors from '@/src/styles/colors';
+import DatePicker from '../DatePicker';
+import TitleInput from '../TitleInput';
+import Button from '../Buttom';
 import * as S from "./styles";
 import React from 'react';
 
@@ -12,11 +11,13 @@ interface NewTaskModalProps {
   onClose: () => void;
 }
 
-const NewTaskModal: React.FC<NewTaskModalProps> = ({ visible, onClose }) => {
+const NewTaskModal: React.FC<NewTaskModalProps> = ({ 
+  visible,
+  onClose 
+}) => {
   const {
     title,
     setTitle,
-    priority,
     date,
     showPicker,
     setShowPicker,
@@ -25,6 +26,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({ visible, onClose }) => {
     handlePickerChange,
     handleSave,
     isEmpty,
+    setIsEmpty,
     setPickerMode
   } = useNewTaskModal({ visible, onClose });
 
@@ -39,48 +41,30 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({ visible, onClose }) => {
           <TouchableWithoutFeedback onPress={() => {}}>
             <S.ModalContent>
               <View>
-                <S.ModalTextInputTitle
-                  placeholder="Insira sua nova tarefa"
-                  value={title}
-                  onChangeText={text => {
-                    setTitle(text);
-                  }}
-                  maxLength={320}
-                  placeholderTextColor={colors.grey.s100}
+                <TitleInput
+                  title={title}
+                  setTitle={setTitle}
                   isEmpty={isEmpty}
-                  multiline
-                  numberOfLines={6}
-                  textAlignVertical="top"
+                  setIsEmpty={setIsEmpty}
                 />
               </View>
-              <S.ModalDateWrapper>
-                <S.ModalDateInput
-                  onPress={() => {
-                    setShowPicker(true);
-                    setPickerMode('date');
-                  }}>
-                  <S.ModalIcon source={imgs.calender} />
-                  <S.ModalSelectedDateText>{formattedDate}</S.ModalSelectedDateText>
-                </S.ModalDateInput>
-
-                {showPicker && (
-                  <DateTimePicker
-                    value={date}
-                    mode={pickerMode}
-                    is24Hour={true}
-                    minimumDate={new Date()}
-                    maximumDate={new Date(
-                      new Date().setFullYear(
-                        new Date().getFullYear() + 1)
-                      )}
-                    display="default"
-                    onChange={handlePickerChange}
-                    locale="pt-BR"
-                  />
-                )}
-              </S.ModalDateWrapper>
-
-              <PrimaryButton 
+              <DatePicker
+                date={date}
+                showPicker={showPicker}
+                pickerMode={pickerMode}
+                setShowPicker={setShowPicker}
+                setPickerMode={setPickerMode}
+                minDate={new Date()} 
+                maxDate={
+                  new Date(
+                  new Date().setFullYear(
+                  new Date().getFullYear() + 1
+                ))}
+                handlePickerChange={handlePickerChange}
+                formattedDate={formattedDate}
+              />
+              
+              <Button
                 title="Salvar"
                 onPress={handleSave}
                 disabled={!title} 

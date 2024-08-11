@@ -1,6 +1,6 @@
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { imgs } from '@/src/screens/imgs';
 import * as S from './styles';
-import DateTimePicker from '@react-native-community/datetimepicker';
 
 interface DatePickerProps {
     date: Date;
