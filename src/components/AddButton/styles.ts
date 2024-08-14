@@ -1,4 +1,4 @@
-import { horizontalScale, moderateScale, verticalScale } from '@/src/utils/metrics';
+import { moderateScale } from '@/src/utils/metrics';
 import styled from 'styled-components/native';
 import {Image} from 'react-native';
 

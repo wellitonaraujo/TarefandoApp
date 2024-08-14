@@ -1,7 +1,6 @@
-// src/components/ButtonGroup/index.tsx
-import React from 'react';
-import * as S from './styles';
 import Button from '../Buttom';
+import * as S from './styles';
+import React from 'react';
 
 interface ButtonGroupProps {
   handleSave: () => void;
@@ -9,7 +8,11 @@ interface ButtonGroupProps {
   title: string;
 }
 
-const ButtonGroup: React.FC<ButtonGroupProps> = ({ handleSave, handleCancel, title }) => (
+const ButtonGroup: React.FC<ButtonGroupProps> = ({ 
+  handleSave, 
+  handleCancel, 
+  title 
+}) => (
   <S.ButtonWrapper>
     <Button
       title="Salvar alterações"

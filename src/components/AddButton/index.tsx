@@ -1,6 +1,6 @@
 import * as Animatable from 'react-native-animatable';
 import {ImageSourcePropType} from 'react-native';
-import colors from '../../styles/colors';;
+import colors from '../../styles/colors';
 import * as S from './styles';
 
 interface AddButtonProps {
@@ -22,6 +22,7 @@ const AddButton: React.FC<AddButtonProps> = ({
       <S.CreateTask 
         onPress={onPress} 
         backgroundColor={backgroundColor}
+        testID="create-task-button"
       >
         <S.Icon 
           source={icon} 

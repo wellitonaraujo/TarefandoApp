@@ -16,6 +16,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <S.ButtonContainer 
+      testID='button'
       variant={variant} 
       disabled={disabled}
       style={{ opacity: disabled ? 0.3 : 1 }} 
