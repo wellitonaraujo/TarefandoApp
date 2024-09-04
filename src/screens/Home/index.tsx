@@ -1,11 +1,11 @@
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
-import React, { useEffect, useState } from 'react';
 import AddButton from '@/src/components/AddButton';
 import CalendarS from '@/src/components/Calendar';
 import TaskCard from '@/src/components/TaskCard';
+import colors from '@/src/styles/colors';
+import React, { useState } from 'react';
 import { tasks } from './tasksmock';
 import { imgs } from '../imgs';
-import colors from '@/src/styles/colors';
 
 const getCurrentDate = () => {
   const today = new Date();
@@ -18,6 +18,13 @@ const getCurrentDate = () => {
 const Home = () => {
   const [selectedDate, setSelectedDate] = useState(getCurrentDate());
   const filteredTasks = tasks.filter(task => task.date === selectedDate);
+  const incompleteTasksCount = filteredTasks.filter(task => !task.completed).length;
+  
+  const taskText = incompleteTasksCount === 0 
+    ? "nenhuma tarefa"
+    : `${incompleteTasksCount} tarefa${incompleteTasksCount > 1 ? 's' : ''}`;
+
+  const isToday = selectedDate === getCurrentDate();
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -28,7 +35,7 @@ const Home = () => {
       <View style={styles.taskContainer}>
         <View style={styles.taskHeader}>
           <Text style={styles.title}>
-            Você possui {filteredTasks.length} tarefa(s) <Text style={styles.highlight}>hoje</Text>
+            Você possui {taskText} {isToday && <Text style={styles.highlight}>hoje</Text>}
           </Text>
           <AddButton
             icon={imgs.plus}
@@ -50,7 +57,6 @@ const Home = () => {
     </ScrollView>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {

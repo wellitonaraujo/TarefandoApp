@@ -3,14 +3,14 @@ export const tasks = [
     id: '1',
     description: 'Elaborar os relatórios das vendas do dia para apresentar para o cliente.',
     time: '10:45-11:00',
-    date: '2024-09-03', //Dot azul
+    date: '2024-09-03',
     completed: true, 
   },
   {
     id: '2',
     description: 'Compras do mês',
     time: '11:00-12:00',
-    date: '2024-09-03', // dia 03 será passasa de precisa ter o dot vermelho
+    date: '2024-09-03',
     completed: false,
   },
   {
