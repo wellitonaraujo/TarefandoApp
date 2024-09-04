@@ -1,5 +1,4 @@
-import { ExpandableCalendar, CalendarProvider } from 'react-native-calendars';
-import { LocaleConfig } from "react-native-calendars";
+import { ExpandableCalendar, CalendarProvider, LocaleConfig } from 'react-native-calendars';
 import { tasks } from '@/src/screens/Home/tasksmock';
 import React, { useEffect, useState } from 'react';
 import colors from '@/src/styles/colors';

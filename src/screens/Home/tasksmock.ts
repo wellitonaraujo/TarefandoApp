@@ -11,7 +11,7 @@ export const tasks = [
     description: 'Compras do mês',
     time: '11:00-12:00',
     date: '2024-09-03',
-    completed: false,
+    completed: true,
   },
   {
     id: '3',
@@ -54,5 +54,26 @@ export const tasks = [
     time: '08:00-08:15',
     date: '2024-09-02',  // Passadas
     completed: true,  // Não ccompletada 
+  },
+  {
+    id: '9',
+    description: 'Reunião com a equipe de Televendas',
+    time: '14:00-15:00',
+    date: '2024-09-04',
+    completed: false,
+  },
+  {
+    id: '10',
+    description: 'Reunião com a equipe de UI-UX',
+    time: '15:00-16:00',
+    date: '2024-09-04',
+    completed: false,
+  },
+  {
+    id: '11',
+    description: 'Reunião com a equipe de QA',
+    time: '16:00-17:00',
+    date: '2024-09-04',
+    completed: false,
   },
 ];

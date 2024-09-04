@@ -2,6 +2,7 @@ import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import AddButton from '@/src/components/AddButton';
 import CalendarS from '@/src/components/Calendar';
 import TaskCard from '@/src/components/TaskCard';
+import CustomCheckBox from '@/src/components/CustomCheckBox'; // Certifique-se de importar o CustomCheckBox
 import colors from '@/src/styles/colors';
 import React, { useState } from 'react';
 import { tasks } from './tasksmock';
@@ -17,14 +18,32 @@ const getCurrentDate = () => {
 
 const Home = () => {
   const [selectedDate, setSelectedDate] = useState(getCurrentDate());
+  const [taskCompletion, setTaskCompletion] = useState<{ [key: string]: boolean }>(
+    tasks.reduce((acc, task) => ({ ...acc, [task.id]: task.completed }), {})
+  );
+
   const filteredTasks = tasks.filter(task => task.date === selectedDate);
-  const incompleteTasksCount = filteredTasks.filter(task => !task.completed).length;
-  
+  const incompleteTasksCount = filteredTasks.filter(task => !taskCompletion[task.id]).length;
+
   const taskText = incompleteTasksCount === 0 
     ? "nenhuma tarefa"
     : `${incompleteTasksCount} tarefa${incompleteTasksCount > 1 ? 's' : ''}`;
 
   const isToday = selectedDate === getCurrentDate();
+
+  const handleCheckBoxChange = (taskId: string) => {
+    setTaskCompletion(prevState => ({
+      ...prevState,
+      [taskId]: !prevState[taskId],
+    }));
+  };
+
+  const handleToggleComplete = (taskId: string) => {
+    setTaskCompletion(prevState => ({
+      ...prevState,
+      [taskId]: !prevState[taskId],
+    }));
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -45,13 +64,21 @@ const Home = () => {
         </View>
 
         {filteredTasks.map(task => (
-          <TaskCard
-            key={task.id}
-            description={task.description}
-            time={task.time}
-            completed={task.completed}
-            onPress={() => console.log(`Task ${task.id} pressed`)}
-          />
+          <View key={task.id} style={styles.taskRow}>
+            <CustomCheckBox
+              value={taskCompletion[task.id]}
+              onValueChange={() => handleCheckBoxChange(task.id)}
+            />
+            <View style={styles.taskCardContainer}>
+              <TaskCard
+                description={task.description}
+                time={task.time}
+                completed={taskCompletion[task.id]}
+                onPress={() => console.log(`Task ${task.id} pressed`)}
+                onToggleComplete={() => handleToggleComplete(task.id)}
+              />
+            </View>
+          </View>
         ))}
       </View>
     </ScrollView>
@@ -62,10 +89,10 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: colors.background,
+
   },
   taskContainer: {
     padding: 16,
-    borderRadius: 30,
   },
   taskHeader: {
     flexDirection: 'row',
@@ -77,50 +104,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: colors.white,
-    justifyContent:'center',
-
   },
-  taskCard: {
-    backgroundColor: colors.card,
-    borderRadius: 10,
-    padding: 15,
+  taskRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 15,
-    shadowColor: '#21242D',
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 5,
   },
-  taskCardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  taskDescription: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: colors.white,
-    flex: 1, 
-  },
-  ellipsisIcon: {
-    width: 20,
-    height: 20,
-    tintColor: '#706F6F',
-    marginLeft: 10,
-  },
-  taskInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  taskTime: {
-    fontSize: 12,
-    color: '#706F6F',
-    marginLeft: 5,
-  },
-  icon: {
-    width: 15,
-    height: 15,
-    tintColor: '#706F6F',
+  taskCardContainer: {
+    flex: 1,
+    marginLeft: 16,
   },
   highlight: {
     color: '#3075FF',
