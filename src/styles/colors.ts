@@ -1,38 +1,19 @@
 const colors = {
-  background: '#121212',
+  background: '#121317',
 
   title: '#D9D9D9',
 
+  white: '#D9D9D9',
 
-  white: '#FFFFFF',
+  card: '#21242D',
 
-  primary: {
-    s300: '#FF5701',
-  },
+  primary: '#3075FF',
+  
   grey: {
     s400: '#1F242F',
     s300: '#2A2B2B',
-    s200: '#333333',
+    s200: '#706F6F',
     s100: '#888888',
-  },
-  success: {
-    s300: '#',
-    s200: '#',
-    s100: '#',
-  },
-  input: {
-    s200: '#1D1E1E',
-    s100: '#202020',
-  },
-  priority: {
-    high: '#C30000',
-    average: '#33B9A5',
-    low: '#FF5701',
-  },
-  warning: {
-    s300: '#',
-    s200: '#',
-    s100: '#',
   },
 };
 

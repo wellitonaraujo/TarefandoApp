@@ -9,7 +9,7 @@ export const StyledTouchableOpacity = styled(TouchableOpacity)<{ value: boolean 
   border-radius: ${moderateScale(20)}px;
   border-width: ${moderateScale(1)}px;
   border-color: ${({ value }) => (value ? colors.white: colors.grey.s100)};
-  background-color: ${({ value }) => (value ? colors.priority.average : 'transparent')};
+  background-color: ${({ value }) => (value ? colors.primary : 'transparent')};
   align-items: center;
   justify-content: center;
   margin-left: ${horizontalScale(5)}px;

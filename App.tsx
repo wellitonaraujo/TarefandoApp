@@ -9,15 +9,15 @@ import React from 'react';
 
 function App(): React.JSX.Element {
   return (
-    <TaskProvider>
+    <>
       <NavigationContainer theme={theme}>
         <StatusBar
           barStyle={'light-content'}
-          backgroundColor={colors.background}
+          backgroundColor={colors.card}
         />
         <Routes />
       </NavigationContainer>
-    </TaskProvider>
+    </>
   );
 }
 

@@ -1,293 +1,124 @@
-import { Animated, Pressable, ScrollView } from 'react-native';
-import { useAnimations } from '@/src/hooks/useAnimations';
-import EditTaskModal from '../../components/EditTaskModal';
-import NewTaskModal from '../../components/NewTaskModal';
-import AddButton from '../../components/AddButton';
-import { useModals } from '@/src/hooks/useModals';
-import { TaskType } from '@/src/models/TaskType';
-import { useTasks } from '@/src/hooks/useTasks';
-import Task from '../../components/Task';
-import colors from '@/src/styles/colors';
+import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import AddButton from '@/src/components/AddButton';
+import CalendarS from '@/src/components/Calendar';
+import TaskCard from '@/src/components/TaskCard';
+import { tasks } from './tasksmock';
 import { imgs } from '../imgs';
-import * as S from "./styles";
-import React from 'react';
+import colors from '@/src/styles/colors';
 
-export default function Home() {
-  const {
-    tasksWithSelection,
-    todayIconRotation,
-    upcomingIconRotation,
-    pastIconRotation,
-    completedIconRotation,
-    isTodayExpanded,
-    setIsTodayExpanded,
-    isUpcomingExpanded,
-    setIsUpcomingExpanded,
-    isPastExpanded,
-    setIsPastExpanded,
-    isCompletedExpanded,
-    setIsCompletedExpanded,
-    editModalVisible,
-    setEditModalVisible,
-    selectedTask,
-    setSelectedTask,
-    filteredTasks,
-    todayTasks,
-    upcomingTasks,
-    pastTasks,
-    completedTasks,
-    handleSelect,
-    handleDeleteSpecificTask,
-  } = useTasks();
+const getCurrentDate = () => {
+  const today = new Date();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const year = today.getFullYear();
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 
-  const { animations } = useAnimations(tasksWithSelection);
-  const { modalVisible, toggleModal } = useModals();
-
-  const toggleTodaySection = () => {
-    setIsTodayExpanded(!isTodayExpanded);
-    Animated.timing(todayIconRotation, {
-      toValue: isTodayExpanded ? 1 : 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const toggleUpcomingSection = () => {
-    setIsUpcomingExpanded(!isUpcomingExpanded);
-    Animated.timing(upcomingIconRotation, {
-      toValue: isUpcomingExpanded ? 1 : 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const togglePastSection = () => {
-    setIsPastExpanded(!isPastExpanded);
-    Animated.timing(pastIconRotation, {
-      toValue: isPastExpanded ? 1 : 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const toggleCompletedSection = () => {
-    setIsCompletedExpanded(!isCompletedExpanded);
-    Animated.timing(completedIconRotation, {
-      toValue: isCompletedExpanded ? 1 : 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const openEditModal = (task: TaskType) => {
-    setSelectedTask(task);
-    setEditModalVisible(true);
-  };
+const Home = () => {
+  const [selectedDate, setSelectedDate] = useState(getCurrentDate());
+  const filteredTasks = tasks.filter(task => task.date === selectedDate);
 
   return (
-    <S.Container>
-      <S.HeaderWrapper>
-        <S.HeaderTitle>Minhas Tarefas</S.HeaderTitle>
-      </S.HeaderWrapper>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {filteredTasks.length === 0 ? (
-          <S.Logo source={imgs.logo} tintColor={colors.title} />
-        ) : (
-          <>
-            {pastTasks.length > 0 && (
-              <Pressable onPress={togglePastSection}>
-                <S.SeparatorView>
-                  <S.SeparatorText>Atrasadas</S.SeparatorText>
-                  <S.AnimatedSeparatorIcon
-                    resizeMode="contain"
-                    source={imgs.arrowbottom}
-                    style={{
-                      transform: [
-                        {
-                          rotate: pastIconRotation.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: ['0deg', '180deg'],
-                          }),
-                        },
-                      ],
-                    }}
-                  />
-                </S.SeparatorView>
-              </Pressable>
-            )}
-            {isPastExpanded && pastTasks.length > 0 && (
-              <>
-                {pastTasks.map((task, index) => (
-                  <Animated.View
-                    key={index.toString()}
-                    style={{ transform: [{ translateX: animations[index] || 0 }] }}
-                  >
-                    <Task
-                      title={task.title}
-                      priority={task.priority}
-                      date={new Date(task.date)}
-                      handleSelect={() =>
-                        handleSelect(tasksWithSelection.findIndex(t => t === task))
-                      }
-                      isSelected={task.isSelected}
-                      onPress={() => openEditModal(task)}
-                      onDelete={() => handleDeleteSpecificTask(task)}
-                      dateColor={colors.priority.high}
-                    />
-                  </Animated.View>
-                ))}
-              </>
-            )}
+    <ScrollView contentContainerStyle={styles.container}>
+      <View>
+        <CalendarS onDateChange={setSelectedDate} />
+      </View>
 
-            {todayTasks.length > 0 && (
-              <Pressable onPress={toggleTodaySection}>
-                <S.SeparatorView>
-                  <S.SeparatorText>Hoje</S.SeparatorText>
-                  <S.AnimatedSeparatorIcon
-                    source={imgs.arrowbottom}
-                    resizeMode="contain"
-                    style={{
-                      transform: [
-                        {
-                          rotate: todayIconRotation.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: ['0deg', '180deg'],
-                          }),
-                        },
-                      ],
-                    }}
-                  />
-                </S.SeparatorView>
-              </Pressable>
-            )}
-            {isTodayExpanded && todayTasks.length > 0 && (
-              <>
-                {todayTasks.map((task, index) => (
-                  <Animated.View
-                    key={index.toString()}
-                    style={{ transform: [{ translateX: animations[index] || 0 }] }}
-                  >
-                    <Task
-                      title={task.title}
-                      priority={task.priority}
-                      date={new Date(task.date)}
-                      handleSelect={() =>
-                        handleSelect(tasksWithSelection.findIndex(t => t === task))
-                      }
-                      isSelected={task.isSelected}
-                      onPress={() => openEditModal(task)}
-                      onDelete={() => handleDeleteSpecificTask(task)}
-                    />
-                  </Animated.View>
-                ))}
-              </>
-            )}
+      <View style={styles.taskContainer}>
+        <View style={styles.taskHeader}>
+          <Text style={styles.title}>
+            Você possui {filteredTasks.length} tarefa(s) <Text style={styles.highlight}>hoje</Text>
+          </Text>
+          <AddButton
+            icon={imgs.plus}
+            onPress={() => {}}
+            backgroundColor={colors.primary}
+          />
+        </View>
 
-            {upcomingTasks.length > 0 && (
-              <Pressable onPress={toggleUpcomingSection}>
-                <S.SeparatorView>
-                  <S.SeparatorText>Próximas</S.SeparatorText>
-                  <S.AnimatedSeparatorIcon
-                    resizeMode="contain"
-                    source={imgs.arrowbottom}
-                    style={{
-                      transform: [
-                        {
-                          rotate: upcomingIconRotation.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: ['0deg', '180deg'],
-                          }),
-                        },
-                      ],
-                    }}
-                  />
-                </S.SeparatorView>
-              </Pressable>
-            )}
-            {isUpcomingExpanded && upcomingTasks.length > 0 && (
-              <>
-                {upcomingTasks.map((task, index) => (
-                  <Animated.View
-                    key={index.toString()}
-                    style={{ transform: [{ translateX: animations[index] || 0 }] }}
-                  >
-                    <Task
-                      title={task.title}
-                      priority={task.priority}
-                      date={new Date(task.date)}
-                      handleSelect={() =>
-                        handleSelect(tasksWithSelection.findIndex(t => t === task))
-                      }
-                      isSelected={task.isSelected}
-                      onPress={() => openEditModal(task)}
-                      onDelete={() => handleDeleteSpecificTask(task)}
-                    />
-                  </Animated.View>
-                ))}
-              </>
-            )}
-
-            {completedTasks.length > 0 && (
-              <Pressable onPress={toggleCompletedSection}>
-                <S.SeparatorView>
-                  <S.SeparatorText>Concluídas</S.SeparatorText>
-                  <S.AnimatedSeparatorIcon
-                    resizeMode="contain"
-                    source={imgs.arrowbottom}
-                    style={{
-                      transform: [
-                        {
-                          rotate: completedIconRotation.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: ['0deg', '180deg'],
-                          }),
-                        },
-                      ],
-                    }}
-                  />
-                </S.SeparatorView>
-              </Pressable>
-            )}
-            {isCompletedExpanded && completedTasks.length > 0 && (
-              <>
-                {completedTasks.map((task, index) => (
-                  <Animated.View
-                    key={index.toString()}
-                    style={{ transform: [{ translateX: animations[index] || 0 }] }}
-                  >
-                    <Task
-                      title={task.title}
-                      priority={task.priority}
-                      date={new Date(task.date)}
-                      handleSelect={() =>
-                        handleSelect(tasksWithSelection.findIndex(t => t === task))
-                      }
-                      isSelected={task.isSelected}
-                      onPress={() => openEditModal(task)}
-                      onDelete={() => handleDeleteSpecificTask(task)}
-                    />
-                  </Animated.View>
-                ))}
-              </>
-            )}
-          </>
-        )}
-      </ScrollView>
-
-      <S.ButtonContainer>
-        <AddButton
-          icon={imgs.plus}
-          onPress={toggleModal}
-          backgroundColor={colors.priority.average}
-        />
-      </S.ButtonContainer>
-    
-      <NewTaskModal visible={modalVisible} onClose={toggleModal} />
-      <EditTaskModal
-        visible={editModalVisible}
-        onClose={() => setEditModalVisible(false)}
-        task={selectedTask}
-      />
-    </S.Container>
+        {filteredTasks.map(task => (
+          <TaskCard
+            key={task.id}
+            description={task.description}
+            time={task.time}
+            completed={task.completed}
+            onPress={() => console.log(`Task ${task.id} pressed`)}
+          />
+        ))}
+      </View>
+    </ScrollView>
   );
-}
+};
+
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    backgroundColor: colors.background,
+  },
+  taskContainer: {
+    padding: 16,
+    borderRadius: 30,
+  },
+  taskHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: colors.white,
+    justifyContent:'center',
+
+  },
+  taskCard: {
+    backgroundColor: colors.card,
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 15,
+    shadowColor: '#21242D',
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  taskCardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  taskDescription: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: colors.white,
+    flex: 1, 
+  },
+  ellipsisIcon: {
+    width: 20,
+    height: 20,
+    tintColor: '#706F6F',
+    marginLeft: 10,
+  },
+  taskInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  taskTime: {
+    fontSize: 12,
+    color: '#706F6F',
+    marginLeft: 5,
+  },
+  icon: {
+    width: 15,
+    height: 15,
+    tintColor: '#706F6F',
+  },
+  highlight: {
+    color: '#3075FF',
+  },
+});
+
+export default Home;

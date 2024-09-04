@@ -8,7 +8,7 @@ interface ButtonContainerProps {
 }
 
 export const ButtonContainer = styled(TouchableOpacity)<ButtonContainerProps>`
-  background-color: ${({ variant }) => (variant === 'primary' ? colors.priority.average : colors.background)};
+  background-color: ${({ variant }) => (variant === 'primary' ? colors.primary : colors.background)};
   height: ${verticalScale(56)}px;
   width: 100%;
   border-radius: ${moderateScale(18)}px;

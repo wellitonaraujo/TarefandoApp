@@ -11,6 +11,7 @@
     "baseUrl": "./" /* Base directory to resolve non-absolute module names. */,
     "paths": {
       "react": ["./node_modules/@types/react"],
+      "react-native-snap-carousel": ["./node_modules/react-native-snap-carousel"],
       "@/*": ["./*"],
       "@src/*": ["./src/*"],
       "@components": ["./src/components/"],
