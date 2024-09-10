@@ -1,11 +1,12 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Task {
   title: string;
-  priority: 'low' | 'average' | 'high' | null;
   date: Date;
   isSelected: boolean;
+  startTime: string;  // Horário de início
+  endTime: string;    // Horário de término
 }
 
 interface TaskContextType {
@@ -22,7 +23,7 @@ const TaskContext = createContext<TaskContextType>({
   updateTasks: () => {},
 });
 
-export const TaskProvider: React.FC = ({children}) => {
+export const TaskProvider: React.FC = ({ children }: any) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
@@ -66,7 +67,7 @@ export const TaskProvider: React.FC = ({children}) => {
   };
 
   return (
-    <TaskContext.Provider value={{tasks, addTask, deleteTask, updateTasks}}>
+    <TaskContext.Provider value={{ tasks, addTask, deleteTask, updateTasks }}>
       {children}
     </TaskContext.Provider>
   );

@@ -1,12 +1,9 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { imgs } from '@/src/screens/imgs';
 import React from 'react';
+import { TaskType } from '@/src/models/TaskType';
 
-interface TaskCardProps {
-  description: string;
-  time: string;
-  completed: boolean;
-  onPress: () => void;
+interface TaskCardProps extends TaskType {
   onToggleComplete: () => void;
 }
 
@@ -14,14 +11,10 @@ const TaskCard: React.FC<TaskCardProps> = ({
   description,
   time,
   completed,
-  onPress,
   onToggleComplete,
 }) => {
   return (
-    <TouchableOpacity
-      style={[styles.cardContainer, completed && styles.completedCard]}
-      onPress={onPress}
-    >
+    <View style={[styles.cardContainer, completed && styles.completedCard]}>
       <View style={styles.cardHeader}>
         <Text style={[styles.cardDescription, completed && styles.completedText]}>
           {description}
@@ -34,11 +27,9 @@ const TaskCard: React.FC<TaskCardProps> = ({
         <Image source={imgs.clock} style={styles.icon} />
         <Text style={[styles.cardTime, completed && styles.completedText]}>{time}</Text>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   cardContainer: {
@@ -73,7 +64,7 @@ const styles = StyleSheet.create({
     height: 18,
     tintColor: '#D9D9D9',
     marginLeft: 10,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   cardInfo: {
     flexDirection: 'row',
@@ -89,7 +80,7 @@ const styles = StyleSheet.create({
     width: 15,
     height: 15,
     tintColor: '#706F6F',
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
 });
 

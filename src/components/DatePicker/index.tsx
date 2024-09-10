@@ -34,7 +34,7 @@ interface DatePickerProps {
         }}>
         <S.ModalIcon 
           source={imgs.calender} 
-          tintColor={colors.priority.average}
+          tintColor={colors.title}
         />
         <S.ModalSelectedDateText>{formattedDate}</S.ModalSelectedDateText>
       </S.ModalDateInput>

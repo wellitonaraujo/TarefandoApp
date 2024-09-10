@@ -1,6 +1,7 @@
-export interface TaskType {
-  title: string;
-  priority: 'low' | 'average' | 'high' | null; 
-  date: Date;
-  isSelected: boolean;
+interface TaskCardProps {
+  id: string;
+  description: string;
+  time: string;
+  date: string;
+  completed: boolean;
 }

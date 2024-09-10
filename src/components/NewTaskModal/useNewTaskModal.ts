@@ -1,7 +1,7 @@
-import { formatDate } from '../../utils/dateFormat';
-import { useTask } from '../../context/TaskContext';
 import { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
+import { formatDate } from '../../utils/dateFormat';
+import { useTask } from '../../context/TaskContext';
 
 interface UseNewTaskModalProps {
   visible: boolean;
@@ -10,41 +10,67 @@ interface UseNewTaskModalProps {
 
 export const useNewTaskModal = ({ visible, onClose }: UseNewTaskModalProps) => {
   const [title, setTitle] = useState('');
-  const [priority, setPriority] = useState<'low' | 'average' | 'high' | null>('low');
   const [date, setDate] = useState(new Date());
-  const [showPicker, setShowPicker] = useState(false);
+  const [startTime, setStartTime] = useState<Date | null>(null);
+  const [endTime, setEndTime] = useState<Date | null>(null);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showStartTimePicker, setShowStartTimePicker] = useState(false);
+  const [showEndTimePicker, setShowEndTimePicker] = useState(false);
   const [pickerMode, setPickerMode] = useState<'date' | 'time'>('date');
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [formattedDate, setFormattedDate] = useState('Hoje');
+  const [formattedStartTime, setFormattedStartTime] = useState('Início');
+  const [formattedEndTime, setFormattedEndTime] = useState('Término');
   const [isEmpty, setIsEmpty] = useState(false);
   const { addTask } = useTask();
 
-  const handlePickerChange = (event: any, selectedDate?: Date) => {
-    setShowPicker(Platform.OS === 'ios');
+  useEffect(() => {
+    if (visible) {
+      setFormattedDate(formatDate(date));
+      setFormattedStartTime(startTime ? startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Início');
+      setFormattedEndTime(endTime ? endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Término');
+    }
+  }, [visible, date, startTime, endTime]);
+
+  const handleDateChange = (event: any, selectedDate?: Date) => {
+    setShowDatePicker(Platform.OS === 'ios');
     if (selectedDate) {
       setDate(selectedDate);
-      setSelectedDate(selectedDate);
+    }
+  };
+
+  const handleStartTimeChange = (event: any, selectedDate?: Date) => {
+    setShowStartTimePicker(Platform.OS === 'ios');
+    if (selectedDate) {
+      setStartTime(selectedDate);
+    }
+  };
+
+  const handleEndTimeChange = (event: any, selectedDate?: Date) => {
+    setShowEndTimePicker(Platform.OS === 'ios');
+    if (selectedDate) {
+      setEndTime(selectedDate);
     }
   };
 
   const resetForm = () => {
     setIsEmpty(false);
     setTitle('');
-    setPriority('low');
     setDate(new Date());
-    setSelectedDate(null);
-    setIsEmpty(false);
+    setStartTime(null);
+    setEndTime(null);
   };
 
   const handleSave = () => {
-    if (!title) {
+    if (!title || !startTime || !endTime) {
       setIsEmpty(true);
       return;
     }
 
     addTask({
       title,
-      priority,
-      date: selectedDate || new Date(),
+      date: date,
+      startTime: startTime,
+      endTime: endTime,
       isSelected: false,
     });
 
@@ -52,36 +78,31 @@ export const useNewTaskModal = ({ visible, onClose }: UseNewTaskModalProps) => {
     onClose();
   };
 
-  const formattedDate = selectedDate 
-  && selectedDate.toDateString() 
-  !== new Date().toDateString()
-  
-    ? formatDate(selectedDate)
-    : 'Hoje';
-
-  useEffect(() => {
-    if (!visible) {
-      resetForm();
-    }
-  }, [visible]);
-
   return {
     title,
     setTitle,
-    priority,
-    setPriority,
     date,
     setDate,
-    showPicker,
-    setShowPicker,
+    startTime,
+    setStartTime,
+    endTime,
+    setEndTime,
+    showDatePicker,
+    setShowDatePicker,
+    showStartTimePicker,
+    setShowStartTimePicker,
+    showEndTimePicker,
+    setShowEndTimePicker,
     pickerMode,
     setPickerMode,
-    selectedDate,
-    setSelectedDate,
+    formattedDate,
+    formattedStartTime,
+    formattedEndTime,
+    handleDateChange,
+    handleStartTimeChange,
+    handleEndTimeChange,
+    handleSave,
     isEmpty,
     setIsEmpty,
-    handlePickerChange,
-    formattedDate,
-    handleSave,
   };
 };

@@ -1,12 +1,14 @@
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import CustomCheckBox from '@/src/components/CustomCheckBox';
 import AddButton from '@/src/components/AddButton';
 import CalendarS from '@/src/components/Calendar';
 import TaskCard from '@/src/components/TaskCard';
-import CustomCheckBox from '@/src/components/CustomCheckBox'; // Certifique-se de importar o CustomCheckBox
 import colors from '@/src/styles/colors';
 import React, { useState } from 'react';
 import { tasks } from './tasksmock';
 import { imgs } from '../imgs';
+import NewTaskModal from '@/src/components/NewTaskModal';
+import { useModals } from '@/src/hooks/useModals';
 
 const getCurrentDate = () => {
   const today = new Date();
@@ -17,6 +19,7 @@ const getCurrentDate = () => {
 };
 
 const Home = () => {
+  const { modalVisible, toggleModal } = useModals();
   const [selectedDate, setSelectedDate] = useState(getCurrentDate());
   const [taskCompletion, setTaskCompletion] = useState<{ [key: string]: boolean }>(
     tasks.reduce((acc, task) => ({ ...acc, [task.id]: task.completed }), {})
@@ -58,7 +61,7 @@ const Home = () => {
           </Text>
           <AddButton
             icon={imgs.plus}
-            onPress={() => {}}
+            onPress={toggleModal}
             backgroundColor={colors.primary}
           />
         </View>
@@ -74,13 +77,14 @@ const Home = () => {
                 description={task.description}
                 time={task.time}
                 completed={taskCompletion[task.id]}
-                onPress={() => console.log(`Task ${task.id} pressed`)}
                 onToggleComplete={() => handleToggleComplete(task.id)}
               />
             </View>
           </View>
         ))}
+          <NewTaskModal visible={modalVisible} onClose={toggleModal} />
       </View>
+    
     </ScrollView>
   );
 };

@@ -16,7 +16,7 @@ export const ModalDateInput = styled.Pressable`
   padding: 0 ${horizontalScale(5)}px;
   align-items: center;
   text-align: center;
-  background-color: ${colors.input.s200};
+  background-color: ${colors.grey.s400};
   width: ${verticalScale(80)}px;
   height: ${horizontalScale(35)}px;
 `;
@@ -29,6 +29,6 @@ export const ModalIcon = styled.Image`
 
 
 export const ModalSelectedDateText = styled.Text`
-  color: ${colors.priority.average};
+  color: ${colors.title};
   font-size: ${moderateScale(13)}px;
 `;

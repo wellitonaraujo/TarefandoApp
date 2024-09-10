@@ -14,9 +14,6 @@ export const useEditTaskModal = ({
     visible, 
     onClose}: UseEditTaskModalProps) => {
 const [title, setTitle] = useState('');
-const [priority, setPriority] = useState<'low' | 'average' | 'high' | null>(
-    'low',
-  );
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
   const [pickerMode, setPickerMode] = useState<'date' | 'time'>('date');
@@ -26,7 +23,6 @@ const [priority, setPriority] = useState<'low' | 'average' | 'high' | null>(
   useEffect(() => {
     if (task) {
       setTitle(task.title || '');
-      setPriority(task.priority || 'low');
       setDate(new Date(task.date));
       setSelectedDate(new Date(task.date));
     }
@@ -46,13 +42,11 @@ const [priority, setPriority] = useState<'low' | 'average' | 'high' | null>(
       return;
     }
     if (task) {
-      const priorityToSave = priority || 'low';
       task.title = title;
-      task.priority = priorityToSave;
       task.date = selectedDate || new Date();
     }
     onClose();
-  }, [title, priority, selectedDate, task, onClose]);
+  }, [title, selectedDate, task, onClose]);
 
   const handleCancel = useCallback(() => {
     onClose();
@@ -61,7 +55,6 @@ const [priority, setPriority] = useState<'low' | 'average' | 'high' | null>(
   const resetForm = useCallback(() => {
     if (task) {
       setTitle(task.title || '');
-      setPriority(task.priority || 'low');
       const taskDate = new Date(task.date);
       setDate(taskDate);
       setSelectedDate(taskDate);
@@ -95,8 +88,6 @@ const [priority, setPriority] = useState<'low' | 'average' | 'high' | null>(
   return {
     title,
     setTitle,
-    priority,
-    setPriority,
     date,
     showPicker,
     setShowPicker,

@@ -11,18 +11,15 @@ interface TitleInputProps {
   
   const TitleInput: React.FC<TitleInputProps> = ({title, setTitle, isEmpty, setIsEmpty}) => (
     <S.ModalTextInputTitle
-      placeholder="Insira o novo nome da tarefa"
+      placeholder="Nome da tarefa"
       value={title}
       onChangeText={text => {
         setTitle(text);
         setIsEmpty(false);
       }}
-      maxLength={320}
+      maxLength={50}
       placeholderTextColor={colors.grey.s100}
       isEmpty={isEmpty}
-      multiline
-      numberOfLines={6}
-      textAlignVertical="top"
     />
   );
 

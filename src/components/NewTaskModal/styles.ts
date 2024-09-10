@@ -11,11 +11,11 @@ export const ModalContainer = styled.View`
 
 export const ModalContent = styled.View`
   background-color: ${colors.background};
-  border-top-right-radius:${verticalScale(18)}px;
-  border-top-left-radius: ${verticalScale(18)}px;
+  border-top-right-radius:${verticalScale(12)}px;
+  border-top-left-radius: ${verticalScale(12)}px;
   flex-direction: column;
   justify-content: space-between;
   padding:  ${moderateScale(24)}px;
   width: 100%;
-  height: ${verticalScale(280)}px;
+  height: ${verticalScale(250)}px;
 `;

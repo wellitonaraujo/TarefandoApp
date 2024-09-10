@@ -9,10 +9,10 @@ interface ModalTextInputTitleProps extends TextInputProps {
   }
 
 export const ModalTextInputTitle = styled.TextInput<ModalTextInputTitleProps>`
-  background-color: ${colors.input.s200};
+  background-color: ${colors.grey.s400};
   color: ${colors.title};
   padding: ${moderateScale(12)}px;
-  border-radius: ${moderateScale(12)}px;
+  border-radius: ${moderateScale(8)}px;
   font-size: ${moderateScale(15)}px;
-  height: ${verticalScale(100)}px;
+  height: ${verticalScale(50)}px;
 `;
