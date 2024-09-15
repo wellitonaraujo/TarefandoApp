@@ -10,11 +10,13 @@ import colors from '@/src/styles/colors';
 interface NewTaskModalProps {
   visible: boolean;
   onClose: () => void;
+  onSave: (description: string, startTime: string, endTime: string) => void; // Aceitar três argumentos
 }
 
 const NewTaskModal: React.FC<NewTaskModalProps> = ({ 
   visible,
-  onClose 
+  onClose,
+  onSave
 }) => {
   const {
     title,
@@ -41,6 +43,16 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
     setIsEmpty,
   } = useNewTaskModal({ visible, onClose });
 
+
+  const saveTask = () => {
+    if (title && formattedStartTime !== 'Início' && formattedEndTime !== 'Término') {
+      onSave(title, formattedStartTime, formattedEndTime);
+      handleSave();
+    }
+  };
+  
+  
+  
   return (
     <Modal
       visible={visible}
@@ -106,7 +118,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
 
               <Button
                 title="Salvar"
-                onPress={handleSave}
+                onPress={saveTask}
                 disabled={!title || !startTime || !endTime} 
               />
             </S.ModalContent>

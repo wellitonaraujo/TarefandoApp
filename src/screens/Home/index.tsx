@@ -1,64 +1,68 @@
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet } from 'react-native';
 import CustomCheckBox from '@/src/components/CustomCheckBox';
 import AddButton from '@/src/components/AddButton';
-import CalendarS from '@/src/components/Calendar';
 import TaskCard from '@/src/components/TaskCard';
 import colors from '@/src/styles/colors';
-import React, { useState } from 'react';
-import { tasks } from './tasksmock';
+import React, { useState, useEffect } from 'react';
 import { imgs } from '../imgs';
 import NewTaskModal from '@/src/components/NewTaskModal';
 import { useModals } from '@/src/hooks/useModals';
+import CalendarS from '@/src/components/Calendar';
 
+// Função para obter a data atual no formato dd-mm-yyyy
 const getCurrentDate = () => {
   const today = new Date();
+  const day = String(today.getDate()).padStart(2, '0');
   const month = String(today.getMonth() + 1).padStart(2, '0');
   const year = today.getFullYear();
-  const day = String(today.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  return `${day}-${month}-${year}`;
 };
+
+interface Task {
+  id: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  completed: boolean;
+  date: string; // Nova propriedade para associar uma data à tarefa
+}
 
 const Home = () => {
   const { modalVisible, toggleModal } = useModals();
   const [selectedDate, setSelectedDate] = useState(getCurrentDate());
-  const [taskCompletion, setTaskCompletion] = useState<{ [key: string]: boolean }>(
-    tasks.reduce((acc, task) => ({ ...acc, [task.id]: task.completed }), {})
-  );
-
-  const filteredTasks = tasks.filter(task => task.date === selectedDate);
-  const incompleteTasksCount = filteredTasks.filter(task => !taskCompletion[task.id]).length;
-
-  const taskText = incompleteTasksCount === 0 
-    ? "nenhuma tarefa"
-    : `${incompleteTasksCount} tarefa${incompleteTasksCount > 1 ? 's' : ''}`;
-
-  const isToday = selectedDate === getCurrentDate();
-
-  const handleCheckBoxChange = (taskId: string) => {
-    setTaskCompletion(prevState => ({
-      ...prevState,
-      [taskId]: !prevState[taskId],
-    }));
-  };
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [taskCompletion, setTaskCompletion] = useState<{ [key: string]: boolean }>({});
 
   const handleToggleComplete = (taskId: string) => {
-    setTaskCompletion(prevState => ({
-      ...prevState,
-      [taskId]: !prevState[taskId],
+    setTaskCompletion(prev => ({
+      ...prev,
+      [taskId]: !prev[taskId],
     }));
   };
+
+  const handleAddTask = (description: string, startTime: string, endTime: string) => {
+    const newTask: Task = {
+      id: new Date().getTime().toString(),
+      description,
+      startTime,
+      endTime,
+      completed: false,
+      date: selectedDate, // Associa a tarefa à data selecionada no formato dd-mm-yyyy
+    };
+    setTasks(prevTasks => [...prevTasks, newTask]);
+    toggleModal(); // Fechar o modal após salvar a tarefa
+  };  
+
+  // Filtra as tarefas para a data selecionada
+  const filteredTasks = tasks.filter(task => task.date === selectedDate);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View>
-        <CalendarS onDateChange={setSelectedDate} />
+        <CalendarS onDateChange={setSelectedDate} tasks={tasks} />
       </View>
-
       <View style={styles.taskContainer}>
         <View style={styles.taskHeader}>
-          <Text style={styles.title}>
-            Você possui {taskText} {isToday && <Text style={styles.highlight}>hoje</Text>}
-          </Text>
           <AddButton
             icon={imgs.plus}
             onPress={toggleModal}
@@ -69,22 +73,24 @@ const Home = () => {
         {filteredTasks.map(task => (
           <View key={task.id} style={styles.taskRow}>
             <CustomCheckBox
-              value={taskCompletion[task.id]}
-              onValueChange={() => handleCheckBoxChange(task.id)}
+              value={taskCompletion[task.id] || false}
+              onValueChange={() => handleToggleComplete(task.id)}
             />
             <View style={styles.taskCardContainer}>
               <TaskCard
+                id={task.id} 
                 description={task.description}
-                time={task.time}
-                completed={taskCompletion[task.id]}
+                startTime={task.startTime}
+                endTime={task.endTime}  
+                completed={taskCompletion[task.id] || false}
                 onToggleComplete={() => handleToggleComplete(task.id)}
               />
             </View>
           </View>
         ))}
-          <NewTaskModal visible={modalVisible} onClose={toggleModal} />
+
+        <NewTaskModal visible={modalVisible} onClose={toggleModal} onSave={handleAddTask} />
       </View>
-    
     </ScrollView>
   );
 };
@@ -93,7 +99,6 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: colors.background,
-
   },
   taskContainer: {
     padding: 16,
@@ -105,7 +110,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
     color: colors.white,
   },

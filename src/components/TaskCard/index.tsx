@@ -1,18 +1,28 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { TaskCardProps } from '@/src/models/TaskType';
 import { imgs } from '@/src/screens/imgs';
 import React from 'react';
-import { TaskType } from '@/src/models/TaskType';
-
-interface TaskCardProps extends TaskType {
+interface TaskCard extends TaskCardProps {
   onToggleComplete: () => void;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({
+const TaskCard: React.FC<TaskCard> = ({
   description,
-  time,
+  startTime,
+  endTime,
   completed,
-  onToggleComplete,
 }) => {
+
+  const formatTimeRange = (start: string, end: string) => {
+    if (start && end) {
+      return `${start} - ${end}`;
+    }
+    if (start) {
+      return `${start}`;
+    }
+    return 'Horário indefinido';
+  };
+
   return (
     <View style={[styles.cardContainer, completed && styles.completedCard]}>
       <View style={styles.cardHeader}>
@@ -25,7 +35,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
       </View>
       <View style={styles.cardInfo}>
         <Image source={imgs.clock} style={styles.icon} />
-        <Text style={[styles.cardTime, completed && styles.completedText]}>{time}</Text>
+        <Text style={[styles.cardTime, completed && styles.completedText]}>{formatTimeRange(startTime, endTime)}</Text>
       </View>
     </View>
   );
