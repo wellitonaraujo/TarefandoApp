@@ -70,6 +70,7 @@ const TaskCard: React.FC<TaskCard> = ({
             <TouchableOpacity onPress={() => console.log('Edit pressed')}>
               <Text style={styles.menuItem}>Editar</Text>
             </TouchableOpacity>
+            <View style={styles.hilight}/>
             <TouchableOpacity onPress={onDelete}>
               <Text style={styles.menuItem}>Deletar</Text>
             </TouchableOpacity>
@@ -153,6 +154,14 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#fff',
   },
+
+  hilight: {
+    width: 1,
+    height: 19,
+    backgroundColor: '#4885FF',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  }
 });
 
 export default TaskCard;
