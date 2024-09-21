@@ -5,8 +5,8 @@ interface Task {
   title: string;
   date: Date;
   isSelected: boolean;
-  startTime: string;  // Horário de início
-  endTime: string;    // Horário de término
+  startTime: string | Date;
+  endTime: string | Date;
 }
 
 interface TaskContextType {

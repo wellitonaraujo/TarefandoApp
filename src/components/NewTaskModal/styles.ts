@@ -10,7 +10,7 @@ export const ModalContainer = styled.View`
 `;
 
 export const ModalContent = styled.View`
-  background-color: ${colors.background};
+  background-color: ${colors.card};
   border-top-right-radius:${verticalScale(12)}px;
   border-top-left-radius: ${verticalScale(12)}px;
   flex-direction: column;

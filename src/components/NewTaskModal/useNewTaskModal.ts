@@ -28,6 +28,7 @@ export const useNewTaskModal = ({ visible, onClose }: UseNewTaskModalProps) => {
       setFormattedDate(formatDate(date));
       setFormattedStartTime(startTime ? startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Início');
       setFormattedEndTime(endTime ? endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Término');
+      console.log(date)
     }
   }, [visible, date, startTime, endTime]);
 

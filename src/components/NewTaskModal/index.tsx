@@ -6,6 +6,7 @@ import TitleInput from '../TitleInput';
 import * as S from './styles';
 import Button from '../Buttom';
 import colors from '@/src/styles/colors';
+import { imgs } from '@/src/screens/imgs';
 
 interface NewTaskModalProps {
   visible: boolean;
@@ -51,8 +52,6 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
     }
   };
   
-  
-  
   return (
     <Modal
       visible={visible}
@@ -75,6 +74,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
               <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                 {/* Date Picker */}
                 <DatePicker
+                 icon={imgs.calender}
                   date={date}
                   showPicker={showDatePicker}
                   pickerMode={'date'}
@@ -90,6 +90,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
                 
                 {/* Start Time Picker */}
                 <DatePicker
+                  icon={imgs.clock}
                   date={startTime || new Date()}
                   showPicker={showStartTimePicker}
                   pickerMode={'time'}
@@ -104,6 +105,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
 
                 {/* End Time Picker */}
                 <DatePicker
+                  icon={imgs.clock}
                   date={endTime || new Date()}
                   showPicker={showEndTimePicker}
                   pickerMode={'time'}

@@ -9,7 +9,6 @@ export const ModalDateWrapper = styled.View`
 `;
 
 export const ModalDateInput = styled.Pressable`
-  border-radius: ${moderateScale(12)}px;
   z-index: 1;
   flex-direction: row;
   justify-content: space-around;
@@ -19,6 +18,8 @@ export const ModalDateInput = styled.Pressable`
   background-color: ${colors.grey.s400};
   width: ${verticalScale(80)}px;
   height: ${horizontalScale(35)}px;
+  border-bottom-width: 1px;
+  border-bottom-color: #424242;
 `;
 
 export const ModalIcon = styled.Image`

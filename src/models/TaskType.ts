@@ -1,8 +1,8 @@
 export interface TaskCardProps {
   id: string;
-  description: string;
-  startTime: string;
-  endTime: string;
+  title: string;
+  startTime: string | Date;
+  endTime: string | Date;
   completed: boolean;
   onToggleComplete: () => void;
 }

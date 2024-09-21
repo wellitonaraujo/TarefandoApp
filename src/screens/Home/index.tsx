@@ -1,30 +1,29 @@
-import { ScrollView, View, StyleSheet } from 'react-native';
 import CustomCheckBox from '@/src/components/CustomCheckBox';
-import AddButton from '@/src/components/AddButton';
-import TaskCard from '@/src/components/TaskCard';
-import colors from '@/src/styles/colors';
-import React, { useState, useEffect } from 'react';
-import { imgs } from '../imgs';
+import { ScrollView, View, StyleSheet, Text } from 'react-native';
 import NewTaskModal from '@/src/components/NewTaskModal';
+import AddButton from '@/src/components/AddButton';
 import { useModals } from '@/src/hooks/useModals';
 import CalendarS from '@/src/components/Calendar';
+import TaskCard from '@/src/components/TaskCard';
+import colors from '@/src/styles/colors';
+import React, { useState } from 'react';
+import { imgs } from '../imgs';
 
-// Função para obter a data atual no formato dd-mm-yyyy
 const getCurrentDate = () => {
   const today = new Date();
   const day = String(today.getDate()).padStart(2, '0');
   const month = String(today.getMonth() + 1).padStart(2, '0');
   const year = today.getFullYear();
-  return `${day}-${month}-${year}`;
+  return `${year}-${month}-${day}`;
 };
 
 interface Task {
   id: string;
-  description: string;
+  title: string;
   startTime: string;
   endTime: string;
   completed: boolean;
-  date: string; // Nova propriedade para associar uma data à tarefa
+  date: string;
 }
 
 const Home = () => {
@@ -40,20 +39,23 @@ const Home = () => {
     }));
   };
 
-  const handleAddTask = (description: string, startTime: string, endTime: string) => {
+  const handleAddTask = (title: string, startTime: string, endTime: string) => {
     const newTask: Task = {
       id: new Date().getTime().toString(),
-      description,
+      title,
       startTime,
       endTime,
       completed: false,
-      date: selectedDate, // Associa a tarefa à data selecionada no formato dd-mm-yyyy
+      date: selectedDate,
     };
     setTasks(prevTasks => [...prevTasks, newTask]);
-    toggleModal(); // Fechar o modal após salvar a tarefa
+    toggleModal();
   };  
 
-  // Filtra as tarefas para a data selecionada
+  const handleDeleteTask = (taskId: string) => {
+    setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
+  };
+
   const filteredTasks = tasks.filter(task => task.date === selectedDate);
 
   return (
@@ -79,11 +81,12 @@ const Home = () => {
             <View style={styles.taskCardContainer}>
               <TaskCard
                 id={task.id} 
-                description={task.description}
+                title={task.title}
                 startTime={task.startTime}
                 endTime={task.endTime}  
                 completed={taskCompletion[task.id] || false}
                 onToggleComplete={() => handleToggleComplete(task.id)}
+                onDelete={() => handleDeleteTask(task.id)} 
               />
             </View>
           </View>
@@ -105,7 +108,7 @@ const styles = StyleSheet.create({
   },
   taskHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     marginBottom: 16,
     alignItems: 'center',
   },

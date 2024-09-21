@@ -13,6 +13,7 @@ interface DatePickerProps {
     maxDate: Date;
     handlePickerChange: (event: any, selectedDate?: Date) => void;
     formattedDate: string;
+    icon: any
   }
   
   const DatePicker: React.FC<DatePickerProps> = ({
@@ -25,6 +26,7 @@ interface DatePickerProps {
     maxDate,
     handlePickerChange,
     formattedDate,
+    icon,
   }) => (
     <S.ModalDateWrapper>
       <S.ModalDateInput
@@ -32,8 +34,9 @@ interface DatePickerProps {
           setShowPicker(true);
           setPickerMode('date');
         }}>
-        <S.ModalIcon 
-          source={imgs.calender} 
+        <S.ModalIcon
+          resizeMode='contain'
+          source={icon} 
           tintColor={colors.title}
         />
         <S.ModalSelectedDateText>{formattedDate}</S.ModalSelectedDateText>

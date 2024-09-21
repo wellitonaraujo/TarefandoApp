@@ -2,7 +2,6 @@ import { ExpandableCalendar, CalendarProvider, LocaleConfig } from 'react-native
 import React, { useEffect, useState } from 'react';
 import colors from '@/src/styles/colors';
 
-// Configuração de Locale para o calendário
 LocaleConfig.locales.fr = {
   monthNames: [
     "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
@@ -18,31 +17,28 @@ LocaleConfig.locales.fr = {
 };
 LocaleConfig.defaultLocale = "fr";
 
-// Função para obter a data atual no formato yyyy-mm-dd
 const getCurrentDate = () => {
   const today = new Date();
-  const day = String(today.getDate()).padStart(2, '0');
-  const month = String(today.getMonth() + 1).padStart(2, '0');
   const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+
   return `${year}-${month}-${day}`;
 };
 
-// Função para converter uma data no formato dd-mm-yyyy para yyyy-mm-dd
 const convertDateFormat = (date: string) => {
   const [day, month, year] = date.split('-');
   return `${year}-${month}-${day}`;
 };
 
-// Propriedades esperadas pelo componente CalendarS
 interface CalendarSProps {
   onDateChange: (date: string) => void;
-  tasks: { date: string; completed: boolean }[]; // Recebe as tarefas como prop
+  tasks: { date: string; completed: boolean }[];
 }
 
 const CalendarS = ({ onDateChange, tasks }: CalendarSProps) => {
   const currentDate = getCurrentDate();
 
-  // Estado para armazenar as datas marcadas no calendário
   const [markedDates, setMarkedDates] = useState<any>({
     [currentDate]: {
       selected: true,
@@ -51,7 +47,6 @@ const CalendarS = ({ onDateChange, tasks }: CalendarSProps) => {
     },
   });
 
-  // Atualiza as datas marcadas sempre que tasks ou currentDate mudarem
   useEffect(() => {
     const newMarkedDates: any = {};
 
@@ -61,19 +56,16 @@ const CalendarS = ({ onDateChange, tasks }: CalendarSProps) => {
       const todayWithoutTime = new Date(currentDate).setHours(0, 0, 0, 0);
 
       if (taskDateWithoutTime < todayWithoutTime && !task.completed) {
-        // Tarefas passadas e não completadas
         newMarkedDates[taskDate] = {
           marked: true,
           dotColor: 'red',
         };
       } else if (taskDateWithoutTime >= todayWithoutTime) {
-        // Verifica se todas as tarefas dessa data estão completadas
         const allTasksCompleted = tasks
           .filter(t => convertDateFormat(t.date) === taskDate)
           .every(t => t.completed);
 
         if (!allTasksCompleted) {
-          // Tarefas futuras com algumas incompletas
           newMarkedDates[taskDate] = {
             marked: true,
             dotColor: colors.primary,
@@ -82,7 +74,6 @@ const CalendarS = ({ onDateChange, tasks }: CalendarSProps) => {
       }
     });
 
-    // Marcar a data atual como selecionada
     newMarkedDates[currentDate] = {
       selected: true,
       selectedColor: colors.primary,
@@ -101,12 +92,11 @@ const CalendarS = ({ onDateChange, tasks }: CalendarSProps) => {
         selected: true,
         selectedColor: colors.primary,
         selectedTextColor: colors.white,
-        marked: markedDates[selectedDate]?.marked, // Preserva a marcação existente (dotColor) se houver
+        marked: markedDates[selectedDate]?.marked,
         dotColor: markedDates[selectedDate]?.dotColor,
       },
     };
 
-    // Desmarcar qualquer outra data selecionada
     Object.keys(updatedMarkedDates).forEach(date => {
       if (date !== selectedDate) {
         updatedMarkedDates[date].selected = false;
@@ -116,7 +106,8 @@ const CalendarS = ({ onDateChange, tasks }: CalendarSProps) => {
     });
 
     setMarkedDates(updatedMarkedDates);
-    onDateChange(selectedDate.split('-').reverse().join('-')); // Converte de yyyy-mm-dd para dd-mm-yyyy
+    onDateChange(selectedDate);
+    console.log(selectedDate)
   };
 
   return (
@@ -132,9 +123,8 @@ const CalendarS = ({ onDateChange, tasks }: CalendarSProps) => {
           monthTextColor: colors.white,
           selectedDayBackgroundColor: colors.primary,
           selectedDayTextColor: colors.white,
-          textDayFontSize: 14,
+          textDayFontSize: 13,
         }}
-        firstDay={0}
         markedDates={markedDates}
         onDayPress={onDayPress}
         closeOnDayPress={true}
