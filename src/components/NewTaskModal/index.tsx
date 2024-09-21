@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Modal, TouchableWithoutFeedback } from 'react-native';
+import { View, Modal, TouchableWithoutFeedback, TouchableOpacity, Image } from 'react-native';
 import { useNewTaskModal } from './useNewTaskModal';
 import DatePicker from '../DatePicker';
 import TitleInput from '../TitleInput';
@@ -62,7 +62,12 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
         <S.ModalContainer>
           <TouchableWithoutFeedback onPress={() => {}}>
             <S.ModalContent>
+
+            <S.CloseIconContainer onPress={onClose}>
+                <S.CloseIcon source={imgs.close} resizeMode='contain'/>
+              </S.CloseIconContainer>
               <View>
+
                 <TitleInput
                   title={title}
                   setTitle={setTitle}

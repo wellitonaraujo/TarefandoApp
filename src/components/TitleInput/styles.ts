@@ -12,9 +12,10 @@ export const ModalTextInputTitle = styled.TextInput<ModalTextInputTitleProps>`
   background-color: ${colors.card};
   color: ${colors.title};
   padding: ${moderateScale(12)}px;
-  border-radius: ${moderateScale(8)}px;
+
   font-size: ${moderateScale(15)}px;
-  height: ${verticalScale(50)}px;
+  height: ${verticalScale(40)}px;
   border-bottom-width: 1px;
   border-bottom-color: #424242;
+  margin-top: 10px;
 `;

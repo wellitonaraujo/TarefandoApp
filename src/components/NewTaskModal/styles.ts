@@ -19,3 +19,15 @@ export const ModalContent = styled.View`
   width: 100%;
   height: ${verticalScale(250)}px;
 `;
+
+export const CloseIconContainer = styled.Pressable`
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  z-index: 999;
+`;
+
+export const CloseIcon = styled.Image`
+  width: 20px;
+  height: 20px;
+`;
