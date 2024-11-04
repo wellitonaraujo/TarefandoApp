@@ -1,6 +1,6 @@
-import React from 'react';
 import { View, Text } from 'react-native';
 import styles from './styles';
+import React from 'react';
 
 const EmptyState = () => (
     <View style={styles.emptyContainer}>

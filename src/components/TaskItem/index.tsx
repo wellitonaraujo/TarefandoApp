@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, GestureResponderEvent } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
 import styles from './styles';
+import React from 'react';
 
 interface Task {
     id: string;

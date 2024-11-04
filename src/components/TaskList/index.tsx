@@ -1,10 +1,30 @@
-import React from 'react';
-import { ScrollView, View, Text } from 'react-native';
-import styles from './styles';
+import { ScrollView, View, Text, StyleProp, ViewStyle, TextStyle } from 'react-native';
 import TaskItem from '../TaskItem';
+import styles from './styles';
+import React from 'react';
 
-const TaskList = ({ tasks, updateKey, onEditTask, onCompleteTask, onDeleteTask }) => (
-    <ScrollView contentContainerStyle={styles.listContainer}>
+type Task = {
+    id: string;
+    name: string;
+    completed: boolean;
+};
+
+type TaskListProps = {
+    tasks: Task[];
+    updateKey: number;
+    onEditTask: (id: string) => void;
+    onCompleteTask: (id: string) => void;
+    onDeleteTask: (id: string) => void;
+};
+
+const TaskList: React.FC<TaskListProps> = ({
+    tasks,
+    updateKey,
+    onEditTask,
+    onCompleteTask,
+    onDeleteTask,
+}) => (
+    <ScrollView contentContainerStyle={styles.listContainer as StyleProp<ViewStyle>}>
         {tasks.filter(task => !task.completed).map(task => (
             <TaskItem
                 key={`${task.id}-${updateKey}`}
@@ -15,8 +35,8 @@ const TaskList = ({ tasks, updateKey, onEditTask, onCompleteTask, onDeleteTask }
             />
         ))}
         {tasks.some(task => task.completed) && (
-            <View style={styles.completedSection}>
-                <Text style={styles.completedTitle}>Concluídas</Text>
+            <View style={styles.completedSection as StyleProp<ViewStyle>}>
+                <Text style={styles.completedTitle as StyleProp<TextStyle>}>Concluídas</Text>
                 {tasks.filter(task => task.completed).map(task => (
                     <TaskItem
                         key={`${task.id}-${updateKey}`}

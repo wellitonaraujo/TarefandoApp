@@ -13,8 +13,8 @@ interface CustomModalProps {
   visible: boolean;
   onClose: () => void;
   onSave: (title: string) => void;
-  taskName?: string; // Nova propriedade
-  isEditing?: boolean; // Nova propriedade
+  taskName?: string; 
+  isEditing?: boolean;
 }
 
 const CustomModal: React.FC<CustomModalProps> = ({
@@ -22,12 +22,12 @@ const CustomModal: React.FC<CustomModalProps> = ({
   onClose,
   onSave,
   taskName = '',
-  isEditing = false, // Valor padrão
+  isEditing = false,
 }) => {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    setInputValue(taskName); // Atualiza o valor do input quando o modal é aberto
+    setInputValue(taskName);
   }, [taskName, visible]);
 
   const saveTask = () => {
@@ -60,7 +60,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
 
               <TouchableOpacity style={styles.createButton} onPress={saveTask}>
                 <Text style={styles.createButtonText}>
-                  {isEditing ? 'Editar tarefa' : 'Criar tarefa'} {/* Muda o texto do botão */}
+                  {isEditing ? 'Editar tarefa' : 'Criar tarefa'}
                 </Text>
               </TouchableOpacity>
             </View>
