@@ -6,6 +6,10 @@ interface AddButtonProps {
   onPress: () => void;
 }
 
+const icons = {
+  plus: require('../../assets/icons/plus.png'),
+};
+
 const AddButton: React.FC<AddButtonProps> = ({
   onPress,
 }) => {
@@ -15,7 +19,7 @@ const AddButton: React.FC<AddButtonProps> = ({
         onPress={onPress} 
         style={styles.container}
       >
-         <Image source={require('../../assets/images/plus.png')} style={styles.plusIcon} />
+         <Image source={icons.plus} style={styles.plusIcon} />
       </TouchableOpacity>
     </View>
   );
