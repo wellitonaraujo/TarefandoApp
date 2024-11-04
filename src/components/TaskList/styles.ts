@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     },
     completedTitle: {
         color: '#fff',
-        fontSize: 18,
+        fontSize: 15,
         fontWeight: 'bold',
         marginBottom: 8,
         marginHorizontal: 16,
@@ -96,11 +96,6 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 12,
         fontWeight: '500',
-    },
-    loadingContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
     },
 });
 

@@ -60,9 +60,9 @@ const styles = StyleSheet.create({
     },
     taskText: {
         color: '#FFFFFF',
-        fontSize: 16,
-        fontWeight: '600',
-        letterSpacing: 1.5,
+        fontSize: 15,
+        fontWeight: '500',
+        letterSpacing: 1.8,
     },
     rightActionsContainer: {
         flexDirection: 'row',
@@ -96,11 +96,6 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 12,
         fontWeight: '500',
-    },
-    loadingContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
     },
 });
 

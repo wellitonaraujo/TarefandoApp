@@ -1,23 +1,16 @@
-import {NavigationContainer} from '@react-navigation/native';
-import {TaskProvider} from './src/context/TaskContext';
-import {theme} from './src/theme/default_theme';
-import Routes from './src/navigation/routes';
-import colors from './src/styles/colors';
 import {StatusBar} from 'react-native';
+import Home from './src/screens/Home';
 import React from 'react';
-
 
 function App(): React.JSX.Element {
   return (
-    <TaskProvider>
-      <NavigationContainer theme={theme}>
+    <>
         <StatusBar
           barStyle={'light-content'}
-          backgroundColor={colors.background}
+          backgroundColor={'#181A20'}
         />
-        <Routes />
-      </NavigationContainer>
-    </TaskProvider>
+       <Home />
+    </>
   );
 }
 

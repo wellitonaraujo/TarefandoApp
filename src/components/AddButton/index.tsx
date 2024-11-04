@@ -1,34 +1,23 @@
-import * as Animatable from 'react-native-animatable';
-import {ImageSourcePropType} from 'react-native';
-import colors from '../../styles/colors';;
-import * as S from './styles';
+import {Image, ImageSourcePropType, TouchableOpacity, View} from 'react-native';
+import { styles } from './styles';
 
 interface AddButtonProps {
-  icon: ImageSourcePropType;
+  icon?: ImageSourcePropType;
   onPress: () => void;
-  backgroundColor?: string;
 }
 
 const AddButton: React.FC<AddButtonProps> = ({
-  icon,
   onPress,
-  backgroundColor,
 }) => {
   return (
-    <Animatable.View 
-      animation="pulse"
-      iterationCount={Infinity}
-    >
-      <S.CreateTask 
+    <View>
+      <TouchableOpacity 
         onPress={onPress} 
-        backgroundColor={backgroundColor}
+        style={styles.container}
       >
-        <S.Icon 
-          source={icon} 
-          tintColor={colors.white}
-        />
-      </S.CreateTask>
-    </Animatable.View>
+         <Image source={require('../../assets/images/plus.png')} style={styles.plusIcon} />
+      </TouchableOpacity>
+    </View>
   );
 };
 
