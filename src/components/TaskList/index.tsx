@@ -1,7 +1,6 @@
-import { ScrollView, View, Text, StyleProp, ViewStyle, TextStyle } from 'react-native';
 import TaskItem from '../TaskItem';
-import styles from './styles';
 import React from 'react';
+import * as S from './styles';
 
 type Task = {
     id: string;
@@ -24,7 +23,7 @@ const TaskList: React.FC<TaskListProps> = ({
     onCompleteTask,
     onDeleteTask,
 }) => (
-    <ScrollView contentContainerStyle={styles.listContainer as StyleProp<ViewStyle>}>
+    <S.ListContainer>
         {tasks.filter(task => !task.completed).map(task => (
             <TaskItem
                 key={`${task.id}-${updateKey}`}
@@ -35,8 +34,8 @@ const TaskList: React.FC<TaskListProps> = ({
             />
         ))}
         {tasks.some(task => task.completed) && (
-            <View style={styles.completedSection as StyleProp<ViewStyle>}>
-                <Text style={styles.completedTitle as StyleProp<TextStyle>}>Concluídas</Text>
+            <S.CompletedSection>
+                <S.CompletedTitle>Concluídas</S.CompletedTitle>
                 {tasks.filter(task => task.completed).map(task => (
                     <TaskItem
                         key={`${task.id}-${updateKey}`}
@@ -47,9 +46,9 @@ const TaskList: React.FC<TaskListProps> = ({
                         completed
                     />
                 ))}
-            </View>
+            </S.CompletedSection>
         )}
-    </ScrollView>
+    </S.ListContainer>
 );
 
 export default TaskList;

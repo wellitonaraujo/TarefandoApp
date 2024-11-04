@@ -1,5 +1,5 @@
 import {Image, ImageSourcePropType, TouchableOpacity, View} from 'react-native';
-import { styles } from './styles';
+import * as S from './styles';
 
 interface AddButtonProps {
   icon?: ImageSourcePropType;
@@ -14,14 +14,11 @@ const AddButton: React.FC<AddButtonProps> = ({
   onPress,
 }) => {
   return (
-    <View>
-      <TouchableOpacity 
-        onPress={onPress} 
-        style={styles.container}
-      >
-         <Image source={icons.plus} style={styles.plusIcon} />
-      </TouchableOpacity>
-    </View>
+    <S.Container>
+      <S.Button onPress={onPress}>
+        <S.PlusIcon source={icons.plus} />
+      </S.Button>
+    </S.Container>
   );
 };
 

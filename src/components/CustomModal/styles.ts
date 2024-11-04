@@ -1,46 +1,50 @@
-import { StyleSheet } from "react-native";
+import { TouchableOpacity } from "react-native";
+import styled from "styled-components/native";
 
-export const styles = StyleSheet.create({
-    overlay: {
-      flex: 1,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      justifyContent: 'flex-end',
-    },
-    modalContainer: {
-      backgroundColor: '#313747',
-      padding: 20,
-      borderTopLeftRadius: 16,
-      borderTopRightRadius: 16,
-      alignItems: 'center',
-    },
-    modalBar: {
-      width: 40,
-      height: 5,
-      backgroundColor: '#666',
-      borderRadius: 2.5,
-      marginBottom: 20,
-    },
-    input: {
-      width: '100%',
-      height: 55,
-      backgroundColor: '#4b536a',
-      borderRadius: 50,
-      paddingHorizontal: 16,
-      color: '#FFFFFF',
-      fontSize: 16,
-      marginBottom: 20,
-    },
-    createButton: {
-      width: '100%',
-      height: 55,
-      backgroundColor: '#1E90FF',
-      borderRadius: 50,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    createButtonText: {
-      color: '#FFFFFF',
-      fontSize: 18,
-      fontWeight: 'bold',
-    },
-  });
+export const Overlay = styled.View`
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: flex-end;
+`;
+
+export const ModalContainer = styled.View`
+  background-color: #313747;
+  padding: 20px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  align-items: center;
+`;
+
+export const ModalBar = styled.View`
+  width: 40px;
+  height: 5px;
+  background-color: #666;
+  border-radius: 2.5px;
+  margin-bottom: 20px;
+`;
+
+export const StyledTextInput = styled.TextInput`
+  width: 100%;
+  height: 55px;
+  background-color: #4b536a;
+  border-radius: 50px;
+  padding-horizontal: 16px;
+  color: #ffffff;
+  font-size: 16px;
+  margin-bottom: 20px;
+`;
+
+export const CreateButton = styled(TouchableOpacity)`
+  width: 100%;
+  height: 55px;
+  background-color: #1e90ff;
+  border-radius: 50px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const CreateButtonText = styled.Text`
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+`;
