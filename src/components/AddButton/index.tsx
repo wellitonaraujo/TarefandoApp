@@ -1,27 +1,43 @@
-import * as Animatable from 'react-native-animatable';
-import {ImageSourcePropType} from 'react-native';
-import {CreateTask, Icon} from './styles';
-import React from 'react';
-import colors from '../../styles/colors';
+import {Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 interface AddButtonProps {
-  icon: ImageSourcePropType;
+  icon?: ImageSourcePropType;
   onPress: () => void;
-  backgroundColor?: string;
 }
 
 const AddButton: React.FC<AddButtonProps> = ({
-  icon,
   onPress,
-  backgroundColor,
 }) => {
   return (
-    <Animatable.View animation="pulse" iterationCount={Infinity}>
-      <CreateTask onPress={onPress} backgroundColor={backgroundColor}>
-        <Icon source={icon} tintColor={colors.title}/>
-      </CreateTask>
-    </Animatable.View>
+    <View>
+      <TouchableOpacity 
+        onPress={onPress} 
+        style={styles.container}
+      >
+         <Image source={require('../../assets/images/plus.png')} style={styles.plusIcon} />
+      </TouchableOpacity>
+    </View>
   );
 };
 
 export default AddButton;
+
+const styles = StyleSheet.create({
+  container: {
+      backgroundColor: '#1E90FF',
+      alignItems: 'center',
+      height: 60,
+      width: 60,
+      padding: 10,
+      borderRadius: 60,
+      position: 'absolute',
+      bottom: 25,
+      justifyContent: 'center',
+      alignSelf: 'center'
+  },
+  plusIcon: {
+    width: 20, // Ajuste para o tamanho da sua imagem
+    height: 20,
+    resizeMode: 'contain', // Para garantir que a imagem não seja cortada
+},
+})
