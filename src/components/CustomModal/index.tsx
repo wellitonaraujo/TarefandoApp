@@ -1,13 +1,6 @@
+import { Modal, TouchableWithoutFeedback } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import {
-  Modal,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import * as S from './styles';
 
 interface CustomModalProps {
   visible: boolean;
@@ -28,7 +21,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
 
   useEffect(() => {
     setInputValue(taskName);
-  }, [taskName, visible]);
+  }, [taskName]);
 
   const saveTask = () => {
     if (inputValue.trim()) {
@@ -38,82 +31,35 @@ const CustomModal: React.FC<CustomModalProps> = ({
   };
 
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={visible}
+    <Modal 
+      animationType="slide" 
+      transparent={true} 
+      visible={visible} 
       onRequestClose={onClose}
     >
       <TouchableWithoutFeedback onPress={onClose}>
-        <View style={styles.overlay}>
+        <S.Overlay>
           <TouchableWithoutFeedback>
-            <View style={styles.modalContainer}>
-              <View style={styles.modalBar} />
-
-              <TextInput
-                style={styles.input}
+            <S.ModalContainer>
+              <S.ModalBar />
+              <S.StyledTextInput
                 placeholder="Nome da tarefa"
                 placeholderTextColor="#888"
                 value={inputValue}
                 onChangeText={setInputValue}
+                maxLength={100}
               />
-
-              <TouchableOpacity style={styles.createButton} onPress={saveTask}>
-                <Text style={styles.createButtonText}>
+              <S.CreateButton onPress={saveTask}>
+                <S.CreateButtonText>
                   {isEditing ? 'Editar tarefa' : 'Criar tarefa'}
-                </Text>
-              </TouchableOpacity>
-            </View>
+                </S.CreateButtonText>
+              </S.CreateButton>
+            </S.ModalContainer>
           </TouchableWithoutFeedback>
-        </View>
+        </S.Overlay>
       </TouchableWithoutFeedback>
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'flex-end',
-  },
-  modalContainer: {
-    backgroundColor: '#313747',
-    padding: 20,
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    alignItems: 'center',
-  },
-  modalBar: {
-    width: 40,
-    height: 5,
-    backgroundColor: '#666',
-    borderRadius: 2.5,
-    marginBottom: 20,
-  },
-  input: {
-    width: '100%',
-    height: 55,
-    backgroundColor: '#4b536a',
-    borderRadius: 50,
-    paddingHorizontal: 16,
-    color: '#FFFFFF',
-    fontSize: 16,
-    marginBottom: 20,
-  },
-  createButton: {
-    width: '100%',
-    height: 55,
-    backgroundColor: '#1E90FF',
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  createButtonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-});
 
 export default CustomModal;

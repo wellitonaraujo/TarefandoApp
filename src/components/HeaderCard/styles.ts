@@ -1,60 +1,60 @@
-import { StyleSheet } from "react-native";
+import { moderateScale, verticalScale } from "@/src/utils/metrics";
+import styled from "styled-components/native";
 
-export const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#262b39',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        height: 118,
-        marginTop: 26,
-        borderTopLeftRadius: 0,
-        borderTopRightRadius: 25,
-        borderBottomEndRadius: 25,
-        borderBottomLeftRadius: 25,
-        padding: 16,
-    },
-    title: {
-        color: '#fff',
-        fontSize: 15,
-        fontWeight: '500'
-    },
+export const Container = styled.View`
+    background-color: #262b39;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: ${moderateScale(110)}px;
+    margin-top:${verticalScale(20)}px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    padding:  ${moderateScale(16)}px;
+`;
 
-    value: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: '500'
-    },
+export const Title = styled.Text`
+    color: #fff;
+    font-size:  ${moderateScale(13)}px;
+    font-weight: 500;
+`;
 
-    dateValue: {
-        color: '#fff',
-        fontSize: 12,
-        fontWeight: '600'
-    },
+export const Value = styled.Text`
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    font-size:  ${moderateScale(14)}px;
+`;
 
-    test: {
-        justifyContent: 'space-between',       
-    },
+export const DateValue = styled.Text`
+    color: #fff;
+    font-size:  ${moderateScale(10)}px;
+    font-weight: 600;
+`;
 
-    currentDate: {
-        backgroundColor: '#1a72f3',
-        color: '#fff',
-        fontSize: 12,
-        borderTopLeftRadius: 0,
-        borderTopRightRadius: 25,
-        borderBottomEndRadius: 25,
-        borderBottomLeftRadius: 25,
-        padding: 8,
-        width: 120,
-        alignItems: 'center',
-    },
+export const Wrapper = styled.View`
+    justify-content: space-between;
+`;
 
-    percentageChart: {
-        backgroundColor: '#1a72f3',
-        borderRadius: 70,
-        width: 70,
-        height: 70,
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-})
+export const CurrentDate = styled.View`
+    background-color: #1a72f3;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    padding: 8px;
+    width: 120px;
+    align-items: center;
+    margin-top: 25px;
+`;
+
+export const PercentageChart = styled.View`
+    background-color: #1a72f3;
+    border-radius: 35px;
+    width: 70px;
+    height: 70px;
+    align-items: center;
+    justify-content: center;
+`;

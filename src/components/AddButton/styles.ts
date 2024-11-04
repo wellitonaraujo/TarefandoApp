@@ -1,21 +1,24 @@
-import { StyleSheet } from "react-native";
+import { moderateScale, verticalScale } from '@/src/utils/metrics';
+import styled from 'styled-components/native';
 
-export const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#1E90FF',
-        alignItems: 'center',
-        height: 60,
-        width: 60,
-        padding: 10,
-        borderRadius: 60,
-        position: 'absolute',
-        bottom: 25,
-        justifyContent: 'center',
-        alignSelf: 'center'
-    },
-    plusIcon: {
-      width: 20,
-      height: 20,
-      resizeMode: 'contain',
-  },
-  })
+export const Container = styled.View`
+  position: absolute;
+  bottom:${verticalScale(20)}px;
+  align-self: center;
+`;
+
+export const Button = styled.TouchableOpacity`
+  background-color: #1E90FF;
+  align-items: center;
+  justify-content: center;
+  width: ${moderateScale(50)}px;
+  height: ${moderateScale(50)}px;
+  padding: 10px;
+  border-radius: ${moderateScale(50)}px;
+`;
+
+export const PlusIcon = styled.Image`
+ width: ${moderateScale(18)}px;
+ height: ${moderateScale(18)}px;
+  resize-mode: contain;
+`;

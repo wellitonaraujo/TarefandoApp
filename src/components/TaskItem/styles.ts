@@ -1,102 +1,49 @@
-import { StyleSheet } from 'react-native';
+import { moderateScale } from '@/src/utils/metrics';
+import styled from 'styled-components/native';
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#181A20',
-        paddingBottom: 16,
-    },
-    headerContainer: {
-        padding: 16,
-    },
-    title: {
-        color: '#fff',
-        fontSize: 20,
-        fontWeight: '600',
-    },
-    emptyContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    emptyTitle: {
-        color: '#FFFFFF',
-        fontSize: 20,
-        textAlign: 'center',
-        fontWeight: 'bold',
-        marginBottom: 8
-    },
-    highlightedText: {
-        color: '#1A72F3',
-        fontWeight: 'bold',
-    },
-    emptyDescription: {
-        color: '#FFFFFF',
-        fontSize: 13,
-        textAlign: 'center',
-    },
-    completedSection: {
-        marginTop: 16,
-    },
-    completedTitle: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 8,
-        marginHorizontal: 16,
-    },
-    taskList: {
-        width: '100%',
-    },
-    listContainer: {
-        paddingBottom: 16,
-    },
-    taskItem: {
-        backgroundColor: '#313747',
-        padding: 15,
-        borderRadius: 16,
-        marginVertical: 4,
-        marginHorizontal: 16,
-    },
-    taskText: {
-        color: '#FFFFFF',
-        fontSize: 15,
-        fontWeight: '500',
-        letterSpacing: 1.8,
-    },
-    rightActionsContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignSelf: 'center',
-    },
-    actionButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 75,
-        height: '100%',
-        margin: 5,
-    },
-    completeButton: {
-        backgroundColor: '#4CAF50',
-        height: 40,
-        borderRadius: 12,
-    },
-    editButton: {
-        backgroundColor: '#FFA500',
-        height: 40,
-        borderRadius: 12,
-    },
-    deleteButton: {
-        backgroundColor: '#FF0000',
-        height: 40,
-        borderRadius: 12,
-    },
-    actionText: {
-        color: '#FFFFFF',
-        fontSize: 12,
-        fontWeight: '500',
-    },
-});
+export const TaskItemContainer = styled.View`
+  background-color: #313747;
+  padding: ${moderateScale(14)}px;
+  border-radius: ${moderateScale(14)}px;
+  margin-vertical: ${moderateScale(5)}px;
+  margin-horizontal: ${moderateScale(16)}px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
 
-export default styles;
+export const TaskText = styled.Text`
+    color: #fff; 
+    font-size: ${moderateScale(14)}px;
+    flex: 1; 
+    margin-right: 16px;
+    max-width: 90%; 
+`;
+
+export const RightActionsContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+`;
+
+export const ActionButton = styled.TouchableOpacity<{ backgroundColor?: string }>`
+  justify-content: center;
+  align-items: center;
+  width:  ${moderateScale(70)}px;
+  margin: 5px;
+  background-color: ${({ backgroundColor }) => backgroundColor || '#ccc'};
+  border-radius: ${moderateScale(10)}px;
+  height: ${moderateScale(35)}px;
+`;
+
+export const ActionText = styled.Text`
+  color: #ffffff;
+  font-size: ${moderateScale(10)}px;
+  font-weight: 500;
+`;
+export const DragIcon = styled.Image`
+  width: ${moderateScale(18)}px;
+  height: ${moderateScale(18)}px;
+  resize-mode: contain;
+`;

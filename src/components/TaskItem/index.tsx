@@ -1,63 +1,53 @@
-import { View, Text, TouchableOpacity } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
-import styles from './styles';
+import * as S from './styles';
 import React from 'react';
 
 interface Task {
-    id: string;
-    name: string;
+  id: string;
+  name: string;
 }
 
 interface TaskItemProps {
-    task: Task;
-    onEdit: (id: string) => void;
-    onComplete: (id: string) => void;
-    onDelete: (id: string) => void;
-    completed?: boolean;
+  task: Task;
+  onEdit: (id: string) => void;
+  onComplete: (id: string) => void;
+  onDelete: (id: string) => void;
+  completed?: boolean;
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onComplete, onDelete, completed = false }) => {
-    const renderRightActions = (): JSX.Element => (
-        <View style={styles.rightActionsContainer}>
-            {completed ? (
-                <TouchableOpacity
-                    style={[styles.actionButton, styles.deleteButton]}
-                    onPress={() => onDelete(task.id)}
-                >
-                    <Text style={styles.actionText}>Deletar</Text>
-                </TouchableOpacity>
-            ) : (
-                <>
-                    <TouchableOpacity
-                        style={[styles.actionButton, styles.completeButton]}
-                        onPress={() => onComplete(task.id)}
-                    >
-                        <Text style={styles.actionText}>Concluir</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.actionButton, styles.editButton]}
-                        onPress={() => onEdit(task.id)}
-                    >
-                        <Text style={styles.actionText}>Editar</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.actionButton, styles.deleteButton]}
-                        onPress={() => onDelete(task.id)}
-                    >
-                        <Text style={styles.actionText}>Deletar</Text>
-                    </TouchableOpacity>
-                </>
-            )}
-        </View>
-    );
+  const renderRightActions = (): JSX.Element => (
+    <S.RightActionsContainer>
+      {completed ? (
+        <S.ActionButton backgroundColor="#FF0000" onPress={() => onDelete(task.id)}>
+          <S.ActionText>Deletar</S.ActionText>
+        </S.ActionButton>
+      ) : (
+        <>
+          <S.ActionButton backgroundColor="#4CAF50" onPress={() => onComplete(task.id)}>
+            <S.ActionText>Concluir</S.ActionText>
+          </S.ActionButton>
+          <S.ActionButton backgroundColor="#FFA500" onPress={() => onEdit(task.id)}>
+            <S.ActionText>Editar</S.ActionText>
+          </S.ActionButton>
+          <S.ActionButton backgroundColor="#FF0000" onPress={() => onDelete(task.id)}>
+            <S.ActionText>Deletar</S.ActionText>
+          </S.ActionButton>
+        </>
+      )}
+    </S.RightActionsContainer>
+  );
 
-    return (
-        <Swipeable renderRightActions={renderRightActions}>
-            <View style={[styles.taskItem, completed && { opacity: 0.5 }]}>
-                <Text style={styles.taskText}>{task.name}</Text>
-            </View>
-        </Swipeable>
-    );
+  return (
+    <Swipeable renderRightActions={renderRightActions}>
+      <S.TaskItemContainer style={{ opacity: completed ? 0.5 : 1 }}>
+        <S.TaskText style={{ textDecorationLine: completed ? 'line-through' : 'none' }}>
+          {task.name}
+        </S.TaskText>
+        <S.DragIcon source={require('../../assets/icons/drag.png')} />
+      </S.TaskItemContainer>
+    </Swipeable>
+  );
 };
 
 export default TaskItem;
