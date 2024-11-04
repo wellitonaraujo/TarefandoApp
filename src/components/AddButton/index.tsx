@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
       alignSelf: 'center'
   },
   plusIcon: {
-    width: 20, // Ajuste para o tamanho da sua imagem
+    width: 20,
     height: 20,
-    resizeMode: 'contain', // Para garantir que a imagem não seja cortada
+    resizeMode: 'contain',
 },
 })
