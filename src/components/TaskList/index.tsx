@@ -29,10 +29,10 @@ const TaskList: React.FC<TaskListProps> = ({
         {tasks.filter(task => !task.completed).map(task => (
             <S.TaskRow key={`${task.id}-${updateKey}`}>
                 <View>
-                <CustomCheckBox
-                            value={task.completed}
-                            onValueChange={() => onCompleteTask(task.id)}
-                        />
+                    <CustomCheckBox
+                        value={task.completed}
+                        onValueChange={() => onCompleteTask(task.id)}
+                    />
                 </View>
                 <TaskItem
                     task={task}
@@ -45,13 +45,15 @@ const TaskList: React.FC<TaskListProps> = ({
 
         {tasks.some(task => task.completed) && (
             <S.CompletedSection>
-                <S.CompletedTitle>Concluídas</S.CompletedTitle>
+                <S.CompletedTitle></S.CompletedTitle>
                 {tasks.filter(task => task.completed).map(task => (
                     <S.TaskRow key={`${task.id}-${updateKey}`}>
-                        <CustomCheckBox
-                            value={task.completed}
-                            onValueChange={() => onCompleteTask(task.id)}
-                        />
+                        <View>
+                            <CustomCheckBox
+                                value={task.completed}
+                                onValueChange={() => onCompleteTask(task.id)}
+                            />
+                        </View>
                         <TaskItem
                             task={task}
                             onEdit={onEditTask}

@@ -9,18 +9,13 @@ export const TaskRow = styled.View`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 16px;
+    padding: ${verticalScale(5)}px ${horizontalScale(16)}px;
 `;
 
 export const CompletedSection = styled.View`
 `;
 
 export const CompletedTitle = styled.Text`
-    color: #fff;
-    font-size: ${moderateScale(13)}px;
-    font-weight: 500;
-    margin-bottom: 8px; 
-    margin: 15px 16px 5px 16px;
 `;
 
 

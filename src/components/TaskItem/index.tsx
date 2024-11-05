@@ -37,7 +37,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed =
 
    return (
     <Swipeable renderRightActions={renderRightActions}>
-      <S.TaskItemContainer style={{ opacity: completed ? 0.5 : 1 }}>
+      <S.TaskItemContainer style={{ opacity: completed ? 0.4 : 1 }}>
         <S.TaskText style={{ textDecorationLine: completed ? 'line-through' : 'none' }}>
           {task.name}
         </S.TaskText>

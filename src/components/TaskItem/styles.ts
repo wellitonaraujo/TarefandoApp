@@ -2,14 +2,13 @@ import { horizontalScale, moderateScale } from '@/src/utils/metrics';
 import styled from 'styled-components/native';
 
 export const TaskItemContainer = styled.View`
-  width: ${horizontalScale(315)}px;
+  width: ${horizontalScale(305)}px;
   background-color: #313747;
   padding: ${moderateScale(14)}px;
   border-top-left-radius: 0px;
   border-top-right-radius: ${moderateScale(16)}px;
   border-bottom-right-radius:${moderateScale(16)}px;
   border-bottom-left-radius: ${moderateScale(16)}px;
-
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -17,10 +16,10 @@ export const TaskItemContainer = styled.View`
 
 export const TaskText = styled.Text`
     color: #fff; 
-    font-size: ${moderateScale(14)}px;
-    font-weight: 800;
+    font-size: ${moderateScale(13)}px;
+    font-weight: 500;
     flex: 1; 
-    margin-right: 16px;
+    margin-right: ${moderateScale(16)}px;
     max-width: 90%; 
 `;
 
@@ -36,7 +35,7 @@ export const ActionButton = styled.TouchableOpacity<{ backgroundColor?: string }
   justify-content: center;
   align-items: center;
   width:  ${moderateScale(70)}px;
-  margin-left: 8px;
+  margin-left: ${moderateScale(8)}px;
   background-color: ${({ backgroundColor }) => backgroundColor || '#ccc'};
   border-radius: ${moderateScale(10)}px;
   height: ${moderateScale(35)}px;
