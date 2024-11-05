@@ -18,7 +18,7 @@ export const Button = styled.TouchableOpacity`
 `;
 
 export const PlusIcon = styled.Image`
- width: ${moderateScale(18)}px;
- height: ${moderateScale(18)}px;
+ width: ${moderateScale(15)}px;
+ height: ${moderateScale(15)}px;
   resize-mode: contain;
 `;

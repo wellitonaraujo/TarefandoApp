@@ -15,7 +15,7 @@ interface TaskItemProps {
   completed?: boolean;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onComplete, onDelete, completed = false }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed = false }) => {
   const renderRightActions = (): JSX.Element => (
     <S.RightActionsContainer>
       {completed ? (
@@ -24,9 +24,6 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onComplete, onDelete,
         </S.ActionButton>
       ) : (
         <>
-          <S.ActionButton backgroundColor="#4CAF50" onPress={() => onComplete(task.id)}>
-            <S.ActionText>Concluir</S.ActionText>
-          </S.ActionButton>
           <S.ActionButton backgroundColor="#FFA500" onPress={() => onEdit(task.id)}>
             <S.ActionText>Editar</S.ActionText>
           </S.ActionButton>
@@ -38,9 +35,9 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onComplete, onDelete,
     </S.RightActionsContainer>
   );
 
-  return (
+   return (
     <Swipeable renderRightActions={renderRightActions}>
-      <S.TaskItemContainer style={{ opacity: completed ? 0.5 : 1 }}>
+      <S.TaskItemContainer style={{ opacity: completed ? 0.4 : 1 }}>
         <S.TaskText style={{ textDecorationLine: completed ? 'line-through' : 'none' }}>
           {task.name}
         </S.TaskText>

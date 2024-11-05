@@ -1,19 +1,21 @@
-import { moderateScale, verticalScale } from '@/src/utils/metrics';
+import { horizontalScale, verticalScale } from '@/src/utils/metrics';
 import { ScrollView } from 'react-native';
 import styled from 'styled-components/native';
 
 export const ListContainer = styled(ScrollView)`
-    padding-bottom: 16px;
+`;
+
+export const TaskRow = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: ${verticalScale(5)}px ${horizontalScale(16)}px;
 `;
 
 export const CompletedSection = styled.View`
-    margin-top: ${verticalScale(16)}px;
 `;
 
 export const CompletedTitle = styled.Text`
-    color: #fff;
-    font-size: ${moderateScale(13)}px;
-    font-weight: 500;
-    margin-bottom: 8px;
-    margin-horizontal: ${moderateScale(16)}px;
 `;
+
+

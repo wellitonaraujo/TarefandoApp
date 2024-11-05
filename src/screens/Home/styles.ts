@@ -4,7 +4,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#181A20',
-        paddingBottom: 16,
     },
     loadingContainer: {
         flex: 1,

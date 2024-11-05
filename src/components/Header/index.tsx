@@ -1,7 +1,6 @@
-import React from 'react';
-import { View, Text, StyleProp, ViewStyle, TextStyle } from 'react-native';
 import HeaderCard from '../HeaderCard';
-import styles from './styles';
+import * as S from './styles';
+import React from 'react';
 
 type Task = {
     id: string;
@@ -14,13 +13,12 @@ type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({ tasks }) => (
-    <View style={styles.headerContainer as StyleProp<ViewStyle>}>
-        <Text style={styles.title as StyleProp<TextStyle>}>Painel de tarefas</Text>
+    <S.HeaderContainer>
         <HeaderCard
             totalTasks={tasks.length}
             completedTasks={tasks.filter(task => task.completed).length}
         />
-    </View>
+    </S.HeaderContainer>
 );
 
 export default Header;
