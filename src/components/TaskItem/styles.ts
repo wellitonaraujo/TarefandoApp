@@ -4,7 +4,10 @@ import styled from 'styled-components/native';
 export const TaskItemContainer = styled.View`
   background-color: #313747;
   padding: ${moderateScale(14)}px;
-  border-radius: ${moderateScale(14)}px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: ${moderateScale(16)}px;
+  border-bottom-right-radius:${moderateScale(16)}px;
+  border-bottom-left-radius: ${moderateScale(16)}px;
   margin-vertical: ${moderateScale(5)}px;
   margin-horizontal: ${moderateScale(16)}px;
   flex-direction: row;
@@ -15,6 +18,7 @@ export const TaskItemContainer = styled.View`
 export const TaskText = styled.Text`
     color: #fff; 
     font-size: ${moderateScale(14)}px;
+    font-weight: 800;
     flex: 1; 
     margin-right: 16px;
     max-width: 90%; 

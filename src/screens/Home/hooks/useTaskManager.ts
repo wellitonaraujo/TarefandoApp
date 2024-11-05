@@ -70,10 +70,11 @@ const useTaskManager = () => {
 
     const handleCompleteTask = (id: string) => {
         const updatedTasks = tasks.map(task =>
-            task.id === id ? { ...task, completed: true } : task
+            task.id === id ? { ...task, completed: !task.completed } : task
         );
         saveTasks(updatedTasks);
     };
+    
 
     const handleDeleteTask = (id: string) => {
         const updatedTasks = tasks.filter(task => task.id !== id);

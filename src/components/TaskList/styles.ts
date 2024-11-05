@@ -17,3 +17,9 @@ export const CompletedTitle = styled.Text`
     margin-bottom: 8px;
     margin-horizontal: ${moderateScale(16)}px;
 `;
+
+export const TaskRow = styled.View`
+  flex-direction: row;
+  align-items: center;
+  padding: ${moderateScale(5)}px 0;
+`;
