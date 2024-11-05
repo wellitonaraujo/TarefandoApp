@@ -1,4 +1,4 @@
-import { horizontalScale, moderateScale, verticalScale } from '@/src/utils/metrics';
+import { horizontalScale, verticalScale } from '@/src/utils/metrics';
 import { ScrollView } from 'react-native';
 import styled from 'styled-components/native';
 

@@ -1,4 +1,4 @@
-import { moderateScale, verticalScale } from "@/src/utils/metrics";
+import { moderateScale } from "@/src/utils/metrics";
 import styled from "styled-components/native";
 
 export const Container = styled.View`

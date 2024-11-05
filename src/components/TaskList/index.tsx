@@ -25,7 +25,7 @@ const TaskList: React.FC<TaskListProps> = ({
     onCompleteTask,
     onDeleteTask,
 }) => (
-    <S.ListContainer>
+    <S.ListContainer showsVerticalScrollIndicator={false}>
         {tasks.filter(task => !task.completed).map(task => (
             <S.TaskRow key={`${task.id}-${updateKey}`}>
                 <View>
