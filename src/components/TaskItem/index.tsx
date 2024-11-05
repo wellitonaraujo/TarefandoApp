@@ -1,7 +1,6 @@
 import { Swipeable } from 'react-native-gesture-handler';
 import * as S from './styles';
 import React from 'react';
-import CustomCheckBox from '../CustomCheckBox';
 
 interface Task {
   id: string;
@@ -16,7 +15,7 @@ interface TaskItemProps {
   completed?: boolean;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onComplete, onDelete, completed = false }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed = false }) => {
   const renderRightActions = (): JSX.Element => (
     <S.RightActionsContainer>
       {completed ? (
@@ -39,10 +38,6 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onComplete, onDelete,
    return (
     <Swipeable renderRightActions={renderRightActions}>
       <S.TaskItemContainer style={{ opacity: completed ? 0.5 : 1 }}>
-        <CustomCheckBox
-          value={completed} 
-          onValueChange={() => onComplete(task.id)} 
-        />
         <S.TaskText style={{ textDecorationLine: completed ? 'line-through' : 'none' }}>
           {task.name}
         </S.TaskText>

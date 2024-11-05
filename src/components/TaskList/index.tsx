@@ -1,6 +1,8 @@
 import TaskItem from '../TaskItem';
 import React from 'react';
 import * as S from './styles';
+import CustomCheckBox from '../CustomCheckBox';
+import { View } from 'react-native';
 
 type Task = {
     id: string;
@@ -8,7 +10,7 @@ type Task = {
     completed: boolean;
 };
 
-type TaskListProps = {
+type TaskListProps = {  
     tasks: Task[];
     updateKey: number;
     onEditTask: (id: string) => void;
@@ -25,26 +27,39 @@ const TaskList: React.FC<TaskListProps> = ({
 }) => (
     <S.ListContainer>
         {tasks.filter(task => !task.completed).map(task => (
-            <TaskItem
-                key={`${task.id}-${updateKey}`}
-                task={task}
-                onEdit={onEditTask}
-                onComplete={onCompleteTask}
-                onDelete={onDeleteTask}
-            />
+            <S.TaskRow key={`${task.id}-${updateKey}`}>
+                <View>
+                <CustomCheckBox
+                            value={task.completed}
+                            onValueChange={() => onCompleteTask(task.id)}
+                        />
+                </View>
+                <TaskItem
+                    task={task}
+                    onEdit={onEditTask}
+                    onComplete={onCompleteTask}
+                    onDelete={onDeleteTask}
+                />
+            </S.TaskRow>
         ))}
+
         {tasks.some(task => task.completed) && (
             <S.CompletedSection>
                 <S.CompletedTitle>Concluídas</S.CompletedTitle>
                 {tasks.filter(task => task.completed).map(task => (
-                    <TaskItem
-                        key={`${task.id}-${updateKey}`}
-                        task={task}
-                        onEdit={onEditTask}
-                        onComplete={onCompleteTask}
-                        onDelete={onDeleteTask}
-                        completed
-                    />
+                    <S.TaskRow key={`${task.id}-${updateKey}`}>
+                        <CustomCheckBox
+                            value={task.completed}
+                            onValueChange={() => onCompleteTask(task.id)}
+                        />
+                        <TaskItem
+                            task={task}
+                            onEdit={onEditTask}
+                            onComplete={onCompleteTask}
+                            onDelete={onDeleteTask}
+                            completed
+                        />
+                    </S.TaskRow>
                 ))}
             </S.CompletedSection>
         )}

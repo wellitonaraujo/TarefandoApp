@@ -6,8 +6,7 @@ export const Container = styled.View`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    height: ${moderateScale(110)}px;
-    margin-top:${verticalScale(20)}px;
+    height: ${moderateScale(100)}px;
     border-top-left-radius: 0px;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
@@ -53,8 +52,8 @@ export const CurrentDate = styled.View`
 export const PercentageChart = styled.View`
     background-color: #1a72f3;
     border-radius: 35px;
-    width: 70px;
-    height: 70px;
+    width: ${moderateScale(60)}px;
+    height: ${moderateScale(60)}px;
     align-items: center;
     justify-content: center;
 `;
