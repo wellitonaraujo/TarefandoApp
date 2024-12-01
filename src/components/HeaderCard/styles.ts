@@ -2,7 +2,7 @@ import { moderateScale } from "@/src/utils/metrics";
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-    background-color: #262b39;
+    background-color: #22293D;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
