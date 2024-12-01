@@ -16,6 +16,7 @@ const useTaskManager = () => {
     const [editingTask, setEditingTask] = useState<Task | null>(null);
     const [updateKey, setUpdateKey] = useState<number>(0);
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [selectedTab, setSelectedTab] = useState(0);
 
     useEffect(() => {
         const loadTasks = async () => {
@@ -43,6 +44,37 @@ const useTaskManager = () => {
             setTasks(updatedTasks);
         } catch (error) {
             console.error("Erro ao salvar as tarefas", error);
+        }
+    };
+
+    const formatDate = (date: Date): string => {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
+    const convertToComparableDate = (date: string): string => {
+        const [day, month, year] = date.split('/');
+        return `${year}-${month}-${day}`; 
+    };
+
+    // Função para filtrar as tarefas
+    const filteredTasks = () => {
+        const currentDate = formatDate(new Date());
+        const currentDateComparable = convertToComparableDate(currentDate);
+
+        switch (selectedTab) {
+            case 0:
+                return tasks.filter(task => convertToComparableDate(task.date) === currentDateComparable && !task.completed);
+            case 1:
+                return tasks.filter(task => convertToComparableDate(task.date) > currentDateComparable && !task.completed);
+            case 2:
+                return tasks.filter(task => convertToComparableDate(task.date) < currentDateComparable && !task.completed);
+            case 3:
+                return tasks.filter(task => task.completed);
+            default:
+                return tasks;
         }
     };
 
@@ -116,6 +148,9 @@ const useTaskManager = () => {
         modalVisible,
         openModal,
         closeModal,
+        selectedTab,
+        setSelectedTab,
+        filteredTasks,
     };
 };
 

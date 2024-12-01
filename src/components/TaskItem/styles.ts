@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 export const TaskItemContainer = styled.View`
   width: ${horizontalScale(305)}px;
   background-color: #22293D;
-  padding: ${moderateScale(14)}px;
+  padding: ${moderateScale(10)}px;
   border-top-left-radius: 0px;
   border-top-right-radius: ${moderateScale(16)}px;
   border-bottom-right-radius:${moderateScale(16)}px;

@@ -6,7 +6,7 @@ import useTaskManager from './hooks/useTaskManager';
 import AddButton from "@/src/components/AddButton";
 import TaskList from "@/src/components/TaskList";
 import Header from "@/src/components/Header";
-import React, { useState } from "react";
+import React from "react";
 import { styles } from './styles';
 
 const Home: React.FC = () => {
@@ -21,31 +21,19 @@ const Home: React.FC = () => {
     handleDeleteTask,
     modalVisible,
     openModal,
-    closeModal
+    closeModal,
+    selectedTab,
+    setSelectedTab,
+    filteredTasks,
   } = useTaskManager();
 
-  const [selectedTab, setSelectedTab] = useState(0);
-
-  const filteredTasks = () => {
-    switch (selectedTab) {
-      case 0:
-        return tasks.filter(task => task.date === new Date().toLocaleDateString('pt-BR'));
-      case 1:
-        return tasks.filter(task => new Date(task.date) > new Date());
-      case 2:
-        return tasks.filter(task => new Date(task.date) < new Date());
-      case 3:
-        return tasks.filter(task => task.completed);
-      default:
-        return tasks;
-    }
-  };
+  const isEmptyStateVisible = selectedTab === 0 && filteredTasks().length === 0;
 
   return (
     <GestureHandlerRootView style={styles.container}>
       <Header tasks={tasks} />
       <View style={styles.tabsContainer}>
-        {['Hoje', 'Futuras', 'Atrasadas', 'Concluídas'].map((tab, index) => (
+        {['Hoje', 'Próximas', 'Atrasadas', 'Concluídas'].map((tab, index) => (
           <TouchableOpacity
             key={index}
             style={[
@@ -70,7 +58,7 @@ const Home: React.FC = () => {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#1A72F3" />
         </View>
-      ) : filteredTasks().length === 0 ? (
+      ) : isEmptyStateVisible ? (
         <EmptyState />
       ) : (
         <TaskList
@@ -93,5 +81,6 @@ const Home: React.FC = () => {
     </GestureHandlerRootView>
   );
 };
+
 
 export default Home;

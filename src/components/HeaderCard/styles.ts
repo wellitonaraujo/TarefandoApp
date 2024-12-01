@@ -50,7 +50,7 @@ export const CurrentDate = styled.View`
 `;
 
 export const PercentageChart = styled.View`
-    border-width: 4px;
+    border-width: 2px;
     border-color: #1a72f3;
     border-radius: 35px;
     width: ${moderateScale(60)}px;

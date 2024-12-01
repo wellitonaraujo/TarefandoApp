@@ -28,7 +28,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
 
   const saveTask = () => {
     if (inputValue.trim()) {
-      const formattedDate = date.toLocaleDateString('pt-BR');
+      const formattedDate = formatDate(date);
       onSave(inputValue, formattedDate);
       setInputValue('');
       setDate(new Date());
@@ -38,7 +38,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
   const handleDateChange = (event: any, selectedDate?: Date) => {
     setShowDatePicker(false);
     if (selectedDate) {
-      setDate(selectedDate); // Atualiza o estado com a data selecionada
+      setDate(selectedDate);
     }
   };
 
@@ -51,7 +51,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
     ) {
       return 'Hoje';
     }
-    return date.toLocaleDateString('pt-BR'); // Exibe a data no formato DD/MM/YYYY
+    return formatDate(date);
   };
 
   return (
@@ -95,6 +95,13 @@ const CustomModal: React.FC<CustomModalProps> = ({
       </TouchableWithoutFeedback>
     </Modal>
   );
+};
+
+const formatDate = (date: Date): string => {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
 };
 
 export default CustomModal;

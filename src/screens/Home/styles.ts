@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
 
     tabText: {
       fontSize: 14,
-      fontWeight: '500',
+      fontWeight: '800',
     },
     selectedTabText: {
       color: '#1A72F3',
