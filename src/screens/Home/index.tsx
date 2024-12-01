@@ -1,6 +1,7 @@
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ActivityIndicator, View, Text, TouchableOpacity } from 'react-native';
-import CustomModal from "@/src/components/CustomModal";
+import CreateTaskModal from "@/src/components/CreateTaskModal";
+import EditTaskModal from "@/src/components/EditTaskModal";
 import EmptyState from "@/src/components/EmptyState";
 import useTaskManager from './hooks/useTaskManager';
 import AddButton from "@/src/components/AddButton";
@@ -70,17 +71,27 @@ const Home: React.FC = () => {
         />
       )}
 
-      <CustomModal
-        visible={modalVisible}
+      {/* Modal para criação de tarefa */}
+      <CreateTaskModal
+        visible={modalVisible && !editingTask}
         onClose={closeModal}
         onSave={handleSaveTask}
-        taskName={editingTask ? editingTask.name : ''}
-        isEditing={!!editingTask}
       />
+
+      {/* Modal para edição de tarefa */}
+      {editingTask && (
+        <EditTaskModal
+          visible={modalVisible && !!editingTask}
+          onClose={closeModal}
+          onSave={handleSaveTask}
+          taskName={editingTask.name}
+          taskDate={editingTask.date}
+        />
+      )}
+
       <AddButton onPress={openModal} />
     </GestureHandlerRootView>
   );
 };
-
 
 export default Home;

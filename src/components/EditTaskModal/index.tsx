@@ -3,41 +3,32 @@ import React, { useState, useEffect } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as S from './styles';
 
-interface CustomModalProps {
+interface EditTaskModalProps {
   visible: boolean;
   onClose: () => void;
   onSave: (title: string, date: string) => void;
-  taskName?: string;
-  taskDate?: string; // Adiciona uma propriedade para a data da tarefa
-  isEditing?: boolean;
+  taskName: string;
+  taskDate: string;
 }
 
-const CustomModal: React.FC<CustomModalProps> = ({
-  visible,
-  onClose,
-  onSave,
-  taskName = '',
-  taskDate,  // Recebe a data da tarefa
-  isEditing = false,
-}) => {
-  const [inputValue, setInputValue] = useState('');
+const EditTaskModal: React.FC<EditTaskModalProps> = ({ visible, onClose, onSave, taskName, taskDate }) => {
+  const [inputValue, setInputValue] = useState(taskName);
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
 
+  // Converte taskDate (se estiver no formato DD/MM/YYYY) para um objeto Date
   useEffect(() => {
-    setInputValue(taskName);
-    if (taskDate && isEditing) {
-      // Se estamos editando e a data da tarefa for fornecida, definimos o valor de "date"
-      setDate(new Date(taskDate));  // Converter a data fornecida (no formato "dd/mm/yyyy") para Date
+    if (taskDate) {
+      const [day, month, year] = taskDate.split('/').map((part) => parseInt(part, 10));
+      setDate(new Date(year, month - 1, day)); // Subtrai 1 do mês, pois os meses começam em 0
     }
-  }, [taskName, taskDate, isEditing]);
+  }, [taskDate]);
 
   const saveTask = () => {
     if (inputValue.trim()) {
       const formattedDate = formatDate(date);
       onSave(inputValue, formattedDate);
       setInputValue('');
-      setDate(new Date()); // Resetar para a data atual após salvar
     }
   };
 
@@ -61,12 +52,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
   };
 
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={visible}
-      onRequestClose={onClose}
-    >
+    <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={onClose}>
       <TouchableWithoutFeedback onPress={onClose}>
         <S.Overlay>
           <TouchableWithoutFeedback>
@@ -91,9 +77,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
                 />
               )}
               <S.CreateButton onPress={saveTask}>
-                <S.CreateButtonText>
-                  {isEditing ? 'Editar tarefa' : 'Criar tarefa'}
-                </S.CreateButtonText>
+                <S.CreateButtonText>Salvar</S.CreateButtonText>
               </S.CreateButton>
             </S.ModalContainer>
           </TouchableWithoutFeedback>
@@ -110,4 +94,4 @@ const formatDate = (date: Date): string => {
   return `${day}/${month}/${year}`;
 };
 
-export default CustomModal;
+export default EditTaskModal;
