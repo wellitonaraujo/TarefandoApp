@@ -59,7 +59,6 @@ const useTaskManager = () => {
         return `${year}-${month}-${day}`; 
     };
 
-    // Função para filtrar as tarefas
     const filteredTasks = () => {
         const currentDate = formatDate(new Date());
         const currentDateComparable = convertToComparableDate(currentDate);
@@ -68,11 +67,23 @@ const useTaskManager = () => {
             case 0:
                 return tasks.filter(task => convertToComparableDate(task.date) === currentDateComparable && !task.completed);
             case 1:
-                return tasks.filter(task => convertToComparableDate(task.date) > currentDateComparable && !task.completed);
+                return tasks
+                    .filter(task => convertToComparableDate(task.date) > currentDateComparable && !task.completed)
+                    .sort((a, b) => {
+                        return convertToComparableDate(a.date) < convertToComparableDate(b.date) ? -1 : 1;
+                    });
             case 2:
-                return tasks.filter(task => convertToComparableDate(task.date) < currentDateComparable && !task.completed);
+                return tasks
+                    .filter(task => convertToComparableDate(task.date) < currentDateComparable && !task.completed)
+                    .sort((a, b) => { 
+                        return convertToComparableDate(a.date) > convertToComparableDate(b.date) ? -1 : 1;
+                    });
             case 3:
-                return tasks.filter(task => task.completed);
+                return tasks
+                    .filter(task => task.completed)
+                    .sort((a, b) => {
+                        return convertToComparableDate(a.date) < convertToComparableDate(b.date) ? -1 : 1;
+                    });
             default:
                 return tasks;
         }
