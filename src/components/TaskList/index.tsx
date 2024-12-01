@@ -8,6 +8,7 @@ type Task = {
     id: string;
     name: string;
     completed: boolean;
+    date: string;
 };
 
 type TaskListProps = {  
@@ -45,7 +46,7 @@ const TaskList: React.FC<TaskListProps> = ({
 
         {tasks.some(task => task.completed) && (
             <S.CompletedSection>
-                <S.CompletedTitle></S.CompletedTitle>
+                <S.CompletedTitle>Concluídas</S.CompletedTitle>
                 {tasks.filter(task => task.completed).map(task => (
                     <S.TaskRow key={`${task.id}-${updateKey}`}>
                         <View>

@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 
 export const TaskItemContainer = styled.View`
   width: ${horizontalScale(305)}px;
-  background-color: #313747;
+  background-color: #22293D;
   padding: ${moderateScale(14)}px;
   border-top-left-radius: 0px;
   border-top-right-radius: ${moderateScale(16)}px;
@@ -16,7 +16,7 @@ export const TaskItemContainer = styled.View`
 
 export const TaskText = styled.Text`
     color: #fff; 
-    font-size: ${moderateScale(13)}px;
+    font-size: ${moderateScale(15)}px;
     font-weight: 500;
     flex: 1; 
     margin-right: ${moderateScale(16)}px;
@@ -46,8 +46,33 @@ export const ActionText = styled.Text`
   font-size: ${moderateScale(10)}px;
   font-weight: 500;
 `;
+
 export const DragIcon = styled.Image`
   width: ${moderateScale(18)}px;
   height: ${moderateScale(18)}px;
   resize-mode: contain;
+`;
+
+export const TaskDate = styled.Text`
+  color: #888888;
+  font-size: ${moderateScale(12)}px;
+ 
+`;
+
+export const TaskWraper = styled.View`
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+export const Date = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+`;
+
+export const DateIcon = styled.Image`
+  width: ${moderateScale(17)}px;
+  height: ${moderateScale(17)}px;
+  resize-mode: contain;
+  margin-right: 5px;
 `;

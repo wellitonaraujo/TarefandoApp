@@ -1,10 +1,12 @@
 import { Swipeable } from 'react-native-gesture-handler';
 import * as S from './styles';
 import React from 'react';
+import { View } from 'react-native';
 
 interface Task {
   id: string;
   name: string;
+  date: string;
 }
 
 interface TaskItemProps {
@@ -38,9 +40,15 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed =
    return (
     <Swipeable renderRightActions={renderRightActions}>
       <S.TaskItemContainer style={{ opacity: completed ? 0.4 : 1 }}>
-        <S.TaskText style={{ textDecorationLine: completed ? 'line-through' : 'none' }}>
-          {task.name}
-        </S.TaskText>
+        <S.TaskWraper>
+          <S.TaskText style={{ textDecorationLine: completed ? 'line-through' : 'none' }}>
+            {task.name}
+          </S.TaskText>
+         <S.Date>
+          <S.DateIcon source={require('../../assets/icons/date-light.png')} />
+          <S.TaskDate>{task.date}</S.TaskDate>
+         </S.Date>
+        </S.TaskWraper>
         <S.DragIcon source={require('../../assets/icons/drag.png')} />
       </S.TaskItemContainer>
     </Swipeable>

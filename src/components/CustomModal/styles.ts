@@ -48,3 +48,18 @@ export const CreateButtonText = styled.Text`
   font-size: 18px;
   font-weight: bold;
 `;
+
+export const DateButton = styled.TouchableOpacity`
+  width: 100%;
+  height: 55px;
+  background-color: #4b536a;
+  border-radius: 50px;
+  justify-content: center;
+  padding-horizontal: 16px;
+  margin-bottom: 20px;
+`;
+
+export const DateButtonText = styled.Text`
+  color: #ffffff;
+  font-size: 16px;
+`;

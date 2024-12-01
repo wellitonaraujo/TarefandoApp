@@ -7,6 +7,7 @@ type Task = {
     id: string;
     name: string;
     completed: boolean;
+    date: string;
 };
 
 const useTaskManager = () => {
@@ -21,7 +22,11 @@ const useTaskManager = () => {
             try {
                 const savedTasks = await AsyncStorage.getItem(TASKS_KEY);
                 if (savedTasks) {
-                    setTasks(JSON.parse(savedTasks));
+                    const parsedTasks: Task[] = JSON.parse(savedTasks).map(task => ({
+                        ...task,
+                        date: task.date || new Date().toLocaleDateString(),
+                    }));
+                    setTasks(parsedTasks);
                 }
             } catch (error) {
                 console.error("Erro ao carregar as tarefas", error);
@@ -41,16 +46,24 @@ const useTaskManager = () => {
         }
     };
 
-    const handleSaveTask = (taskName: string) => {
+    const handleSaveTask = (taskName: string, taskDate: string) => {
         let updatedTasks: Task[];
 
         if (editingTask) {
             updatedTasks = tasks.map(task =>
-                task.id === editingTask.id ? { ...task, name: taskName } : task
+                task.id === editingTask.id ? { ...task, name: taskName, date: taskDate } : task
             );
-            closeModal(); // Fecha o modal ao salvar uma tarefa editada
+            closeModal();
         } else if (taskName) {
-            updatedTasks = [...tasks, { id: Date.now().toString(), name: taskName, completed: false }];
+            updatedTasks = [
+                ...tasks,
+                {
+                    id: Date.now().toString(),
+                    name: taskName,
+                    completed: false,
+                    date: taskDate,
+                },
+            ];
         } else {
             return;
         }
@@ -74,7 +87,6 @@ const useTaskManager = () => {
         );
         saveTasks(updatedTasks);
     };
-    
 
     const handleDeleteTask = (id: string) => {
         const updatedTasks = tasks.filter(task => task.id !== id);
@@ -103,7 +115,7 @@ const useTaskManager = () => {
         setEditingTask,
         modalVisible,
         openModal,
-        closeModal
+        closeModal,
     };
 };
 
