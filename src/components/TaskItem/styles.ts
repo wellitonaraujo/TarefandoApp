@@ -3,24 +3,25 @@ import styled from 'styled-components/native';
 
 export const TaskItemContainer = styled.View`
   width: ${horizontalScale(305)}px;
-  background-color: #2d3341;
-  padding: ${moderateScale(6)}px;
+  padding: ${moderateScale(5)}px;
   border-top-left-radius: 0px;
-  border-top-right-radius: ${moderateScale(16)}px;
-  border-bottom-right-radius:${moderateScale(16)}px;
+  border-top-right-radius: ${moderateScale(20)}px;
+  border-bottom-right-radius:${moderateScale(20)}px;
   border-bottom-left-radius: ${moderateScale(16)}px;
+  border-width: 1px;
+  border-color: #2d3341;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 `;
 
 export const TaskText = styled.Text`
-    color: #fff; 
-    font-size: ${moderateScale(14)}px;
-    letter-spacing: 1.2px;
-    flex: 1; 
-    margin-right: ${moderateScale(16)}px;
-    max-width: 90%; 
+  color: #fff; 
+  font-size: ${moderateScale(13)}px;
+  flex-shrink: 1;
+  flex-basis: 0;
+  margin-right:${horizontalScale(13)}px;
 `;
 
 export const RightActionsContainer = styled.View`
@@ -51,6 +52,7 @@ export const DragIcon = styled.Image`
   width: ${moderateScale(9)}px;
   height: ${moderateScale(13)}px;
   margin-right: ${horizontalScale(8)}px;
+  flex-shrink: 0;
 `;
 
 export const TaskDate = styled.Text`
@@ -63,6 +65,7 @@ export const TaskWraper = styled.View`
   flex-direction: column;
   justify-content: space-between;
   margin-left: ${verticalScale(8)}px;
+  flex: 1;
 `;
 
 export const Date = styled.View`

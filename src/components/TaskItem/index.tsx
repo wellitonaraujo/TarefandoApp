@@ -20,7 +20,6 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed =
 
   const formatDate = (dateString: string): string => {
     const [day, month, year] = dateString.split('/').map((part) => parseInt(part, 10));
-  
     const date = new Date(year, month - 1, day);
   
     if (isNaN(date.getTime())) {
@@ -30,7 +29,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed =
     const formatter = new Intl.DateTimeFormat('pt-BR', {
       weekday: 'short',
       day: '2-digit',
-      month: 'long',
+      month: 'short', 
     });
   
     let formattedDate = formatter.format(date);
