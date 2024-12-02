@@ -16,7 +16,7 @@ export const TaskItemContainer = styled.View`
 
 export const TaskText = styled.Text`
     color: #fff; 
-    font-size: ${moderateScale(14)}px;
+    font-size:  ${moderateScale(13)}px;
     letter-spacing: 1.2px;
     flex: 1; 
     margin-right: ${moderateScale(16)}px;
