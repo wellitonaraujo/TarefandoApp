@@ -80,7 +80,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                 placeholderTextColor="#fff"
                 value={inputValue}
                 onChangeText={setInputValue}
-                maxLength={50}
+                maxLength={100}
               />
             </S.InputWrapper>
 
