@@ -64,9 +64,11 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                 onChangeText={setInputValue}
                 maxLength={100}
               />
-              <S.DateButton onPress={() => setShowDatePicker(true)}>
-                <S.DateButtonText>{getDateLabel()}</S.DateButtonText>
-              </S.DateButton>
+               <S.DateTextContainer>
+                <S.DateText onPress={() => setShowDatePicker(true)}>
+                  {getDateLabel()}
+                </S.DateText>
+              </S.DateTextContainer>
               {showDatePicker && (
                 <DateTimePicker
                   value={date}

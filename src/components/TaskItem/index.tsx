@@ -1,7 +1,6 @@
 import { Swipeable } from 'react-native-gesture-handler';
 import * as S from './styles';
 import React from 'react';
-import { View } from 'react-native';
 
 interface Task {
   id: string;
@@ -18,6 +17,33 @@ interface TaskItemProps {
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed = false }) => {
+
+  const formatDate = (dateString: string): string => {
+    const [day, month, year] = dateString.split('/').map((part) => parseInt(part, 10));
+  
+    const date = new Date(year, month - 1, day);
+  
+    if (isNaN(date.getTime())) {
+      return 'Data inválida';
+    }
+  
+    const formatter = new Intl.DateTimeFormat('pt-BR', {
+      weekday: 'short',
+      day: '2-digit',
+      month: 'long',
+    });
+  
+    let formattedDate = formatter.format(date);
+  
+    formattedDate = formattedDate
+      .replace(/(\d{2}), (.+)/, (_, day, month) => `${day}, de ${month.charAt(0).toUpperCase()}${month.slice(1)}`)
+      .replace(/\b\w/g, (match) => match.toUpperCase())
+      .replace('De ', 'de ');
+  
+    return formattedDate;
+  };
+  
+  
   const renderRightActions = (): JSX.Element => (
     <S.RightActionsContainer>
       {completed ? (
@@ -46,7 +72,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed =
           </S.TaskText>
          <S.Date>
           <S.DateIcon source={require('../../assets/icons/date-light.png')} />
-          <S.TaskDate>{task.date}</S.TaskDate>
+          <S.TaskDate>{formatDate(task.date)}</S.TaskDate>
          </S.Date>
         </S.TaskWraper>
         <S.DragIcon source={require('../../assets/icons/drag.png')} />

@@ -63,3 +63,13 @@ export const DateButtonText = styled.Text`
   color: #ffffff;
   font-size: 16px;
 `;
+export const DateTextContainer = styled.View`
+  align-self: flex-start;
+  margin-bottom: 20px;
+`;
+
+export const DateText = styled.Text`
+  font-size: 16px;
+  color: white;
+`;
+

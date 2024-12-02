@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 export const TaskItemContainer = styled.View`
   width: ${horizontalScale(305)}px;
   background-color: #22293D;
-  padding: ${moderateScale(10)}px;
+  padding: ${moderateScale(8)}px;
   border-top-left-radius: 0px;
   border-top-right-radius: ${moderateScale(16)}px;
   border-bottom-right-radius:${moderateScale(16)}px;
@@ -16,8 +16,9 @@ export const TaskItemContainer = styled.View`
 
 export const TaskText = styled.Text`
     color: #fff; 
-    font-size: ${moderateScale(15)}px;
-    font-weight: 500;
+    font-size: ${moderateScale(14)}px;
+    letter-spacing: 1.2px;
+    font-weight: 700;
     flex: 1; 
     margin-right: ${moderateScale(16)}px;
     max-width: 90%; 
@@ -55,7 +56,7 @@ export const DragIcon = styled.Image`
 
 export const TaskDate = styled.Text`
   color: #888888;
-  font-size: ${moderateScale(12)}px;
+  font-size: ${moderateScale(10)}px;
  
 `;
 
@@ -67,7 +68,7 @@ export const TaskWraper = styled.View`
 export const Date = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 5px;
 `;
 
 export const DateIcon = styled.Image`

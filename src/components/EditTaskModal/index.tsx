@@ -16,11 +16,10 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({ visible, onClose, onSave,
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
 
-  // Converte taskDate (se estiver no formato DD/MM/YYYY) para um objeto Date
   useEffect(() => {
     if (taskDate) {
       const [day, month, year] = taskDate.split('/').map((part) => parseInt(part, 10));
-      setDate(new Date(year, month - 1, day)); // Subtrai 1 do mês, pois os meses começam em 0
+      setDate(new Date(year, month - 1, day));
     }
   }, [taskDate]);
 
@@ -64,9 +63,11 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({ visible, onClose, onSave,
                 onChangeText={setInputValue}
                 maxLength={100}
               />
-              <S.DateButton onPress={() => setShowDatePicker(true)}>
-                <S.DateButtonText>{getDateLabel()}</S.DateButtonText>
-              </S.DateButton>
+               <S.DateTextContainer>
+                <S.DateText onPress={() => setShowDatePicker(true)}>
+                  {getDateLabel()}
+                </S.DateText>
+              </S.DateTextContainer>
               {showDatePicker && (
                 <DateTimePicker
                   value={date}
