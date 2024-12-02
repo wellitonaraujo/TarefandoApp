@@ -1,5 +1,5 @@
 import { Modal, TouchableWithoutFeedback, Platform } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as S from './styles';
 
@@ -11,10 +11,17 @@ interface EditTaskModalProps {
   taskDate: string;
 }
 
-const EditTaskModal: React.FC<EditTaskModalProps> = ({ visible, onClose, onSave, taskName, taskDate }) => {
+const EditTaskModal: React.FC<EditTaskModalProps> = ({
+  visible,
+  onClose,
+  onSave,
+  taskName,
+  taskDate,
+}) => {
   const [inputValue, setInputValue] = useState(taskName);
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if (taskDate) {
@@ -23,11 +30,11 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({ visible, onClose, onSave,
     }
   }, [taskDate]);
 
+
   const saveTask = () => {
     if (inputValue.trim()) {
       const formattedDate = formatDate(date);
       onSave(inputValue, formattedDate);
-      setInputValue('');
     }
   };
 
@@ -56,18 +63,28 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({ visible, onClose, onSave,
         <S.Overlay>
           <TouchableWithoutFeedback>
             <S.ModalContainer>
-              <S.StyledTextInput
-                placeholder="Nome da tarefa"
-                placeholderTextColor="#888"
-                value={inputValue}
-                onChangeText={setInputValue}
-                maxLength={100}
-              />
-               <S.DateTextContainer>
-                <S.DateText onPress={() => setShowDatePicker(true)}>
-                  {getDateLabel()}
-                </S.DateText>
-              </S.DateTextContainer>
+              <S.InputWrapper>
+                <S.StyledTextInput
+                  ref={inputRef}
+                  placeholder="Eu vou..."
+                  placeholderTextColor="#fff"
+                  value={inputValue}
+                  onChangeText={setInputValue}
+                  maxLength={50}
+                />
+              </S.InputWrapper>    
+              <S.SendButton onPress={saveTask}>
+                <S.SendIcon source={require('../../assets/icons/send.png')} />
+              </S.SendButton>
+
+              <S.DateWrapper onPress={() => setShowDatePicker(true)}>
+                <S.DateIcon
+                  source={require('../../assets/icons/date.png')}
+                  style={{ marginRight: 8 }}
+                />
+                <S.DateText>{getDateLabel()}</S.DateText>
+              </S.DateWrapper>
+
               {showDatePicker && (
                 <DateTimePicker
                   value={date}
@@ -77,9 +94,6 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({ visible, onClose, onSave,
                   minimumDate={new Date()}
                 />
               )}
-              <S.CreateButton onPress={saveTask}>
-                <S.CreateButtonText>Salvar</S.CreateButtonText>
-              </S.CreateButton>
             </S.ModalContainer>
           </TouchableWithoutFeedback>
         </S.Overlay>

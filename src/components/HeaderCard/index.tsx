@@ -13,7 +13,6 @@ const HeaderCard: React.FC<HeaderCardProps> = ({ totalTasks, completedTasks }) =
     return (
         <S.Container>
             <S.Wrapper>
-                <S.Title>Tarefas concluídas</S.Title>
                 <S.CurrentDate>
                     <S.DateValue>{formattedDate}</S.DateValue>
                 </S.CurrentDate>

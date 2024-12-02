@@ -1,5 +1,5 @@
-import { Modal, TouchableWithoutFeedback, Platform } from 'react-native';
-import React, { useState } from 'react';
+import { Modal, TouchableWithoutFeedback, Platform, Image, TextInput } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as S from './styles';
 
@@ -17,13 +17,20 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
   const [inputValue, setInputValue] = useState('');
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const inputRef = useRef<TextInput>(null);
+
+   useEffect(() => {
+    if (visible) {
+      inputRef.current?.focus();
+    }
+  }, [visible]);
 
   const saveTask = () => {
     if (inputValue.trim()) {
       const formattedDate = formatDate(date);
       onSave(inputValue, formattedDate);
       setInputValue('');
-      setDate(new Date()); // Reset the date after saving
+      setDate(new Date());
     }
   };
 
@@ -46,54 +53,61 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
     return formatDate(date);
   };
 
+  const formatDate = (date: Date): string => {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   return (
     <Modal
-      animationType="slide"
-      transparent={true}
-      visible={visible}
-      onRequestClose={onClose}
+    animationType="slide"
+    transparent={true}
+    visible={visible}
+    onRequestClose={onClose}
     >
-      <TouchableWithoutFeedback onPress={onClose}>
-        <S.Overlay>
-          <TouchableWithoutFeedback>
-            <S.ModalContainer>
+    <TouchableWithoutFeedback onPress={onClose}>
+      <S.Overlay>
+        <TouchableWithoutFeedback>
+          <S.ModalContainer>
+            <S.InputWrapper>
               <S.StyledTextInput
-                placeholder="Nome da tarefa"
-                placeholderTextColor="#888"
+                ref={inputRef}
+                placeholder="Eu vou..."
+                placeholderTextColor="#fff"
                 value={inputValue}
                 onChangeText={setInputValue}
-                maxLength={100}
+                maxLength={50}
               />
-               <S.DateTextContainer>
-                <S.DateText onPress={() => setShowDatePicker(true)}>
-                  {getDateLabel()}
-                </S.DateText>
-              </S.DateTextContainer>
-              {showDatePicker && (
-                <DateTimePicker
-                  value={date}
-                  mode="date"
-                  display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                  onChange={handleDateChange}
-                  minimumDate={new Date()}
-                />
-              )}
-              <S.CreateButton onPress={saveTask}>
-                <S.CreateButtonText>Criar tarefa</S.CreateButtonText>
-              </S.CreateButton>
-            </S.ModalContainer>
-          </TouchableWithoutFeedback>
-        </S.Overlay>
-      </TouchableWithoutFeedback>
-    </Modal>
+            </S.InputWrapper>
+
+            <S.SendButton onPress={saveTask}>
+              <S.SendIcon source={require('../../assets/icons/send.png')} />
+            </S.SendButton>
+
+            <S.DateWrapper onPress={() => setShowDatePicker(true)}>
+              <S.DateIcon
+                source={require('../../assets/icons/date.png')}
+                style={{ marginRight: 8 }}
+              />
+              <S.DateText>{getDateLabel()}</S.DateText>
+            </S.DateWrapper>
+
+            {showDatePicker && (
+              <DateTimePicker
+                value={date}
+                mode="date"
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                onChange={handleDateChange}
+                minimumDate={new Date()}
+              />
+            )}
+          </S.ModalContainer>
+        </TouchableWithoutFeedback>
+      </S.Overlay>
+    </TouchableWithoutFeedback>
+  </Modal>
   );
 };
-
-const formatDate = (date: Date): string => {
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = date.getFullYear();
-  return `${day}/${month}/${year}`;
-};
-
 export default CreateTaskModal;

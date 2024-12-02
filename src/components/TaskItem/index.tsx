@@ -43,7 +43,6 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed =
     return formattedDate;
   };
   
-  
   const renderRightActions = (): JSX.Element => (
     <S.RightActionsContainer>
       {completed ? (
@@ -71,7 +70,6 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed =
             {task.name}
           </S.TaskText>
          <S.Date>
-          <S.DateIcon source={require('../../assets/icons/date-light.png')} />
           <S.TaskDate>{formatDate(task.date)}</S.TaskDate>
          </S.Date>
         </S.TaskWraper>

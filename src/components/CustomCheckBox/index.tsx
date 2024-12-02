@@ -16,7 +16,7 @@ const CustomCheckBox: React.FC<CustomCheckBoxProps> = ({ value, onValueChange })
       onPress={() => onValueChange(!value)}
       value={value}
     >
-      {value && <S.Checkmark source={icons.check} />}
+      {value && <S.Checkmark source={icons.check} resizeMode="contain"/>}
     </S.StyledTouchableOpacity>
   );
 };

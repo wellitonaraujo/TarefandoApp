@@ -1,5 +1,5 @@
-import { TouchableOpacity } from "react-native";
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
+import { TouchableOpacity, TextInput } from 'react-native';
 
 export const Overlay = styled.View`
   flex: 1;
@@ -8,68 +8,62 @@ export const Overlay = styled.View`
 `;
 
 export const ModalContainer = styled.View`
-  background-color: #313747;
-  padding: 20px;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
-  align-items: center;
+  background-color: #2d3341;
+  padding: 10px 20px 20px 20px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  align-items: flex-start;
 `;
 
-export const ModalBar = styled.View`
-  width: 40px;
-  height: 5px;
-  background-color: #666;
-  border-radius: 2.5px;
+/* Input */
+export const InputWrapper = styled.View`
+  width: 100%;
   margin-bottom: 20px;
 `;
 
-export const StyledTextInput = styled.TextInput`
-  width: 100%;
-  height: 55px;
-  background-color: #4b536a;
-  border-radius: 50px;
-  padding-horizontal: 16px;
-  color: #ffffff;
+export const StyledTextInput = styled(TextInput)`
   font-size: 16px;
-  margin-bottom: 20px;
+  font-weight: 700;
+  border-bottom-width: 1px;
+  border-color: #424A5F;
+  color: #fff;
 `;
 
-export const CreateButton = styled(TouchableOpacity)`
+export const Underline = styled.View`
   width: 100%;
-  height: 55px;
-  background-color: #1e90ff;
-  border-radius: 50px;
-  justify-content: center;
+  height: 1px;
+  background-color: #424A5F;
+`;
+
+export const DateWrapper = styled(TouchableOpacity)`
+  flex-direction: row;
   align-items: center;
-`;
-
-export const CreateButtonText = styled.Text`
-  color: #ffffff;
-  font-size: 18px;
-  font-weight: bold;
-`;
-
-export const DateButton = styled.TouchableOpacity`
-  width: 100%;
-  height: 55px;
-  background-color: #4b536a;
-  border-radius: 50px;
-  justify-content: center;
-  padding-horizontal: 16px;
-  margin-bottom: 20px;
-`;
-
-export const DateButtonText = styled.Text`
-  color: #ffffff;
-  font-size: 16px;
-`;
-export const DateTextContainer = styled.View`
-  align-self: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 export const DateText = styled.Text`
-  font-size: 16px;
-  color: white;
+  font-size: 13px;
+  color: #888;
 `;
 
+export const SendButton = styled(TouchableOpacity)`
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  width: 40px;
+  height: 40px;
+  background-color: #1e90ff;
+  border-radius: 25px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const SendIcon = styled.Image`
+  width: 16px;
+  height: 16px;
+`;
+
+export const DateIcon = styled.Image`
+  width: 12px;
+  height: 12px;
+`;
