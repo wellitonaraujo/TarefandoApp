@@ -41,7 +41,19 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed =
   
     return formattedDate;
   };
-  
+
+  const isToday = (taskDate: string): boolean => {
+    const [day, month, year] = taskDate.split('/').map((part) => parseInt(part, 10));
+    const taskDateObj = new Date(year, month - 1, day);
+    const today = new Date();
+
+    return (
+      taskDateObj.getDate() === today.getDate() &&
+      taskDateObj.getMonth() === today.getMonth() &&
+      taskDateObj.getFullYear() === today.getFullYear()
+    );
+  };
+
   const renderRightActions = (): JSX.Element => (
     <S.RightActionsContainer>
       {completed ? (
@@ -61,18 +73,18 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed =
     </S.RightActionsContainer>
   );
 
-   return (
+  return (
     <Swipeable renderRightActions={renderRightActions}>
       <S.TaskItemContainer style={{ opacity: completed ? 0.4 : 1 }}>
         <S.TaskWraper>
           <S.TaskText style={{ textDecorationLine: completed ? 'line-through' : 'none' }}>
             {task.name}
           </S.TaskText>
-         <S.Date>
-          <S.TaskDate>{formatDate(task.date)}</S.TaskDate>
-         </S.Date>
+          <S.Date>
+            {!isToday(task.date) && <S.TaskDate>{formatDate(task.date)}</S.TaskDate>}
+          </S.Date>
         </S.TaskWraper>
-        <S.DragIcon source={require('../../assets/icons/drag.png')}resizeMode='contain' />
+        <S.DragIcon source={require('../../assets/icons/drag.png')} resizeMode="contain" />
       </S.TaskItemContainer>
     </Swipeable>
   );
