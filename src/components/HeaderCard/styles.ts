@@ -2,7 +2,7 @@ import { moderateScale } from "@/src/utils/metrics";
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-    background-color: #262b39;
+    background-color: #22293D;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -50,7 +50,7 @@ export const CurrentDate = styled.View`
 `;
 
 export const PercentageChart = styled.View`
-    border-width: 4px;
+    border-width: 2px;
     border-color: #1a72f3;
     border-radius: 35px;
     width: ${moderateScale(60)}px;

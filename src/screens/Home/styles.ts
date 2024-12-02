@@ -1,15 +1,37 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#181A20',
+      flex: 1,
+      backgroundColor: '#181A20',
     },
     loadingContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
-});
+    tabsContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      paddingVertical: 15,
+      paddingHorizontal: 16,
 
-export default styles;
+    },
+    tab: {
+      paddingVertical: 5,
+      paddingHorizontal: 20,
+      borderRadius: 5,
+    },
+    selectedTab: {
+    },
+
+    tabText: {
+      fontSize: 14,
+    },
+    selectedTabText: {
+      color: '#1A72F3',
+    },
+    deselectedTabText: {
+      color: '#888888',
+    },
+  });

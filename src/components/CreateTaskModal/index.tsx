@@ -1,43 +1,29 @@
 import { Modal, TouchableWithoutFeedback, Platform } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as S from './styles';
 
-interface CustomModalProps {
+interface CreateTaskModalProps {
   visible: boolean;
   onClose: () => void;
   onSave: (title: string, date: string) => void;
-  taskName?: string;
-  taskDate?: string; // Adiciona uma propriedade para a data da tarefa
-  isEditing?: boolean;
 }
 
-const CustomModal: React.FC<CustomModalProps> = ({
+const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
   visible,
   onClose,
   onSave,
-  taskName = '',
-  taskDate,  // Recebe a data da tarefa
-  isEditing = false,
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
-
-  useEffect(() => {
-    setInputValue(taskName);
-    if (taskDate && isEditing) {
-      // Se estamos editando e a data da tarefa for fornecida, definimos o valor de "date"
-      setDate(new Date(taskDate));  // Converter a data fornecida (no formato "dd/mm/yyyy") para Date
-    }
-  }, [taskName, taskDate, isEditing]);
 
   const saveTask = () => {
     if (inputValue.trim()) {
       const formattedDate = formatDate(date);
       onSave(inputValue, formattedDate);
       setInputValue('');
-      setDate(new Date()); // Resetar para a data atual após salvar
+      setDate(new Date()); // Reset the date after saving
     }
   };
 
@@ -78,9 +64,11 @@ const CustomModal: React.FC<CustomModalProps> = ({
                 onChangeText={setInputValue}
                 maxLength={100}
               />
-              <S.DateButton onPress={() => setShowDatePicker(true)}>
-                <S.DateButtonText>{getDateLabel()}</S.DateButtonText>
-              </S.DateButton>
+               <S.DateTextContainer>
+                <S.DateText onPress={() => setShowDatePicker(true)}>
+                  {getDateLabel()}
+                </S.DateText>
+              </S.DateTextContainer>
               {showDatePicker && (
                 <DateTimePicker
                   value={date}
@@ -91,9 +79,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
                 />
               )}
               <S.CreateButton onPress={saveTask}>
-                <S.CreateButtonText>
-                  {isEditing ? 'Editar tarefa' : 'Criar tarefa'}
-                </S.CreateButtonText>
+                <S.CreateButtonText>Criar tarefa</S.CreateButtonText>
               </S.CreateButton>
             </S.ModalContainer>
           </TouchableWithoutFeedback>
@@ -110,4 +96,4 @@ const formatDate = (date: Date): string => {
   return `${day}/${month}/${year}`;
 };
 
-export default CustomModal;
+export default CreateTaskModal;

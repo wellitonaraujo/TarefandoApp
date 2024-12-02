@@ -7,6 +7,7 @@ type Task = {
     id: string;
     name: string;
     completed: boolean;
+    date: string;
 };
 
 const useTaskManager = () => {
@@ -15,13 +16,18 @@ const useTaskManager = () => {
     const [editingTask, setEditingTask] = useState<Task | null>(null);
     const [updateKey, setUpdateKey] = useState<number>(0);
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [selectedTab, setSelectedTab] = useState(0);
 
     useEffect(() => {
         const loadTasks = async () => {
             try {
                 const savedTasks = await AsyncStorage.getItem(TASKS_KEY);
                 if (savedTasks) {
-                    setTasks(JSON.parse(savedTasks));
+                    const parsedTasks: Task[] = JSON.parse(savedTasks).map(task => ({
+                        ...task,
+                        date: task.date || new Date().toLocaleDateString(),
+                    }));
+                    setTasks(parsedTasks);
                 }
             } catch (error) {
                 console.error("Erro ao carregar as tarefas", error);
@@ -41,16 +47,66 @@ const useTaskManager = () => {
         }
     };
 
-    const handleSaveTask = (taskName: string) => {
+    const formatDate = (date: Date): string => {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
+    const convertToComparableDate = (date: string): string => {
+        const [day, month, year] = date.split('/');
+        return `${year}-${month}-${day}`; 
+    };
+
+    const filteredTasks = () => {
+        const currentDate = formatDate(new Date());
+        const currentDateComparable = convertToComparableDate(currentDate);
+
+        switch (selectedTab) {
+            case 0:
+                return tasks.filter(task => convertToComparableDate(task.date) === currentDateComparable && !task.completed);
+            case 1:
+                return tasks
+                    .filter(task => convertToComparableDate(task.date) > currentDateComparable && !task.completed)
+                    .sort((a, b) => {
+                        return convertToComparableDate(a.date) < convertToComparableDate(b.date) ? -1 : 1;
+                    });
+            case 2:
+                return tasks
+                    .filter(task => convertToComparableDate(task.date) < currentDateComparable && !task.completed)
+                    .sort((a, b) => { 
+                        return convertToComparableDate(a.date) > convertToComparableDate(b.date) ? -1 : 1;
+                    });
+            case 3:
+                return tasks
+                    .filter(task => task.completed)
+                    .sort((a, b) => {
+                        return convertToComparableDate(a.date) < convertToComparableDate(b.date) ? -1 : 1;
+                    });
+            default:
+                return tasks;
+        }
+    };
+
+    const handleSaveTask = (taskName: string, taskDate: string) => {
         let updatedTasks: Task[];
 
         if (editingTask) {
             updatedTasks = tasks.map(task =>
-                task.id === editingTask.id ? { ...task, name: taskName } : task
+                task.id === editingTask.id ? { ...task, name: taskName, date: taskDate } : task
             );
-            closeModal(); // Fecha o modal ao salvar uma tarefa editada
+            closeModal();
         } else if (taskName) {
-            updatedTasks = [...tasks, { id: Date.now().toString(), name: taskName, completed: false }];
+            updatedTasks = [
+                ...tasks,
+                {
+                    id: Date.now().toString(),
+                    name: taskName,
+                    completed: false,
+                    date: taskDate,
+                },
+            ];
         } else {
             return;
         }
@@ -74,7 +130,6 @@ const useTaskManager = () => {
         );
         saveTasks(updatedTasks);
     };
-    
 
     const handleDeleteTask = (id: string) => {
         const updatedTasks = tasks.filter(task => task.id !== id);
@@ -103,7 +158,10 @@ const useTaskManager = () => {
         setEditingTask,
         modalVisible,
         openModal,
-        closeModal
+        closeModal,
+        selectedTab,
+        setSelectedTab,
+        filteredTasks,
     };
 };
 
