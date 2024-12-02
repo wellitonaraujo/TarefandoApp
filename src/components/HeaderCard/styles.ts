@@ -2,9 +2,6 @@ import { moderateScale, verticalScale } from "@/src/utils/metrics";
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
 
 `;
 
@@ -12,6 +9,7 @@ export const Title = styled.Text`
     color: #fff;
     font-size:  ${moderateScale(13)}px;
     font-weight: 500;
+    margin-bottom: 10px;
 `;
 
 export const Value = styled.Text`
@@ -26,25 +24,24 @@ export const DateValue = styled.Text`
 
 export const Wrapper = styled.View`
     justify-content: space-between;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 `;
 
 export const CurrentDate = styled.View`
-    background-color: #1a72f3;
+    background-color: #1A72F3;
     border-top-left-radius: 0px;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
     border-bottom-left-radius: 25px;
-    padding: ${moderateScale(8)}px;
+    padding: ${moderateScale(4)}px;
     width: ${verticalScale(125)}px;
     align-items: center;
+
 `;
 
-export const PercentageChart = styled.View`
-    border-width: 2px;
-    border-color: #1a72f3;
-    border-radius: 55px;
-    width: ${moderateScale(55)}px;
-    height: ${moderateScale(55)}px;
-    align-items: center;
-    justify-content: center;
+export const IconBell = styled.Image`
+    width: 30px;
+    height: 30px;
 `;

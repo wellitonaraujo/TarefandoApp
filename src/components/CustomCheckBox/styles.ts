@@ -8,8 +8,8 @@ export const StyledTouchableOpacity = styled(TouchableOpacity)<{ value: boolean 
   height:${moderateScale(26)}px;
   border-radius: ${moderateScale(26)}px;
   border-width: ${moderateScale(2)}px;
-  border-color: ${({ value }) => (value ? '#1E90FF' :'#313747')};
-  background-color: ${({ value }) => (value ? '#1E90FF' : 'transparent')};
+  border-color: ${({ value }) => (value ? '#1A72F3' :'#313747')};
+  background-color: ${({ value }) => (value ? '#1A72F3' : 'transparent')};
   align-items: center;
   justify-content: center;
 `;

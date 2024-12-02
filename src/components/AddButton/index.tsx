@@ -16,7 +16,7 @@ const AddButton: React.FC<AddButtonProps> = ({
   return (
     <S.Container>
       <S.Button onPress={onPress}>
-        <S.PlusIcon source={icons.plus} />
+        <S.PlusIcon source={icons.plus} resizeMode='contain'/>
       </S.Button>
     </S.Container>
   );

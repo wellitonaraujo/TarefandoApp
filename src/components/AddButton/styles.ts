@@ -8,7 +8,7 @@ export const Container = styled.View`
 `;
 
 export const Button = styled.TouchableOpacity`
-  background-color: #1E90FF;
+  background-color: #1A72F3;
   align-items: center;
   justify-content: center;
   width: ${moderateScale(50)}px;
@@ -20,5 +20,4 @@ export const Button = styled.TouchableOpacity`
 export const PlusIcon = styled.Image`
  width: ${moderateScale(15)}px;
  height: ${moderateScale(15)}px;
-  resize-mode: contain;
 `;

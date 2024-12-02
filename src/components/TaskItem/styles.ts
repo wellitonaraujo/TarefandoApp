@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 
 export const TaskItemContainer = styled.View`
   width: ${horizontalScale(305)}px;
-  background-color: #313747;
+  background-color: #2d3341;
   padding: ${moderateScale(6)}px;
   border-top-left-radius: 0px;
   border-top-right-radius: ${moderateScale(16)}px;
@@ -50,7 +50,6 @@ export const ActionText = styled.Text`
 export const DragIcon = styled.Image`
   width: ${moderateScale(9)}px;
   height: ${moderateScale(13)}px;
-  resize-mode: contain;
   margin-right: ${horizontalScale(8)}px;
 `;
 

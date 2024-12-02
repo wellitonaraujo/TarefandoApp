@@ -52,7 +52,7 @@ export const SendButton = styled(TouchableOpacity)`
   bottom: 16px;
   width: 40px;
   height: 40px;
-  background-color: #1e90ff;
+  background-color: #1A72F3;
   border-radius: 25px;
   justify-content: center;
   align-items: center;

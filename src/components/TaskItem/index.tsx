@@ -73,7 +73,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed =
           <S.TaskDate>{formatDate(task.date)}</S.TaskDate>
          </S.Date>
         </S.TaskWraper>
-        <S.DragIcon source={require('../../assets/icons/drag.png')} />
+        <S.DragIcon source={require('../../assets/icons/drag.png')}resizeMode='contain' />
       </S.TaskItemContainer>
     </Swipeable>
   );

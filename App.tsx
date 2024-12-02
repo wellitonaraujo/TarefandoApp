@@ -7,7 +7,7 @@ function App(): React.JSX.Element {
     <>
         <StatusBar
           barStyle={'light-content'}
-          backgroundColor={'#181A20'}
+          backgroundColor={'#141414'}
         />
        <Home />
     </>
