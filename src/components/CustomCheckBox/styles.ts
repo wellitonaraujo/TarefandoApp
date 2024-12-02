@@ -4,10 +4,10 @@ import styled from "styled-components/native";
 
 
 export const StyledTouchableOpacity = styled(TouchableOpacity)<{ value: boolean }>`
-  width: ${moderateScale(30)}px;
-  height:${moderateScale(30)}px;
-  border-radius: ${moderateScale(30)}px;
-  border-width: ${moderateScale(3)}px;
+  width: ${moderateScale(28)}px;
+  height:${moderateScale(28)}px;
+  border-radius: ${moderateScale(28)}px;
+  border-width: ${moderateScale(2)}px;
   border-color: ${({ value }) => (value ? '#1E90FF' :'#313747')};
   background-color: ${({ value }) => (value ? '#1E90FF' : 'transparent')};
   align-items: center;

@@ -18,7 +18,6 @@ export const TaskText = styled.Text`
     color: #fff; 
     font-size: ${moderateScale(14)}px;
     letter-spacing: 1.2px;
-    font-weight: 700;
     flex: 1; 
     margin-right: ${moderateScale(16)}px;
     max-width: 90%; 
@@ -52,6 +51,7 @@ export const DragIcon = styled.Image`
   width: ${moderateScale(18)}px;
   height: ${moderateScale(18)}px;
   resize-mode: contain;
+  margin-right: ${horizontalScale(8)}px;
 `;
 
 export const TaskDate = styled.Text`
