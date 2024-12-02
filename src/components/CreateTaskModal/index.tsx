@@ -19,9 +19,11 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
   const [showDatePicker, setShowDatePicker] = useState(false);
   const inputRef = useRef<TextInput>(null);
 
-   useEffect(() => {
+  useEffect(() => {
     if (visible) {
-      inputRef.current?.focus();
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
     }
   }, [visible]);
 
