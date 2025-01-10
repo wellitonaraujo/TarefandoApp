@@ -57,15 +57,15 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed =
   const renderRightActions = (): JSX.Element => (
     <S.RightActionsContainer>
       {completed ? (
-        <S.ActionButton backgroundColor="#FF0000" onPress={() => onDelete(task.id)}>
+        <S.ActionButton backgroundColor="#E15659" onPress={() => onDelete(task.id)}>
           <S.ActionText>Deletar</S.ActionText>
         </S.ActionButton>
       ) : (
         <>
-          <S.ActionButton backgroundColor="#FFA500" onPress={() => onEdit(task.id)}>
+          <S.ActionButton backgroundColor="#ddaf58" onPress={() => onEdit(task.id)}>
             <S.ActionText>Editar</S.ActionText>
           </S.ActionButton>
-          <S.ActionButton backgroundColor="#FF0000" onPress={() => onDelete(task.id)}>
+          <S.ActionButton backgroundColor="#E15659" onPress={() => onDelete(task.id)}>
             <S.ActionText>Deletar</S.ActionText>
           </S.ActionButton>
         </>

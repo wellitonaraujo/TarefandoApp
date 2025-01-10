@@ -77,7 +77,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
               <S.StyledTextInput
                 ref={inputRef}
                 placeholder="Eu vou..."
-                placeholderTextColor="#fff"
+                placeholderTextColor="#CCD7E5"
                 value={inputValue}
                 onChangeText={setInputValue}
                 maxLength={100}
@@ -92,6 +92,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
               <S.DateIcon
                 source={require('../../assets/icons/date.png')}
                 style={{ marginRight: 8 }}
+                tintColor={'#86B7F3'}
               />
               <S.DateText>{getDateLabel()}</S.DateText>
             </S.DateWrapper>

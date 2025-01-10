@@ -3,14 +3,12 @@ import styled from 'styled-components/native';
 
 export const TaskItemContainer = styled.View`
   width: ${horizontalScale(305)}px;
-  padding: ${moderateScale(5)}px;
-  background-color: #141414;
+  padding: ${moderateScale(7)}px;
+  background-color: #313747;
   border-top-left-radius: 0px;
-  border-top-right-radius: ${moderateScale(20)}px;
-  border-bottom-right-radius:${moderateScale(20)}px;
+  border-top-right-radius: ${moderateScale(4)}px;
+  border-bottom-right-radius:${moderateScale(4)}px;
   border-bottom-left-radius: ${moderateScale(16)}px;
-  border-width: 1px;
-  border-color: #2d3341;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -30,23 +28,22 @@ export const RightActionsContainer = styled.View`
   align-items: center;
   justify-content: center;
   align-self: center;
-
 `;
 
 export const ActionButton = styled.TouchableOpacity<{ backgroundColor?: string }>`
   justify-content: center;
   align-items: center;
   width:  ${moderateScale(70)}px;
-  margin-left: ${moderateScale(8)}px;
+  margin-left: ${moderateScale(3)}px;
   background-color: ${({ backgroundColor }) => backgroundColor || '#ccc'};
-  border-radius: ${moderateScale(10)}px;
+  border-radius: ${moderateScale(4)}px;
   height: ${moderateScale(35)}px;
 `;
 
 export const ActionText = styled.Text`
   color: #ffffff;
   font-size: ${moderateScale(10)}px;
-  font-weight: 500;
+  font-weight: 400;
 `;
 
 export const DragIcon = styled.Image`

@@ -30,7 +30,7 @@ export const Wrapper = styled.View`
 `;
 
 export const CurrentDate = styled.View`
-    background-color: #1A72F3;
+    background-color: #86B7F3;
     border-top-left-radius: 0px;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;

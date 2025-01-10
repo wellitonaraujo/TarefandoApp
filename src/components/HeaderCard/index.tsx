@@ -20,10 +20,6 @@ const HeaderCard: React.FC<HeaderCardProps> = ({ totalTasks, completedTasks }) =
             <S.Value>{taskProgress}</S.Value>
             </S.CurrentDate>
        </View>
-        <S.IconBell
-            resizeMode="contain"
-            source={require('../../assets/icons/bell.png')}
-        />
       </S.Wrapper>
     </S.Container>
   );
