@@ -1,5 +1,5 @@
-import { Modal, TouchableWithoutFeedback, Platform, TextInput, View } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
+import { Modal, TouchableWithoutFeedback, Platform, TextInput, View } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as S from './styles';
 
@@ -19,7 +19,8 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
   const [subtasks, setSubtasks] = useState<string[]>([]);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const inputRef = useRef<TextInput>(null);
-  const subtasksRefs = useRef<Array<TextInput | null>>([]);
+  
+  const subtasksRefs = useRef<(TextInput | null)[]>([]);
 
   useEffect(() => {
     if (visible) {
@@ -40,13 +41,14 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
   };
 
   const addSubtask = () => {
-    setSubtasks((prev) => [...prev, '']);
-
-    // Aguarde a renderização do novo input antes de aplicar o foco
-    setTimeout(() => {
-      const lastIndex = subtasksRefs.current.length - 1;
-      subtasksRefs.current[lastIndex]?.focus();
-    }, 100);
+    setSubtasks((prev) => {
+      const newSubtasks = [...prev, ''];
+      setTimeout(() => {
+        const lastSubtaskRef = subtasksRefs.current[newSubtasks.length - 1];
+        lastSubtaskRef?.focus();
+      }, 100);
+      return newSubtasks;
+    });
   };
 
   const updateSubtask = (index: number, value: string) => {
@@ -57,9 +59,6 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
 
   const removeSubtask = (index: number) => {
     setSubtasks((prev) => prev.filter((_, i) => i !== index));
-
-    // Atualize as referências de subtasks
-    subtasksRefs.current.splice(index, 1);
   };
 
   const handleDateChange = (event: any, selectedDate?: Date) => {
@@ -102,7 +101,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
               <S.InputWrapper>
                 <S.StyledTextInput
                   ref={inputRef}
-                  placeholder="Eu vou..."
+                  placeholder="Nome da tarefa"
                   placeholderTextColor="#CCD7E5"
                   value={inputValue}
                   onChangeText={setInputValue}
@@ -110,23 +109,24 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                 />
               </S.InputWrapper>
 
-              {/* Subtasks */}
-              {subtasks.map((subtask, index) => (
-                <S.SubtaskWrapper key={index}>
-                  <S.SubtaskInput
-                    ref={(input) => {
-                      subtasksRefs.current[index] = input;
-                    }}
-                    placeholder="Insira a subtarefa"
-                    placeholderTextColor="#CCD7E5"
-                    value={subtask}
-                    onChangeText={(value) => updateSubtask(index, value)}
-                  />
-                  <S.RemoveIconWrapper onPress={() => removeSubtask(index)}>
-                    <S.RemoveIcon source={require('../../assets/icons/close.png')} />
-                  </S.RemoveIconWrapper>
-                </S.SubtaskWrapper>
-              ))}
+              <S.SubtasksContainer>
+                <S.SubtasksScrollView showsVerticalScrollIndicator={false}>
+                  {subtasks.map((subtask, index) => (
+                    <S.SubtaskWrapper key={index}>
+                      <S.SubtaskInput
+                        ref={(el:any) => (subtasksRefs.current[index] = el)}
+                        placeholder="Nome da subtarefa"
+                        placeholderTextColor="#CCD7E5"
+                        value={subtask}
+                        onChangeText={(value) => updateSubtask(index, value)}
+                      />
+                      <S.RemoveIconWrapper onPress={() => removeSubtask(index)}>
+                        <S.RemoveIcon source={require('../../assets/icons/close.png')} />
+                      </S.RemoveIconWrapper>
+                    </S.SubtaskWrapper>
+                  ))}
+                </S.SubtasksScrollView>
+              </S.SubtasksContainer>
 
               <S.SendButton onPress={saveTask}>
                 <S.SendIcon source={require('../../assets/icons/send.png')} />
@@ -143,7 +143,9 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                 </S.DateWrapper>
 
                 <S.AddSubtaskButton onPress={addSubtask}>
-                  <S.AddSubtaskIcon source={require('../../assets/icons/subtask.png')} />
+                  <S.AddSubtaskIcon 
+                    source={require('../../assets/icons/subtask.png')} 
+                    resizeMode="contain"/>
                 </S.AddSubtaskButton>
               </S.ActionsContainer>
 

@@ -56,7 +56,7 @@ export const DragIcon = styled.Image`
 export const TaskDate = styled.Text`
   color: #888888;
   font-size: ${moderateScale(10)}px;
- 
+  margin-right: 5px;
 `;
 
 export const TaskWraper = styled.View`
@@ -69,5 +69,5 @@ export const TaskWraper = styled.View`
 export const Date = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-top: 5px;
+
 `;

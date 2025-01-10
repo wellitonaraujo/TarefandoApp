@@ -3,11 +3,18 @@ import { useState, useEffect } from "react";
 
 const TASKS_KEY = '@tasks_key';
 
+type Subtask = {
+  id: string;
+  name: string;
+  completed: boolean;
+};
+
 type Task = {
-    id: string;
-    name: string;
-    completed: boolean;
-    date: string;
+  id: string;
+  name: string;
+  completed: boolean;
+  date: string;
+  subtasks?: Subtask[]; // Novo campo para subtarefas
 };
 
 const useTaskManager = () => {
@@ -89,12 +96,12 @@ const useTaskManager = () => {
         }
     };
 
-    const handleSaveTask = (taskName: string, taskDate: string) => {
+    const handleSaveTask = (taskName: string, taskDate: string, subtasks: Subtask[] = []) => {
         let updatedTasks: Task[];
 
         if (editingTask) {
             updatedTasks = tasks.map(task =>
-                task.id === editingTask.id ? { ...task, name: taskName, date: taskDate } : task
+                task.id === editingTask.id ? { ...task, name: taskName, date: taskDate, subtasks } : task
             );
             closeModal();
         } else if (taskName) {
@@ -105,6 +112,7 @@ const useTaskManager = () => {
                     name: taskName,
                     completed: false,
                     date: taskDate,
+                    subtasks,
                 },
             ];
         } else {

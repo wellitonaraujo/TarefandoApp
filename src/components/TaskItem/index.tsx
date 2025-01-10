@@ -1,11 +1,18 @@
 import { Swipeable } from 'react-native-gesture-handler';
 import * as S from './styles';
 import React from 'react';
+import { Image, View } from 'react-native'; // Para importar o ícone de subtarefas
+
+interface Subtask {
+  id: string;
+  name: string;
+}
 
 interface Task {
   id: string;
   name: string;
   date: string;
+  subtasks?: Subtask[]; // Adiciona subtarefas
 }
 
 interface TaskItemProps {
@@ -80,9 +87,20 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed =
           <S.TaskText style={{ textDecorationLine: completed ? 'line-through' : 'none' }}>
             {task.name}
           </S.TaskText>
-          <S.Date>
-            {!isToday(task.date) && <S.TaskDate>{formatDate(task.date)}</S.TaskDate>}
-          </S.Date>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 5}}>
+            <S.Date>
+              {!isToday(task.date) && <S.TaskDate>{formatDate(task.date)}</S.TaskDate>}
+            </S.Date>
+
+            {task.subtasks && task.subtasks.length > 0 && (
+              <Image
+                source={require('../../assets/icons/subtask.png')}
+                style={{ width: 10, height: 10}}
+                tintColor={'#888888'}
+                resizeMode="contain"
+              />
+            )}
+          </View>
         </S.TaskWraper>
         <S.DragIcon source={require('../../assets/icons/drag.png')} resizeMode="contain" />
       </S.TaskItemContainer>

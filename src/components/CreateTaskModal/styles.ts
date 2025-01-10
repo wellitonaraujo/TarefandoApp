@@ -23,18 +23,18 @@ export const InputWrapper = styled.View`
 export const StyledTextInput = styled(TextInput)`
   font-size: 16px;
   font-weight: 700;
-  background-color: #424A5F;
+  background-color: #424a5f;
   height: 50px;
   border-radius: 6px;
   padding: 0 16px;
-  color: #CCD7E5;
+  color: #ccd7e5;
   margin-bottom: 8px;
 `;
 
 export const Underline = styled.View`
   width: 100%;
   height: 1px;
-  background-color: #424A5F;
+  background-color: #424a5f;
 `;
 
 export const DateWrapper = styled(TouchableOpacity)`
@@ -44,7 +44,7 @@ export const DateWrapper = styled(TouchableOpacity)`
 
 export const DateText = styled.Text`
   font-size: 13px;
-  color: #86B7F3;
+  color: #86b7f3;
 `;
 
 export const SendButton = styled(TouchableOpacity)`
@@ -53,7 +53,7 @@ export const SendButton = styled(TouchableOpacity)`
   bottom: 16px;
   width: 40px;
   height: 40px;
-  background-color: #86B7F3;
+  background-color: #86b7f3;
   border-radius: 25px;
   justify-content: center;
   align-items: center;
@@ -78,8 +78,8 @@ export const SubtaskWrapper = styled.View`
 
 export const SubtaskInput = styled.TextInput`
   flex: 1;
-  font-size: 16px;
-  color: #fff;
+  font-size: 14px;
+  color: #CCD7E5;
   padding: 0;
 `;
 
@@ -111,3 +111,17 @@ export const ActionsContainer = styled.View`
   margin-top: 7px;
 `;
 
+export const SubtasksContainer = styled.View`
+  max-height: 120px;
+  width: 100%;
+  margin-bottom: 10px;
+`;
+
+export const SubtasksScrollView = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    paddingBottom: 8,
+  },
+  keyboardShouldPersistTaps: 'handled',
+})`
+  width: 100%;
+`;
