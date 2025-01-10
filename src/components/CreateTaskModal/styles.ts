@@ -18,17 +18,17 @@ export const ModalContainer = styled.View`
 /* Input */
 export const InputWrapper = styled.View`
   width: 100%;
-  margin-bottom: 20px;
 `;
 
 export const StyledTextInput = styled(TextInput)`
   font-size: 16px;
   font-weight: 700;
   background-color: #424A5F;
-  height: 58px;
-  border-radius: 4px;
+  height: 50px;
+  border-radius: 6px;
   padding: 0 16px;
   color: #CCD7E5;
+  margin-bottom: 8px;
 `;
 
 export const Underline = styled.View`
@@ -40,7 +40,6 @@ export const Underline = styled.View`
 export const DateWrapper = styled(TouchableOpacity)`
   flex-direction: row;
   align-items: center;
-  margin-bottom: 10px;
 `;
 
 export const DateText = styled.Text`
@@ -61,11 +60,54 @@ export const SendButton = styled(TouchableOpacity)`
 `;
 
 export const SendIcon = styled.Image`
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
 `;
 
 export const DateIcon = styled.Image`
   width: 12px;
   height: 12px;
 `;
+
+export const SubtaskWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  padding: 8px;
+  background-color: #2d3341;
+`;
+
+export const SubtaskInput = styled.TextInput`
+  flex: 1;
+  font-size: 16px;
+  color: #fff;
+  padding: 0;
+`;
+
+export const RemoveIconWrapper = styled.Pressable`
+  justify-content: center;
+  align-items: center;
+`;
+
+export const RemoveIcon = styled.Image`
+  width: 10px;
+  height: 10px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const AddSubtaskButton = styled.TouchableOpacity`
+  margin-left: 15px;
+`;
+
+export const AddSubtaskIcon = styled.Image`
+  width: 12px;
+  height: 12px;
+`;
+
+export const ActionsContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+  margin-top: 7px;
+`;
+
