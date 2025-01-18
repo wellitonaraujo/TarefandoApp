@@ -1,7 +1,7 @@
 import { horizontalScale, moderateScale, verticalScale } from '@/src/utils/metrics';
 import styled from 'styled-components/native';
 
-export const TaskItemContainer = styled.View`
+export const TaskItemContainer = styled.Pressable`
   width: ${horizontalScale(305)}px;
   padding: ${moderateScale(7)}px;
   background-color: #313747;

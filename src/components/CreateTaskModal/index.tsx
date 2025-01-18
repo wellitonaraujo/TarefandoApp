@@ -43,6 +43,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
   const addSubtask = () => {
     setSubtasks((prev) => {
       const newSubtasks = [...prev, ''];
+      subtasksRefs.current = [...subtasksRefs.current, null];
       setTimeout(() => {
         const lastSubtaskRef = subtasksRefs.current[newSubtasks.length - 1];
         lastSubtaskRef?.focus();
@@ -58,7 +59,11 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
   };
 
   const removeSubtask = (index: number) => {
-    setSubtasks((prev) => prev.filter((_, i) => i !== index));
+    setSubtasks((prev) => {
+      const updatedSubtasks = prev.filter((_, i) => i !== index);
+      subtasksRefs.current = subtasksRefs.current.filter((_, i) => i !== index);
+      return updatedSubtasks;
+    });
   };
 
   const handleDateChange = (event: any, selectedDate?: Date) => {
