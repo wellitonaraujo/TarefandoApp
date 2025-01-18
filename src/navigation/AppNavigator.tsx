@@ -35,6 +35,15 @@ const AppNavigator: React.FC = () => {
         <Stack.Screen
           name="TaskDetails"
           component={TaskDetails}
+          options={{
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: '#181A20',
+              elevation: 0,
+              shadowOpacity: 0,
+            },
+            headerTintColor: '#D9D9D9',
+          }}
         />
       </Stack.Navigator>
     </>
