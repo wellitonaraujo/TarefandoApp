@@ -3,11 +3,18 @@ import { useState, useEffect } from "react";
 
 const TASKS_KEY = '@tasks_key';
 
+type Subtask = {
+  id: string;
+  name: string;
+  completed: boolean;
+};
+
 type Task = {
-    id: string;
-    name: string;
-    completed: boolean;
-    date: string;
+  id: string;
+  name: string;
+  completed: boolean;
+  date: string;
+  subtasks?: Subtask[]; // Novo campo para subtarefas
 };
 
 const useTaskManager = () => {
@@ -25,6 +32,7 @@ const useTaskManager = () => {
                 if (savedTasks) {
                     const parsedTasks: Task[] = JSON.parse(savedTasks).map(task => ({
                         ...task,
+                        subtasks: task.subtasks || [],
                         date: task.date || new Date().toLocaleDateString(),
                     }));
                     setTasks(parsedTasks);
@@ -37,7 +45,9 @@ const useTaskManager = () => {
         };
         loadTasks();
     }, []);
+    
 
+    // Salva as tarefas no AsyncStorage
     const saveTasks = async (updatedTasks: Task[]) => {
         try {
             await AsyncStorage.setItem(TASKS_KEY, JSON.stringify(updatedTasks));
@@ -47,6 +57,7 @@ const useTaskManager = () => {
         }
     };
 
+    // Formata a data
     const formatDate = (date: Date): string => {
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -54,11 +65,13 @@ const useTaskManager = () => {
         return `${day}/${month}/${year}`;
     };
 
+    // Converte a data para um formato comparável
     const convertToComparableDate = (date: string): string => {
         const [day, month, year] = date.split('/');
         return `${year}-${month}-${day}`; 
     };
 
+    // Filtra as tarefas com base na guia selecionada
     const filteredTasks = () => {
         const currentDate = formatDate(new Date());
         const currentDateComparable = convertToComparableDate(currentDate);
@@ -89,14 +102,15 @@ const useTaskManager = () => {
         }
     };
 
-    const handleSaveTask = (taskName: string, taskDate: string) => {
+    const handleSaveTask = (taskName: string, taskDate: string, subtasks: Subtask[] = []) => {
         let updatedTasks: Task[];
-
+    
         if (editingTask) {
             updatedTasks = tasks.map(task =>
-                task.id === editingTask.id ? { ...task, name: taskName, date: taskDate } : task
+                task.id === editingTask.id
+                    ? { ...task, name: taskName, date: taskDate, subtasks }
+                    : task
             );
-            closeModal();
         } else if (taskName) {
             updatedTasks = [
                 ...tasks,
@@ -105,17 +119,18 @@ const useTaskManager = () => {
                     name: taskName,
                     completed: false,
                     date: taskDate,
+                    subtasks,
                 },
             ];
         } else {
             return;
         }
-
+    
         saveTasks(updatedTasks);
         setEditingTask(null);
         setUpdateKey(prevKey => prevKey + 1);
     };
-
+    
     const handleEditTask = (id: string) => {
         const taskToEdit = tasks.find(task => task.id === id);
         if (taskToEdit) {
@@ -135,6 +150,19 @@ const useTaskManager = () => {
         const updatedTasks = tasks.filter(task => task.id !== id);
         saveTasks(updatedTasks);
     };
+
+    const handleDeleteSubtask = (taskId: string, subtaskId: string) => {
+        const updatedTasks = tasks.map(task =>
+            task.id === taskId
+                ? {
+                    ...task,
+                    subtasks: task.subtasks?.filter(subtask => subtask.id !== subtaskId),
+                }
+                : task
+        );
+        saveTasks(updatedTasks);
+    };
+    
 
     const openModal = () => {
         setModalVisible(true);
@@ -157,6 +185,7 @@ const useTaskManager = () => {
         handleDeleteTask,
         setEditingTask,
         modalVisible,
+        handleDeleteSubtask,
         openModal,
         closeModal,
         selectedTab,

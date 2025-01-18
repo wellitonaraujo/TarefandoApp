@@ -1,16 +1,17 @@
 import {StatusBar} from 'react-native';
-import Home from './src/screens/Home';
+import AppNavigator from './src/navigation/AppNavigator'
 import React from 'react';
+import { NavigationContainer } from '@react-navigation/native'; 
 
 function App(): React.JSX.Element {
   return (
-    <>
+    <NavigationContainer>
         <StatusBar
           barStyle={'light-content'}
-          backgroundColor={'#141414'}
+          backgroundColor={'#181A20'}
         />
-       <Home />
-    </>
+       <AppNavigator />
+    </NavigationContainer>
   );
 }
 

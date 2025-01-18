@@ -81,6 +81,7 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
                 <S.DateIcon
                   source={require('../../assets/icons/date.png')}
                   style={{ marginRight: 8 }}
+                  tintColor={'#86B7F3'}
                 />
                 <S.DateText>{getDateLabel()}</S.DateText>
               </S.DateWrapper>

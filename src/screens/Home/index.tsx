@@ -71,14 +71,12 @@ const Home: React.FC = () => {
         />
       )}
 
-      {/* Modal para criação de tarefa */}
       <CreateTaskModal
         visible={modalVisible && !editingTask}
         onClose={closeModal}
         onSave={handleSaveTask}
       />
 
-      {/* Modal para edição de tarefa */}
       {editingTask && (
         <EditTaskModal
           visible={modalVisible && !!editingTask}

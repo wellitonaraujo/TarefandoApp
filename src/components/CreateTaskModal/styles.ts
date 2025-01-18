@@ -9,41 +9,42 @@ export const Overlay = styled.View`
 
 export const ModalContainer = styled.View`
   background-color: #2d3341;
-  padding: 10px 20px 20px 20px;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  padding: 16px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
   align-items: flex-start;
 `;
 
 /* Input */
 export const InputWrapper = styled.View`
   width: 100%;
-  margin-bottom: 20px;
 `;
 
 export const StyledTextInput = styled(TextInput)`
   font-size: 16px;
   font-weight: 700;
-  border-bottom-width: 1px;
-  border-color: #424A5F;
-  color: #fff;
+  background-color: #424a5f;
+  height: 50px;
+  border-radius: 6px;
+  padding: 0 16px;
+  color: #ccd7e5;
+  margin-bottom: 8px;
 `;
 
 export const Underline = styled.View`
   width: 100%;
   height: 1px;
-  background-color: #424A5F;
+  background-color: #424a5f;
 `;
 
 export const DateWrapper = styled(TouchableOpacity)`
   flex-direction: row;
   align-items: center;
-  margin-bottom: 10px;
 `;
 
 export const DateText = styled.Text`
   font-size: 13px;
-  color: #888;
+  color: #86b7f3;
 `;
 
 export const SendButton = styled(TouchableOpacity)`
@@ -52,18 +53,75 @@ export const SendButton = styled(TouchableOpacity)`
   bottom: 16px;
   width: 40px;
   height: 40px;
-  background-color: #1A72F3;
+  background-color: #86b7f3;
   border-radius: 25px;
   justify-content: center;
   align-items: center;
 `;
 
 export const SendIcon = styled.Image`
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
 `;
 
 export const DateIcon = styled.Image`
   width: 12px;
   height: 12px;
+`;
+
+export const SubtaskWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  padding: 8px;
+  background-color: #2d3341;
+`;
+
+export const SubtaskInput = styled.TextInput`
+  flex: 1;
+  font-size: 14px;
+  color: #CCD7E5;
+  padding: 0;
+`;
+
+export const RemoveIconWrapper = styled.Pressable`
+  justify-content: center;
+  align-items: center;
+`;
+
+export const RemoveIcon = styled.Image`
+  width: 10px;
+  height: 10px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const AddSubtaskButton = styled.TouchableOpacity`
+  margin-left: 15px;
+`;
+
+export const AddSubtaskIcon = styled.Image`
+  width: 12px;
+  height: 12px;
+`;
+
+export const ActionsContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+  margin-top: 7px;
+`;
+
+export const SubtasksContainer = styled.View`
+  max-height: 120px;
+  width: 100%;
+  margin-bottom: 10px;
+`;
+
+export const SubtasksScrollView = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    paddingBottom: 8,
+  },
+  keyboardShouldPersistTaps: 'handled',
+})`
+  width: 100%;
 `;
