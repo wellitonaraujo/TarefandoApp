@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '@/src/navigation/AppNavigator';
+import useTaskManager, { Subtask } from '../Home/hooks/useTaskManager';
 
 type TaskDetailsRouteProp = RouteProp<RootStackParamList, 'TaskDetails'>;
 
@@ -10,47 +11,66 @@ interface TaskDetailsProps {
 }
 
 const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
-  const { name, date, subtasks: initialSubtasks } = route.params;
-  const [subtasks, setSubtasks] = useState(initialSubtasks || []);
+  const { id, name, date, subtasks: initialSubtasks } = route.params;
+  const { handleDeleteSubtask} = useTaskManager()
+  
+  const [subtasks, setSubtasks] = useState<Subtask[]>(
+    initialSubtasks && Array.isArray(initialSubtasks)
+      ? initialSubtasks.map((subtask, index) =>
+          typeof subtask === 'string'
+            ? { id: String(index + 1), name: subtask, completed: false }
+            : subtask
+        )
+      : []
+  );
 
-  const handleDeleteSubtask = (index: number) => {
-    const updatedSubtasks = subtasks.filter((_, i) => i !== index);
+  const handleDelete = (taskId: string, subtaskId: string) => {
+    if (!subtaskId) {
+        console.error("ID da subtarefa não encontrado!");
+        return;
+    }
+
+    const updatedSubtasks = subtasks.filter(subtask => subtask.id !== subtaskId);
     setSubtasks(updatedSubtasks);
-  };
+
+    handleDeleteSubtask(taskId, subtaskId);
+    console.log('Deletada:', subtaskId);
+};
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{name}</Text>
       <View>
         {subtasks && subtasks.length > 0 ? (
-          subtasks.map((subtask, index) => (
-            <View style={styles.subtaskContainer} key={index}>
-              <View style={styles.subtaskLeft}>
-                <TouchableOpacity style={styles.radioButton} />
-                <Text style={styles.subtaskText}>{subtask}</Text>
+          subtasks.map((subtask, index) => {
+           
+            return (
+              <View style={styles.subtaskContainer} key={index}>
+                <View style={styles.subtaskLeft}>
+                  <TouchableOpacity style={styles.radioButton} />
+                  <Text style={styles.subtaskText}>{subtask.name}</Text>
+                </View>
+                <TouchableOpacity
+                  style={styles.deleteButton}
+                  onPress={() => handleDelete(id, subtask.id)}
+                >
+                  <Image
+                    source={require('../../assets/icons/close.png')}
+                    style={styles.deleteIcon} 
+                  />
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                style={styles.deleteButton}
-                onPress={() => handleDeleteSubtask(index)}
-              >
-                <Image
-                  source={require('../../assets/icons/close.png')}
-                  style={styles.deleteIcon}
-                />
-              </TouchableOpacity>
-            </View>
-          ))
+            );
+          })
         ) : (
           <Text style={styles.noSubtasks}>Sem subtarefas disponíveis.</Text>
         )}
-      </View>
 
-      {/* Add Subtask */}
+
+      </View>
       <TouchableOpacity>
         <Text style={styles.addSubtaskText}>Adicionar subtarefa</Text>
       </TouchableOpacity>
-
-      {/* Options */}
       <View style={styles.optionsContainer}>
         <View style={styles.optionRow}>
           <Image source={require('../../assets/icons/date-solid.png')} style={styles.icon} />
@@ -71,7 +91,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
         </View>
       </View>
 
-      {/* Actions */}
       <View style={styles.actionsContainer}>
         <TouchableOpacity style={styles.actionButton}>
           <Image source={require('../../assets/icons/check-fill.png')} style={styles.actionIcon} />
@@ -89,6 +108,8 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     </View>
   );
 };
+
+export default TaskDetails;
 
 const styles = StyleSheet.create({
   container: {
@@ -193,5 +214,3 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 });
-
-export default TaskDetails;

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 const TASKS_KEY = '@tasks_key';
 
-type Subtask = {
+export type Subtask = {
   id: string;
   name: string;
   completed: boolean;
@@ -14,7 +14,7 @@ type Task = {
   name: string;
   completed: boolean;
   date: string;
-  subtasks?: Subtask[]; // Novo campo para subtarefas
+  subtasks?: Subtask[];
 };
 
 const useTaskManager = () => {
@@ -46,8 +46,6 @@ const useTaskManager = () => {
         loadTasks();
     }, []);
     
-
-    // Salva as tarefas no AsyncStorage
     const saveTasks = async (updatedTasks: Task[]) => {
         try {
             await AsyncStorage.setItem(TASKS_KEY, JSON.stringify(updatedTasks));
@@ -57,7 +55,6 @@ const useTaskManager = () => {
         }
     };
 
-    // Formata a data
     const formatDate = (date: Date): string => {
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -65,13 +62,11 @@ const useTaskManager = () => {
         return `${day}/${month}/${year}`;
     };
 
-    // Converte a data para um formato comparável
     const convertToComparableDate = (date: string): string => {
         const [day, month, year] = date.split('/');
         return `${year}-${month}-${day}`; 
     };
 
-    // Filtra as tarefas com base na guia selecionada
     const filteredTasks = () => {
         const currentDate = formatDate(new Date());
         const currentDateComparable = convertToComparableDate(currentDate);
@@ -151,19 +146,24 @@ const useTaskManager = () => {
         saveTasks(updatedTasks);
     };
 
-    const handleDeleteSubtask = (taskId: string, subtaskId: string) => {
+    const handleDeleteSubtaskGlobal = (taskId: string, subtaskId: string) => {
         const updatedTasks = tasks.map(task =>
-            task.id === taskId
-                ? {
-                    ...task,
-                    subtasks: task.subtasks?.filter(subtask => subtask.id !== subtaskId),
-                }
-                : task
+          task.id === taskId
+            ? {
+                ...task,
+                subtasks: task.subtasks?.filter(subtask => subtask.id !== subtaskId),
+              }
+            : task
         );
+        console.log('Deletada globalmente:', subtaskId);
         saveTasks(updatedTasks);
+    };    
+      
+    const handleDeleteSubtask = (taskId: string, subtaskId: string) => {
+        console.log('Deletada:', subtaskId);
+        handleDeleteSubtaskGlobal(taskId, subtaskId);
     };
-    
-
+      
     const openModal = () => {
         setModalVisible(true);
         setEditingTask(null);

@@ -6,6 +6,7 @@ import TaskDetails from '../screens/TaskDetails';
 export type RootStackParamList = {
   Home: undefined;
   TaskDetails: {
+    id: string
     name: string;
     date: string;
     subtasks: Subtask[];
