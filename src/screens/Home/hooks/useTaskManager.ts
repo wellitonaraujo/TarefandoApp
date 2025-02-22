@@ -30,7 +30,7 @@ const useTaskManager = () => {
             try {
                 const savedTasks = await AsyncStorage.getItem(TASKS_KEY);
                 if (savedTasks) {
-                    const parsedTasks: Task[] = JSON.parse(savedTasks).map(task => ({
+                    const parsedTasks: Task[] = JSON.parse(savedTasks).map((task: Task) => ({
                         ...task,
                         subtasks: task.subtasks || [],
                         date: task.date || new Date().toLocaleDateString(),
@@ -146,7 +146,7 @@ const useTaskManager = () => {
         saveTasks(updatedTasks);
     };
 
-    const handleDeleteSubtaskGlobal = (taskId: string, subtaskId: string) => {
+    const handleDeleteSubtask = (taskId: string, subtaskId: string) => {
         const updatedTasks = tasks.map(task =>
           task.id === taskId
             ? {
@@ -158,11 +158,6 @@ const useTaskManager = () => {
         console.log('Deletada globalmente:', subtaskId);
         saveTasks(updatedTasks);
     };    
-      
-    const handleDeleteSubtask = (taskId: string, subtaskId: string) => {
-        console.log('Deletada:', subtaskId);
-        handleDeleteSubtaskGlobal(taskId, subtaskId);
-    };
       
     const openModal = () => {
         setModalVisible(true);
