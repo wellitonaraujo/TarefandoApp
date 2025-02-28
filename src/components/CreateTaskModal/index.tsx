@@ -6,7 +6,12 @@ import * as S from './styles';
 interface CreateTaskModalProps {
   visible: boolean;
   onClose: () => void;
-  onSave: (title: string, date: string, subtasks: string[]) => void;
+  onSave: (title: string, date: string, subtasks: Subtask[]) => void;
+}
+
+interface Subtask {
+  id: string;
+  name: string;
 }
 
 const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
@@ -33,13 +38,22 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
   const saveTask = () => {
     if (inputValue.trim()) {
       const formattedDate = formatDate(date);
-      onSave(inputValue, formattedDate, subtasks);
+  
+      const formattedSubtasks = subtasks.map((subtask, index) => ({
+        id: String(index),
+        name: subtask,
+      }));
+  
+      // Passando o array formatado de subtasks
+      onSave(inputValue, formattedDate, formattedSubtasks);
+  
+      // Resetando os valores
       setInputValue('');
       setSubtasks([]);
       setDate(new Date());
     }
   };
-
+  
   const addSubtask = () => {
     setSubtasks((prev) => {
       const newSubtasks = [...prev, ''];

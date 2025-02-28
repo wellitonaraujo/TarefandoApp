@@ -24,18 +24,22 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
       : []
   );
 
-  const handleDelete = (taskId: string, subtaskId: string) => {
+  const handleDelete = async (taskId: string, subtaskId: string) => {
     if (!subtaskId) {
-        console.error("ID da subtarefa não encontrado!");
-        return;
+      console.error("ID da subtarefa não encontrado!");
+      return;
     }
-
+  
+    // Atualizando a lista de subtarefas localmente
     const updatedSubtasks = subtasks.filter(subtask => subtask.id !== subtaskId);
     setSubtasks(updatedSubtasks);
-
-    handleDeleteSubtask(taskId, subtaskId);
-    console.log('Deletada:', subtaskId);
-};
+  
+    // Deletando do AsyncStorage
+    await handleDeleteSubtask(taskId, subtaskId);
+  
+    console.log('Subtarefa deletada:', subtaskId);
+  };
+  
 
   return (
     <View style={styles.container}>

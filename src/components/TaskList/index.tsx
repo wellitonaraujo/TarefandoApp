@@ -21,12 +21,14 @@ type Task = {
   subtasks?: Subtask[];
 };
 
-type TaskListProps = {  
-  tasks: Task[];
+interface TaskListProps {
+  tasks: Task[]; // Defina a estrutura de Task conforme necessário
   onEditTask: (id: string) => void;
   onCompleteTask: (id: string) => void;
   onDeleteTask: (id: string) => void;
-};
+  updateKey: number; // Adicionando a propriedade updateKey
+}
+
 
 const TaskList: React.FC<TaskListProps> = ({
   tasks,
@@ -39,11 +41,13 @@ const TaskList: React.FC<TaskListProps> = ({
 
   const handleTaskPress = (task: Task) => {
     navigation.navigate('TaskDetails', {
+      id: task.id,
       name: task.name,
       date: task.date,
       subtasks: task.subtasks || [],
     });
   };
+  
 
   const renderTasks = (filterCompleted: boolean) => (
     tasks
