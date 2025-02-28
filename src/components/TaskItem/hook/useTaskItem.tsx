@@ -22,6 +22,7 @@ interface UseTaskItemProps {
 }
 
 export const useTaskItem = ({ task, onEdit, onDelete, completed }: UseTaskItemProps) => {
+
   const formatDate = useCallback((dateString: string): string => {
     const [day, month, year] = dateString.split('/').map((part) => parseInt(part, 10));
     const date = new Date(year, month - 1, day);

@@ -44,7 +44,7 @@ const useTaskManager = () => {
             }
         };
         loadTasks();
-    }, []);
+    }, [updateKey, tasks]);
     
     const saveTasks = async (updatedTasks: Task[]) => {
         try {
@@ -160,10 +160,13 @@ const useTaskManager = () => {
           });
           
           await saveTasks(updatedTasks);
+          setTasks(updatedTasks);
         } catch (error) {
           console.error('Erro ao deletar subtarefa:', error);
         }
     };
+
+
     
     const openModal = () => {
         setModalVisible(true);
