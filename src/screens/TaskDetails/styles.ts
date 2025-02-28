@@ -37,6 +37,7 @@ export const RadioButton = styled.TouchableOpacity`
 export const SubtaskText = styled.Text`
   color: #D2D2D2;
   font-size: 16px;
+  margin-left: 10px;
 `;
 
 export const DeleteButton = styled.TouchableOpacity`

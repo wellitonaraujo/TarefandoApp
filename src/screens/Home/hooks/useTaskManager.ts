@@ -166,8 +166,31 @@ const useTaskManager = () => {
         }
     };
 
-
     
+    const handleCompleteSubtask = async (taskId: string, subtaskId: string) => {
+        try {
+            const updatedTasks = tasks.map(task => {
+                if (task.id === taskId) {
+                    return {
+                        ...task,
+                        subtasks: task.subtasks?.map(subtask =>
+                            subtask.id === subtaskId
+                                ? { ...subtask, completed: !subtask.completed }
+                                : subtask
+                        ),
+                    };
+                }
+                return task;
+            });
+    
+            await saveTasks(updatedTasks);
+            setTasks(updatedTasks);
+        } catch (error) {
+            console.error('Erro ao marcar subtarefa como concluída:', error);
+        }
+    };
+    
+
     const openModal = () => {
         setModalVisible(true);
         setEditingTask(null);
@@ -195,6 +218,7 @@ const useTaskManager = () => {
         selectedTab,
         setSelectedTab,
         filteredTasks,
+        handleCompleteSubtask,
     };
 };
 

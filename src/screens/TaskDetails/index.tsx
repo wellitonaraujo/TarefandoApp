@@ -4,6 +4,7 @@ import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '@/src/navigation/AppNavigator';
 import useTaskManager from '../Home/hooks/useTaskManager';
 import * as S from './styles';
+import CustomCheckBox from '@/src/components/CustomCheckBox';
 
 type TaskDetailsRouteProp = RouteProp<RootStackParamList, 'TaskDetails'>;
 
@@ -13,7 +14,7 @@ interface TaskDetailsProps {
 
 const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
   const { id, name, date, subtasks: initialSubtasks } = route.params;
-  const { tasks, handleDeleteSubtask, loadingTasks  } = useTaskManager();
+  const { tasks, handleDeleteSubtask, loadingTasks, handleCompleteSubtask  } = useTaskManager();
 
   const task = tasks.find(t => t.id === id);
   const subtasks = task?.subtasks || [];
@@ -41,15 +42,27 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
       ) : (
         <S.OptionsContainer>
           {subtasks.map((subtask, index) => (
-            <S.SubtaskContainer key={index}>
-              <S.SubtaskLeft>
-                <S.RadioButton />
-                <S.SubtaskText>{subtask.name}</S.SubtaskText>
-              </S.SubtaskLeft>
-              <S.DeleteButton onPress={() => handleDelete(subtask.id)}>
-                <S.DeleteIcon tintColor={'#D2D2D2'} source={require('../../assets/icons/close.png')} />
-              </S.DeleteButton>
-            </S.SubtaskContainer>
+           <S.SubtaskContainer key={index}>
+           <S.SubtaskLeft>
+            <CustomCheckBox
+                value={subtask.completed}
+                onValueChange={(newValue) => handleCompleteSubtask(id, subtask.id)}
+              />
+             <S.SubtaskText 
+                style={{
+                  textDecorationLine: subtask.completed ? 'line-through' : 'none',
+                  opacity: subtask.completed ? 0.5 : 1,
+                }}
+              >
+                {subtask.name}
+              </S.SubtaskText>
+
+           </S.SubtaskLeft>
+           <S.DeleteButton onPress={() => handleDelete(subtask.id)}>
+               <S.DeleteIcon tintColor={'#D2D2D2'} source={require('../../assets/icons/close.png')} />
+           </S.DeleteButton>
+       </S.SubtaskContainer>
+       
           ))}
         </S.OptionsContainer>
       )}
