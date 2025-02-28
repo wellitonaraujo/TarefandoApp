@@ -22,11 +22,11 @@ type Task = {
 };
 
 interface TaskListProps {
-  tasks: Task[]; // Defina a estrutura de Task conforme necessário
+  tasks: Task[];
   onEditTask: (id: string) => void;
   onCompleteTask: (id: string) => void;
   onDeleteTask: (id: string) => void;
-  updateKey: number; // Adicionando a propriedade updateKey
+  updateKey: number;
 }
 
 
@@ -48,7 +48,6 @@ const TaskList: React.FC<TaskListProps> = ({
     });
   };
   
-
   const renderTasks = (filterCompleted: boolean) => (
     tasks
       .filter(task => task.completed === filterCompleted)

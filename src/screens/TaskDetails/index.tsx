@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '@/src/navigation/AppNavigator';
@@ -12,35 +12,20 @@ interface TaskDetailsProps {
 
 const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
   const { id, name, date, subtasks: initialSubtasks } = route.params;
-  const { handleDeleteSubtask} = useTaskManager()
-  
-  const [subtasks, setSubtasks] = useState<Subtask[]>(
-    initialSubtasks && Array.isArray(initialSubtasks)
-      ? initialSubtasks.map((subtask, index) =>
-          typeof subtask === 'string'
-            ? { id: String(index + 1), name: subtask, completed: false }
-            : subtask
-        )
-      : []
-  );
+  const { tasks, handleDeleteSubtask } = useTaskManager();
 
-  const handleDelete = async (taskId: string, subtaskId: string) => {
+  const task = tasks.find(t => t.id === id);
+  const subtasks = task?.subtasks || [];
+
+  const handleDelete = async (subtaskId: string) => {
     if (!subtaskId) {
       console.error("ID da subtarefa não encontrado!");
       return;
     }
-  
-    // Atualizando a lista de subtarefas localmente
-    const updatedSubtasks = subtasks.filter(subtask => subtask.id !== subtaskId);
-    setSubtasks(updatedSubtasks);
-  
-    // Deletando do AsyncStorage
-    await handleDeleteSubtask(taskId, subtaskId);
-  
-    console.log('Subtarefa deletada:', subtaskId);
+    
+    await handleDeleteSubtask(id, subtaskId);
   };
   
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{name}</Text>
@@ -56,7 +41,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
                 </View>
                 <TouchableOpacity
                   style={styles.deleteButton}
-                  onPress={() => handleDelete(id, subtask.id)}
+                  onPress={() => handleDelete(subtask.id)}
                 >
                   <Image
                     source={require('../../assets/icons/close.png')}
@@ -67,7 +52,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
             );
           })
         ) : (
-          <Text style={styles.noSubtasks}>Sem subtarefas disponíveis.</Text>
+          <Text style={styles.noSubtasks}></Text>
         )}
 
 

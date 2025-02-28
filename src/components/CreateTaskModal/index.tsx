@@ -6,7 +6,7 @@ import * as S from './styles';
 interface CreateTaskModalProps {
   visible: boolean;
   onClose: () => void;
-  onSave: (title: string, date: string, subtasks: Subtask[]) => void;
+  onSave: (taskName: string, taskDate: string, subtasks: Subtask[]) => void;
 }
 
 interface Subtask {

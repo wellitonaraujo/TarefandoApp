@@ -44,7 +44,7 @@ const useTaskManager = () => {
             }
         };
         loadTasks();
-    }, [updateKey]);
+    }, []);
     
     const saveTasks = async (updatedTasks: Task[]) => {
         try {
@@ -55,8 +55,7 @@ const useTaskManager = () => {
             console.error("Erro ao salvar as tarefas", error);
         }
     };
-    
-    
+
     const formatDate = (date: Date): string => {
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -150,33 +149,22 @@ const useTaskManager = () => {
 
     const handleDeleteSubtask = async (taskId: string, subtaskId: string) => {
         try {
-            // Recuperar as tarefas do AsyncStorage
-            const storedTasks = await AsyncStorage.getItem(TASKS_KEY);
-            if (storedTasks) {
-                const tasks = JSON.parse(storedTasks);
-    
-                // Encontrar a tarefa que contém a subtarefa
-                const taskIndex = tasks.findIndex((task: any) => task.id === taskId);
-                if (taskIndex !== -1) {
-                    const subtasks = tasks[taskIndex].subtasks || [];
-    
-                    // Filtrar a subtarefa a ser removida
-                    tasks[taskIndex].subtasks = subtasks.filter((subtask: any) => subtask.id !== subtaskId);
-    
-                    // Atualizar o AsyncStorage com a lista de tarefas modificada
-                    await AsyncStorage.setItem(TASKS_KEY, JSON.stringify(tasks));
-                    console.log('Subtarefa deletada do AsyncStorage');
-    
-                    // Disparar a atualização das tarefas
-                    setUpdateKey(prevKey => prevKey + 1);  // Atualiza o estado para recarregar as tarefas
-                }
+          const updatedTasks = tasks.map(task => {
+            if (task.id === taskId) {
+              return {
+                ...task,
+                subtasks: task.subtasks?.filter(subtask => subtask.id !== subtaskId) || []
+              };
             }
+            return task;
+          });
+          
+          await saveTasks(updatedTasks);
         } catch (error) {
-            console.error('Erro ao deletar subtarefa do AsyncStorage:', error);
+          console.error('Erro ao deletar subtarefa:', error);
         }
     };
     
-      
     const openModal = () => {
         setModalVisible(true);
         setEditingTask(null);
