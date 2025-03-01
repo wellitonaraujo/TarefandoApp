@@ -15,6 +15,7 @@ export const ModalContainer = styled.View`
   align-items: flex-start;
 `;
 
+
 /* Input */
 export const InputWrapper = styled.View`
   width: 100%;
@@ -68,4 +69,63 @@ export const SendIcon = styled.Image`
 export const DateIcon = styled.Image`
   width: 12px;
   height: 12px;
+`;
+
+
+
+export const SubtaskWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  padding: 8px;
+  background-color: #2d3341;
+`;
+
+export const SubtaskInput = styled.TextInput`
+  flex: 1;
+  font-size: 14px;
+  color: #CCD7E5;
+  padding: 0;
+`;
+
+export const RemoveIconWrapper = styled.Pressable`
+  justify-content: center;
+  align-items: center;
+`;
+
+export const RemoveIcon = styled.Image`
+  width: 10px;
+  height: 10px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const AddSubtaskButton = styled.TouchableOpacity`
+  margin-left: 15px;
+`;
+
+export const AddSubtaskIcon = styled.Image`
+  width: 12px;
+  height: 12px;
+`;
+
+export const ActionsContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+  margin-top: 7px;
+`;
+
+export const SubtasksContainer = styled.View`
+  max-height: 120px;
+  width: 100%;
+  margin-bottom: 10px;
+`;
+
+export const SubtasksScrollView = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    paddingBottom: 8,
+  },
+  keyboardShouldPersistTaps: 'handled',
+})`
+  width: 100%;
 `;

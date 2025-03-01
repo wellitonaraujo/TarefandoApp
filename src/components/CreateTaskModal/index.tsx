@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
 import { Modal, TouchableWithoutFeedback, Platform, TextInput, View } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import React, { useEffect, useRef, useState } from 'react';
 import * as S from './styles';
 
 interface CreateTaskModalProps {
@@ -44,10 +44,8 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
         name: subtask,
       }));
   
-      // Passando o array formatado de subtasks
       onSave(inputValue, formattedDate, formattedSubtasks);
   
-      // Resetando os valores
       setInputValue('');
       setSubtasks([]);
       setDate(new Date());
@@ -119,7 +117,6 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             <S.ModalContainer>
               <S.InputWrapper>
                 <S.StyledTextInput
-                  ref={inputRef}
                   placeholder="Nome da tarefa"
                   placeholderTextColor="#CCD7E5"
                   value={inputValue}

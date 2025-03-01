@@ -3,12 +3,13 @@ import { ActivityIndicator, View, Text, TouchableOpacity } from 'react-native';
 import CreateTaskModal from "@/src/components/CreateTaskModal";
 import EditTaskModal from "@/src/components/EditTaskModal";
 import EmptyState from "@/src/components/EmptyState";
-import useTaskManager from './hooks/useTaskManager';
 import AddButton from "@/src/components/AddButton";
 import TaskList from "@/src/components/TaskList";
 import Header from "@/src/components/Header";
 import React from "react";
 import { styles } from './styles';
+import useTaskManager from './hooks/useTaskManager';
+
 
 const Home: React.FC = () => {
   const {
@@ -27,7 +28,7 @@ const Home: React.FC = () => {
     setSelectedTab,
     filteredTasks,
   } = useTaskManager();
-
+ 
   const isEmptyStateVisible = selectedTab === 0 && filteredTasks().length === 0;
 
   return (
@@ -37,17 +38,11 @@ const Home: React.FC = () => {
         {['Hoje', 'Próximas', 'Atrasadas', 'Concluídas'].map((tab, index) => (
           <TouchableOpacity
             key={index}
-            style={[
-              styles.tab,
-              selectedTab === index && styles.selectedTab
-            ]}
+            style={[styles.tab, selectedTab === index && styles.selectedTab]}
             onPress={() => setSelectedTab(index)}
           >
             <Text
-              style={[
-                styles.tabText,
-                selectedTab === index ? styles.selectedTabText : styles.deselectedTabText
-              ]}
+              style={[styles.tabText, selectedTab === index ? styles.selectedTabText : styles.deselectedTabText]}
             >
               {tab}
             </Text>

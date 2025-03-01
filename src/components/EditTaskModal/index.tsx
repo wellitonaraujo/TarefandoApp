@@ -3,12 +3,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as S from './styles';
 
+interface Subtask {
+  id: string;
+  name: string;
+}
+
 interface EditTaskModalProps {
   visible: boolean;
   onClose: () => void;
   onSave: (title: string, date: string) => void;
   taskName: string;
   taskDate: string;
+  initialSubtasks: Subtask[];
 }
 
 const EditTaskModal: React.FC<EditTaskModalProps> = ({

@@ -1,13 +1,14 @@
+import { TextInput } from 'react-native';
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
   flex: 1;
   background-color: #181A20;
   padding: 16px;
 `;
 
 export const Title = styled.Text`
-  color: #D2D2D2;
+  color: #f5f5f5;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 16px;
@@ -35,7 +36,7 @@ export const RadioButton = styled.TouchableOpacity`
 `;
 
 export const SubtaskText = styled.Text`
-  color: #D2D2D2;
+  color: #f5f5f5;
   font-size: 16px;
   margin-left: 10px;
 `;
@@ -58,12 +59,12 @@ export const NoSubtasks = styled.Text`
 export const AddSubtaskText = styled.Text`
   color: #5D9CEC;
   font-size: 16px;
-  margin-top: 16px;
   margin-bottom: 24px;
 `;
 
 export const OptionsContainer = styled.View`
   margin-bottom: 24px;
+  margin-top: 20px;
 `;
 
 export const OptionRow = styled.View`
@@ -118,3 +119,17 @@ export const ActionText = styled.Text`
   color: #D2D2D2;
   font-size: 13px;
 `;
+
+export const AddSubtaskInput = styled.TextInput`
+  margin-right: 8px;
+  margin-bottom: 10px;
+  color: #f5f5f5;
+  font-size: 16px;
+`;
+
+export const NameTextInput = styled(TextInput)`
+  color: #D2D2D2;
+  font-size: 24px;
+  font-weight: bold;
+`;
+

@@ -44,7 +44,8 @@ const useTaskManager = () => {
             }
         };
         loadTasks();
-    }, [updateKey, tasks]);
+    }, [updateKey]);
+    
     
     const saveTasks = async (updatedTasks: Task[]) => {
         try {
@@ -219,6 +220,7 @@ const useTaskManager = () => {
         setSelectedTab,
         filteredTasks,
         handleCompleteSubtask,
+        saveTasks,
     };
 };
 
