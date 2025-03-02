@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#181A20',
+      backgroundColor: '#1E2129',
     },
     loadingContainer: {
       flex: 1,
@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     tabsContainer: {
       flexDirection: 'row',
       justifyContent: 'space-around',
-      paddingVertical: 15,
+      paddingVertical: 10,
       paddingHorizontal: 16,
 
     },
@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
       fontSize: 14,
     },
     selectedTabText: {
-      color: '#1A72F3',
+      color: '#86B7F3',
     },
     deselectedTabText: {
       color: '#888888',

@@ -1,20 +1,19 @@
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { ActivityIndicator, View, Text, TouchableOpacity } from 'react-native';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ActivityIndicator, View, Text, TouchableOpacity } from "react-native";
 import CreateTaskModal from "@/src/components/CreateTaskModal";
 import EditTaskModal from "@/src/components/EditTaskModal";
 import EmptyState from "@/src/components/EmptyState";
-import useTaskManager from './hooks/useTaskManager';
 import AddButton from "@/src/components/AddButton";
 import TaskList from "@/src/components/TaskList";
 import Header from "@/src/components/Header";
 import React from "react";
-import { styles } from './styles';
+import { styles } from "./styles";
+import { useTaskManager } from "../../context/TaskContext"
 
 const Home: React.FC = () => {
   const {
     tasks,
     loadingTasks,
-    editingTask,
     updateKey,
     handleSaveTask,
     handleEditTask,
@@ -34,19 +33,16 @@ const Home: React.FC = () => {
     <GestureHandlerRootView style={styles.container}>
       <Header tasks={tasks} />
       <View style={styles.tabsContainer}>
-        {['Hoje', 'Próximas', 'Atrasadas', 'Concluídas'].map((tab, index) => (
+        {["Hoje", "Próximas", "Atrasadas", "Concluídas"].map((tab, index) => (
           <TouchableOpacity
             key={index}
-            style={[
-              styles.tab,
-              selectedTab === index && styles.selectedTab
-            ]}
+            style={[styles.tab, selectedTab === index && styles.selectedTab]}
             onPress={() => setSelectedTab(index)}
           >
             <Text
               style={[
                 styles.tabText,
-                selectedTab === index ? styles.selectedTabText : styles.deselectedTabText
+                selectedTab === index ? styles.selectedTabText : styles.deselectedTabText,
               ]}
             >
               {tab}
@@ -71,24 +67,11 @@ const Home: React.FC = () => {
         />
       )}
 
-      {/* Modal para criação de tarefa */}
       <CreateTaskModal
-        visible={modalVisible && !editingTask}
+        visible={modalVisible}
         onClose={closeModal}
         onSave={handleSaveTask}
       />
-
-      {/* Modal para edição de tarefa */}
-      {editingTask && (
-        <EditTaskModal
-          visible={modalVisible && !!editingTask}
-          onClose={closeModal}
-          onSave={handleSaveTask}
-          taskName={editingTask.name}
-          taskDate={editingTask.date}
-        />
-      )}
-
       <AddButton onPress={openModal} />
     </GestureHandlerRootView>
   );

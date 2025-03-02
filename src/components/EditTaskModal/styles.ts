@@ -1,5 +1,5 @@
-import { TouchableOpacity } from "react-native";
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
+import { TouchableOpacity, TextInput } from 'react-native';
 
 export const Overlay = styled.View`
   flex: 1;
@@ -8,68 +8,124 @@ export const Overlay = styled.View`
 `;
 
 export const ModalContainer = styled.View`
-  background-color: #313747;
+  background-color: #2d3341;
   padding: 20px;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
-  align-items: center;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  align-items: flex-start;
 `;
 
-export const ModalBar = styled.View`
-  width: 40px;
-  height: 5px;
-  background-color: #666;
-  border-radius: 2.5px;
+
+/* Input */
+export const InputWrapper = styled.View`
+  width: 100%;
   margin-bottom: 20px;
 `;
 
-export const StyledTextInput = styled.TextInput`
-  width: 100%;
-  height: 55px;
-  background-color: #4b536a;
-  border-radius: 50px;
-  padding-horizontal: 16px;
-  color: #ffffff;
+export const StyledTextInput = styled(TextInput)`
   font-size: 16px;
-  margin-bottom: 20px;
+  font-weight: 700;
+  background-color: #424A5F;
+  height: 58px;
+  border-radius: 4px;
+  padding: 0 16px;
+  color: #CCD7E5;
 `;
 
-export const CreateButton = styled(TouchableOpacity)`
+export const Underline = styled.View`
   width: 100%;
-  height: 55px;
-  background-color: #1e90ff;
-  border-radius: 50px;
-  justify-content: center;
+  height: 1px;
+  background-color: #424A5F;
+`;
+
+export const DateWrapper = styled(TouchableOpacity)`
+  flex-direction: row;
   align-items: center;
-`;
-
-export const CreateButtonText = styled.Text`
-  color: #ffffff;
-  font-size: 18px;
-  font-weight: bold;
-`;
-
-export const DateButton = styled.TouchableOpacity`
-  width: 100%;
-  height: 55px;
-  background-color: #4b536a;
-  border-radius: 50px;
-  justify-content: center;
-  padding-horizontal: 16px;
-  margin-bottom: 20px;
-`;
-
-export const DateButtonText = styled.Text`
-  color: #ffffff;
-  font-size: 16px;
-`;
-
-export const DateTextContainer = styled.View`
-  align-self: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 export const DateText = styled.Text`
-  font-size: 16px;
-  color: white;
+  font-size: 13px;
+  color: #86B7F3;
+`;
+
+export const SendButton = styled(TouchableOpacity)`
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  width: 40px;
+  height: 40px;
+  background-color: #86B7F3;
+  border-radius: 25px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const SendIcon = styled.Image`
+  width: 16px;
+  height: 16px;
+`;
+
+export const DateIcon = styled.Image`
+  width: 12px;
+  height: 12px;
+`;
+
+
+
+export const SubtaskWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  padding: 8px;
+  background-color: #2d3341;
+`;
+
+export const SubtaskInput = styled.TextInput`
+  flex: 1;
+  font-size: 14px;
+  color: #CCD7E5;
+  padding: 0;
+`;
+
+export const RemoveIconWrapper = styled.Pressable`
+  justify-content: center;
+  align-items: center;
+`;
+
+export const RemoveIcon = styled.Image`
+  width: 10px;
+  height: 10px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const AddSubtaskButton = styled.TouchableOpacity`
+  margin-left: 15px;
+`;
+
+export const AddSubtaskIcon = styled.Image`
+  width: 12px;
+  height: 12px;
+`;
+
+export const ActionsContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+  margin-top: 7px;
+`;
+
+export const SubtasksContainer = styled.View`
+  max-height: 120px;
+  width: 100%;
+  margin-bottom: 10px;
+`;
+
+export const SubtasksScrollView = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    paddingBottom: 8,
+  },
+  keyboardShouldPersistTaps: 'handled',
+})`
+  width: 100%;
 `;

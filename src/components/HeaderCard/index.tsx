@@ -1,28 +1,28 @@
 import useHeaderCard from "./hook/useHeaderCard";
 import * as S from "./styles";
 import React from "react";
+import { Image, View } from "react-native"; // Importando o componente Image
 
 interface HeaderCardProps {
-    totalTasks: number;
-    completedTasks: number;
+  totalTasks: number;
+  completedTasks: number;
 }
 
 const HeaderCard: React.FC<HeaderCardProps> = ({ totalTasks, completedTasks }) => {
-    const { formattedDate, taskProgress } = useHeaderCard(totalTasks, completedTasks);
+  const { taskProgress } = useHeaderCard(totalTasks, completedTasks);
 
-    return (
-        <S.Container>
-            <S.Wrapper>
-                <S.Title>Tarefas concluídas</S.Title>
-                <S.CurrentDate>
-                    <S.DateValue>{formattedDate}</S.DateValue>
-                </S.CurrentDate>
-            </S.Wrapper>
-            <S.PercentageChart>
-                <S.Value>{taskProgress}</S.Value>
-            </S.PercentageChart>
-        </S.Container>
-    );
+  return (
+    <S.Container>
+      <S.Wrapper>
+       <View>
+        <S.Title>Tarefas concluídas</S.Title>
+            <S.CurrentDate>
+            <S.Value>{taskProgress}</S.Value>
+            </S.CurrentDate>
+       </View>
+      </S.Wrapper>
+    </S.Container>
+  );
 };
 
 export default HeaderCard;

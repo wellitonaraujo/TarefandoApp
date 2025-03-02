@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     },
     title: {
         color: '#fff',
-        fontSize: 20,
+        fontSize: 15,
         fontWeight: '600',
     },
     emptyContainer: {
@@ -21,18 +21,18 @@ const styles = StyleSheet.create({
     },
     emptyTitle: {
         color: '#FFFFFF',
-        fontSize: 20,
+        fontSize: 16,
         textAlign: 'center',
         fontWeight: 'bold',
         marginBottom: 8
     },
     highlightedText: {
-        color: '#1A72F3',
+        color: '#86B7F3',
         fontWeight: 'bold',
     },
     emptyDescription: {
-        color: '#FFFFFF',
-        fontSize: 13,
+        color: '#888888',
+        fontSize: 12,
         textAlign: 'center',
     },
     completedSection: {

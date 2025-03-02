@@ -1,12 +1,17 @@
-import { Modal, TouchableWithoutFeedback, Platform } from 'react-native';
-import React, { useState } from 'react';
+import { Modal, TouchableWithoutFeedback, Platform, TextInput, View } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import React, { useEffect, useRef, useState } from 'react';
 import * as S from './styles';
 
 interface CreateTaskModalProps {
   visible: boolean;
   onClose: () => void;
-  onSave: (title: string, date: string) => void;
+  onSave: (taskName: string, taskDate: string, subtasks: Subtask[]) => void;
+}
+
+interface Subtask {
+  id: string;
+  name: string;
 }
 
 const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
@@ -16,15 +21,61 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [date, setDate] = useState(new Date());
+  const [subtasks, setSubtasks] = useState<string[]>([]);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const inputRef = useRef<TextInput>(null);
+  
+  const subtasksRefs = useRef<(TextInput | null)[]>([]);
+
+  useEffect(() => {
+    if (visible) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+    }
+  }, [visible]);
 
   const saveTask = () => {
     if (inputValue.trim()) {
       const formattedDate = formatDate(date);
-      onSave(inputValue, formattedDate);
+  
+      const formattedSubtasks = subtasks.map((subtask, index) => ({
+        id: String(index),
+        name: subtask,
+      }));
+  
+      onSave(inputValue, formattedDate, formattedSubtasks);
+  
       setInputValue('');
-      setDate(new Date()); // Reset the date after saving
+      setSubtasks([]);
+      setDate(new Date());
     }
+  };
+  
+  const addSubtask = () => {
+    setSubtasks((prev) => {
+      const newSubtasks = [...prev, ''];
+      subtasksRefs.current = [...subtasksRefs.current, null];
+      setTimeout(() => {
+        const lastSubtaskRef = subtasksRefs.current[newSubtasks.length - 1];
+        lastSubtaskRef?.focus();
+      }, 100);
+      return newSubtasks;
+    });
+  };
+
+  const updateSubtask = (index: number, value: string) => {
+    setSubtasks((prev) =>
+      prev.map((subtask, i) => (i === index ? value : subtask))
+    );
+  };
+
+  const removeSubtask = (index: number) => {
+    setSubtasks((prev) => {
+      const updatedSubtasks = prev.filter((_, i) => i !== index);
+      subtasksRefs.current = subtasksRefs.current.filter((_, i) => i !== index);
+      return updatedSubtasks;
+    });
   };
 
   const handleDateChange = (event: any, selectedDate?: Date) => {
@@ -46,6 +97,13 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
     return formatDate(date);
   };
 
+  const formatDate = (date: Date): string => {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   return (
     <Modal
       animationType="slide"
@@ -57,18 +115,56 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
         <S.Overlay>
           <TouchableWithoutFeedback>
             <S.ModalContainer>
-              <S.StyledTextInput
-                placeholder="Nome da tarefa"
-                placeholderTextColor="#888"
-                value={inputValue}
-                onChangeText={setInputValue}
-                maxLength={100}
-              />
-               <S.DateTextContainer>
-                <S.DateText onPress={() => setShowDatePicker(true)}>
-                  {getDateLabel()}
-                </S.DateText>
-              </S.DateTextContainer>
+              <S.InputWrapper>
+                <S.StyledTextInput
+                  placeholder="Nome da tarefa"
+                  placeholderTextColor="#CCD7E5"
+                  value={inputValue}
+                  onChangeText={setInputValue}
+                  maxLength={100}
+                />
+              </S.InputWrapper>
+
+              <S.SubtasksContainer>
+                <S.SubtasksScrollView showsVerticalScrollIndicator={false}>
+                  {subtasks.map((subtask, index) => (
+                    <S.SubtaskWrapper key={index}>
+                      <S.SubtaskInput
+                        ref={(el:any) => (subtasksRefs.current[index] = el)}
+                        placeholder="Nome da subtarefa"
+                        placeholderTextColor="#CCD7E5"
+                        value={subtask}
+                        onChangeText={(value) => updateSubtask(index, value)}
+                      />
+                      <S.RemoveIconWrapper onPress={() => removeSubtask(index)}>
+                        <S.RemoveIcon source={require('../../assets/icons/close.png')} />
+                      </S.RemoveIconWrapper>
+                    </S.SubtaskWrapper>
+                  ))}
+                </S.SubtasksScrollView>
+              </S.SubtasksContainer>
+
+              <S.SendButton onPress={saveTask}>
+                <S.SendIcon source={require('../../assets/icons/send.png')} />
+              </S.SendButton>
+
+              <S.ActionsContainer>
+                <S.DateWrapper onPress={() => setShowDatePicker(true)}>
+                  <S.DateIcon
+                    source={require('../../assets/icons/date.png')}
+                    style={{ marginRight: 8 }}
+                    tintColor={'#86B7F3'}
+                  />
+                  <S.DateText>{getDateLabel()}</S.DateText>
+                </S.DateWrapper>
+
+                <S.AddSubtaskButton onPress={addSubtask}>
+                  <S.AddSubtaskIcon 
+                    source={require('../../assets/icons/subtask.png')} 
+                    resizeMode="contain"/>
+                </S.AddSubtaskButton>
+              </S.ActionsContainer>
+
               {showDatePicker && (
                 <DateTimePicker
                   value={date}
@@ -78,22 +174,12 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                   minimumDate={new Date()}
                 />
               )}
-              <S.CreateButton onPress={saveTask}>
-                <S.CreateButtonText>Criar tarefa</S.CreateButtonText>
-              </S.CreateButton>
             </S.ModalContainer>
           </TouchableWithoutFeedback>
         </S.Overlay>
       </TouchableWithoutFeedback>
     </Modal>
   );
-};
-
-const formatDate = (date: Date): string => {
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = date.getFullYear();
-  return `${day}/${month}/${year}`;
 };
 
 export default CreateTaskModal;
