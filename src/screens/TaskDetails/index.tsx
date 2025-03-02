@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { ActivityIndicator, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback, Pressable, Alert } from 'react-native';
+import { ActivityIndicator, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback, Pressable, Alert, Platform } from 'react-native';
 import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { RootStackParamList } from '@/src/navigation/AppNavigator';
 import * as S from './styles';
 import CustomCheckBox from '@/src/components/CustomCheckBox';
@@ -25,48 +26,22 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
   const [showInput, setShowInput] = useState(false);
   const inputRef = useRef<TextInput>(null);
 
-  const [editingSubtaskId, setEditingSubtaskId] = useState<string | null>(null);
-  const [subtaskValues, setSubtaskValues] = useState<Record<string, string>>({});
-
   const [editableName, setEditableName] = useState(name);
   const [isEditing, setIsEditing] = useState(false);
   const inputRefs = useRef<TextInput>(null);
 
-  const handleStartEditingSubtask = (subtaskId: string, initialValue: string) => {
-    setSubtaskValues(prev => ({
-        ...prev,
-        [subtaskId]: initialValue
-    }));
-    setEditingSubtaskId(subtaskId);
-  };
-
-  const handleSaveSubtaskEdit = async (subtaskId: string) => {
-    const newValue = subtaskValues[subtaskId]?.trim();
-    if (!newValue || newValue === '') {
-        setEditingSubtaskId(null);
-        return;
+ const [newDate, setNewDate] = useState(() => {
+  if (date) {
+    const dateObj = new Date(date);
+    if (isNaN(dateObj.getTime())) {
+      return new Date();
     }
+    return dateObj;
+  }
+  return new Date();
+});
+  const [showDatePicker, setShowDatePicker] = useState(false); 
 
-    const taskIndex = tasks.findIndex(t => t.id === id);
-    if (taskIndex < 0) return;
-
-    const updatedTasks = [...tasks];
-    const subtaskIndex = updatedTasks[taskIndex].subtasks?.findIndex(st => st.id === subtaskId);
-    
-    if (subtaskIndex !== undefined && subtaskIndex >= 0) {
-        updatedTasks[taskIndex].subtasks![subtaskIndex] = {
-            ...updatedTasks[taskIndex].subtasks![subtaskIndex],
-            name: newValue,
-        };
-    }
-
-    await saveTasks(updatedTasks);
-    setEditingSubtaskId(null);
-  };
-
-  const handleCancelEdit = () => {
-    setEditingSubtaskId(null);
-  };
 
   const handleAddSubtask = async () => {
     if (!newSubtask.trim()) return;
@@ -173,9 +148,39 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
       ],
       { cancelable: false }
     );
-    
+  };
+
+  const handleDateChange = (event: any, selectedDate?: Date) => {
+    setShowDatePicker(false);
+    if (selectedDate) {
+      const updatedDate = selectedDate;
+      setNewDate(updatedDate);
+      
+      const taskIndex = tasks.findIndex(t => t.id === id);
+      if (taskIndex >= 0) {
+        const updatedTasks = [...tasks];
+        updatedTasks[taskIndex] = {
+          ...updatedTasks[taskIndex],
+          date: formatDate(updatedDate),
+        };
+        saveTasks(updatedTasks);
+      }
+    }
   };
   
+
+  const getDateLabel = () => {
+    return formatDate(newDate);
+  };
+
+  const formatDate = (date: Date): string => {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+  
+
   return (
     <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
       <S.Container showsVerticalScrollIndicator={false}>
@@ -253,7 +258,10 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
           <S.OptionRow>
             <S.Icon tintColor={'#A4A4A4'} source={require('../../assets/icons/date-solid.png')} />
             <S.OptionText>Finaliza em</S.OptionText>
-            <S.OptionValue>{date}</S.OptionValue>
+            <S.OptionValue onPress={() => setShowDatePicker(true)}>
+            {getDateLabel()}
+            </S.OptionValue>
+
           </S.OptionRow>
           <S.Separator />
           <S.OptionRow>
@@ -283,6 +291,15 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
           <S.ActionText>Deletar</S.ActionText>
         </S.ActionButton>
         </S.ActionsContainer>
+        {showDatePicker && (
+        <DateTimePicker
+          value={newDate}
+          mode="date"
+          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+          onChange={handleDateChange}
+          minimumDate={new Date()}
+        />
+      )}
       </S.Container>
     </TouchableWithoutFeedback>
   );

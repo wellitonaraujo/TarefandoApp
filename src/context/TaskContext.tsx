@@ -92,8 +92,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   
     saveTasks(updatedTasks);
     setEditingTask(null);
-    setUpdateKey(prevKey => prevKey + 1); // Incrementando o updateKey
-    console.log('updateKey:', updateKey); // Verifique o valor de updateKey
+    setUpdateKey(prevKey => prevKey + 1);
   };
   
 
