@@ -54,7 +54,6 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed =
 
           </View>
         </S.TaskWraper>
-        <S.DragIcon source={require('../../assets/icons/drag.png')} resizeMode="contain" />
       </S.TaskItemContainer>
     </Swipeable>
   );

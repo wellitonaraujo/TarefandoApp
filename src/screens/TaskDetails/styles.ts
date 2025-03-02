@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.ScrollView`
   flex: 1;
-  background-color: #181A20;
+  background-color: #1E2129;
   padding: 16px;
 `;
 
@@ -59,7 +59,7 @@ export const NoSubtasks = styled.Text`
 export const AddSubtaskText = styled.Text`
   color: #5D9CEC;
   font-size: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 10px;
 `;
 
 export const OptionsContainer = styled.View`
@@ -73,15 +73,15 @@ export const OptionRow = styled.View`
 `;
 
 export const OptionText = styled.Text`
-  color: #D2D2D2;
-  font-size: 16px;
+  color: #A4A4A4;
+  font-size: 14px;
   flex: 1;
   margin-left: 8px;
 `;
 
 export const OptionValue = styled.Text`
-  color: #D2D2D2;
-  font-size: 16px;
+  color: #A4A4A4;
+  font-size: 14px;
 `;
 
 export const Separator = styled.View`
@@ -94,13 +94,14 @@ export const ActionsContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   margin-top: 16px;
+  padding-bottom: 50px;
 `;
 
 export const ActionButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   background-color: #313747;
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 8px;
 `;
 

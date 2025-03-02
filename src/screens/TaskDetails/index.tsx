@@ -1,11 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { ActivityIndicator, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback, Pressable, Alert } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
+import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '@/src/navigation/AppNavigator';
-import useTaskManager from '../Home/hooks/useTaskManager';
 import * as S from './styles';
 import CustomCheckBox from '@/src/components/CustomCheckBox';
 import Toast from 'react-native-toast-message';
+import { RootParamList } from '@/src/navigation/types';
+import { useTaskManager } from '@/src/context/TaskContext';
 
 type TaskDetailsRouteProp = RouteProp<RootStackParamList, 'TaskDetails'>;
 
@@ -15,8 +16,8 @@ interface TaskDetailsProps {
 
 const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
   const { id, name, date } = route.params;
-  const { tasks, handleDeleteSubtask, loadingTasks, handleCompleteSubtask, saveTasks } = useTaskManager();
-
+  const { tasks, handleDeleteSubtask, handleDeleteTask, loadingTasks, handleCompleteSubtask, saveTasks } = useTaskManager();
+  const navigation = useNavigation<NavigationProp<RootParamList>>();
   const task = tasks.find(t => t.id === id);
   const subtasks = task?.subtasks || [];
 
@@ -27,7 +28,10 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
   const [editingSubtaskId, setEditingSubtaskId] = useState<string | null>(null);
   const [subtaskValues, setSubtaskValues] = useState<Record<string, string>>({});
 
-  // Função para iniciar edição de subtarefa
+  const [editableName, setEditableName] = useState(name);
+  const [isEditing, setIsEditing] = useState(false);
+  const inputRefs = useRef<TextInput>(null);
+
   const handleStartEditingSubtask = (subtaskId: string, initialValue: string) => {
     setSubtaskValues(prev => ({
         ...prev,
@@ -36,7 +40,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     setEditingSubtaskId(subtaskId);
   };
 
-  // Função para salvar alterações na subtarefa
   const handleSaveSubtaskEdit = async (subtaskId: string) => {
     const newValue = subtaskValues[subtaskId]?.trim();
     if (!newValue || newValue === '') {
@@ -61,7 +64,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     setEditingSubtaskId(null);
   };
 
-  // Função para cancelar edição
   const handleCancelEdit = () => {
     setEditingSubtaskId(null);
   };
@@ -107,10 +109,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     Keyboard.dismiss();
     setShowInput(false);
   };
-
-  const [editableName, setEditableName] = useState(name);
-  const [isEditing, setIsEditing] = useState(false);
-  const inputRefs = useRef<TextInput>(null);
   
   const handleNameBlur = async () => {
     if (editableName.trim() !== name) {
@@ -156,52 +154,28 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     await saveTasks(updatedTasks);
   };
 
-  // Função para deletar todas as subtarefas com confirmação
   const handleDeleteAllSubtasks = async () => {
-    if (subtasks.length === 0) {
-      // Se não houver subtarefas, exibe um Toast informando o usuário
-      Toast.show({
-        type: 'info', // Tipo de mensagem
-        position: 'bottom', // Posição na tela
-        text1: 'Nenhuma Subtarefa', // Título
-        text2: 'Não há subtarefas para excluir.', // Texto informativo
-        visibilityTime: 3000, // Tempo de exibição em milissegundos
-      });
-      return;
-    }
-
-  // Se houver subtarefas, exibe o alerta de confirmação
-  Alert.alert(
-    'Confirmar Exclusão', 
-    'Tem certeza de que deseja deletar todas as subtarefas? Esta ação não pode ser desfeita.', 
-    [
-      {
-        text: 'Cancelar',
-        onPress: () => console.log('Exclusão cancelada'),
-        style: 'cancel',
-      },
-      {
-        text: 'Deletar',
-        onPress: async () => {
-          // Lógica de exclusão das subtarefas
-          const taskIndex = tasks.findIndex(t => t.id === id);
-          if (taskIndex < 0) return;
-
-          const updatedTasks = [...tasks];
-          updatedTasks[taskIndex] = {
-            ...updatedTasks[taskIndex],
-            subtasks: [] // Remove todas as subtarefas
-          };
-
-          await saveTasks(updatedTasks); // Salva as alterações
-          console.log('Subtarefas deletadas');
+    Alert.alert(
+      'Excluir tarefa?',
+      '',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
         },
-      },
-    ],
-    { cancelable: false }
-  );
-};
-
+        {
+          text: 'Deletar',
+          onPress: async () => {
+            handleDeleteTask(id);
+            navigation.navigate("Home");
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+    
+  };
+  
   return (
     <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
       <S.Container showsVerticalScrollIndicator={false}>
@@ -277,19 +251,19 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
 
         <S.OptionsContainer>
           <S.OptionRow>
-            <S.Icon tintColor={'#D2D2D2'} source={require('../../assets/icons/date-solid.png')} />
+            <S.Icon tintColor={'#A4A4A4'} source={require('../../assets/icons/date-solid.png')} />
             <S.OptionText>Finaliza em</S.OptionText>
             <S.OptionValue>{date}</S.OptionValue>
           </S.OptionRow>
           <S.Separator />
           <S.OptionRow>
-            <S.Icon tintColor={'#D2D2D2'} source={require('../../assets/icons/repeat-rounded.png')} />
+            <S.Icon tintColor={'#A4A4A4'} source={require('../../assets/icons/repeat-rounded.png')} />
             <S.OptionText>Repetir</S.OptionText>
             <S.OptionValue>Não</S.OptionValue>
           </S.OptionRow>
           <S.Separator />
           <S.OptionRow>
-            <S.Icon tintColor={'#D2D2D2'} source={require('../../assets/icons/notification-fill.png')} />
+            <S.Icon tintColor={'#A4A4A4'} source={require('../../assets/icons/notification-fill.png')} />
             <S.OptionText>Lembrar</S.OptionText>
             <S.OptionValue>Não</S.OptionValue>
           </S.OptionRow>

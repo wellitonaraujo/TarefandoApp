@@ -67,9 +67,6 @@ export const useTaskItem = ({ task, onEdit, onDelete, completed }: UseTaskItemPr
         </S.ActionButton>
       ) : (
         <>
-          <S.ActionButton backgroundColor="#ddaf58" onPress={() => onEdit(task.id)}>
-            <S.ActionText>Editar</S.ActionText>
-          </S.ActionButton>
           <S.ActionButton backgroundColor="#E15659" onPress={() => onDelete(task.id)}>
             <S.ActionText>Deletar</S.ActionText>
           </S.ActionButton>

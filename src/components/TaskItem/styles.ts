@@ -5,10 +5,7 @@ export const TaskItemContainer = styled.Pressable`
   width: ${horizontalScale(305)}px;
   padding: ${moderateScale(7)}px;
   background-color: #313747;
-  border-top-left-radius: 0px;
-  border-top-right-radius: ${moderateScale(4)}px;
-  border-bottom-right-radius:${moderateScale(4)}px;
-  border-bottom-left-radius: ${moderateScale(16)}px;
+  border-radius: ${moderateScale(4)}px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -33,10 +30,10 @@ export const RightActionsContainer = styled.View`
 export const ActionButton = styled.TouchableOpacity<{ backgroundColor?: string }>`
   justify-content: center;
   align-items: center;
-  width:  ${moderateScale(70)}px;
+  width:  ${moderateScale(60)}px;
   margin-left: ${moderateScale(3)}px;
   background-color: ${({ backgroundColor }) => backgroundColor || '#ccc'};
-  border-radius: ${moderateScale(4)}px;
+  border-radius: ${moderateScale(2)}px;
   height: ${moderateScale(35)}px;
 `;
 
