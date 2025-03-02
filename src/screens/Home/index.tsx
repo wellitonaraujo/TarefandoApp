@@ -1,5 +1,5 @@
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { ActivityIndicator, View, Text, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, View, Text, TouchableOpacity } from "react-native";
 import CreateTaskModal from "@/src/components/CreateTaskModal";
 import EditTaskModal from "@/src/components/EditTaskModal";
 import EmptyState from "@/src/components/EmptyState";
