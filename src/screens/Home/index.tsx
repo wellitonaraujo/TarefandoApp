@@ -1,7 +1,6 @@
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ActivityIndicator, View, Text, TouchableOpacity } from "react-native";
 import CreateTaskModal from "@/src/components/CreateTaskModal";
-import EditTaskModal from "@/src/components/EditTaskModal";
 import EmptyState from "@/src/components/EmptyState";
 import AddButton from "@/src/components/AddButton";
 import TaskList from "@/src/components/TaskList";
@@ -53,7 +52,7 @@ const Home: React.FC = () => {
 
       {loadingTasks ? (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#1A72F3" />
+          <ActivityIndicator size="large" color="#7A12FF"/>
         </View>
       ) : isEmptyStateVisible ? (
         <EmptyState />

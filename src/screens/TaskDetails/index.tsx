@@ -30,19 +30,13 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
   const [isEditing, setIsEditing] = useState(false);
   const inputRefs = useRef<TextInput>(null);
 
- const [newDate, setNewDate] = useState(() => {
-  if (date) {
-    const dateObj = new Date(date);
-    if (isNaN(dateObj.getTime())) {
-      return new Date();
-    }
-    return dateObj;
-  }
-  return new Date();
-});
+  const [editingSubtaskId, setEditingSubtaskId] = useState<string | null>(null);
+  const [editedText, setEditedText] = useState<string>('');
+
+
   const [showDatePicker, setShowDatePicker] = useState(false); 
-
-
+  
+  
   const handleAddSubtask = async () => {
     if (!newSubtask.trim()) return;
   
@@ -150,6 +144,18 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     );
   };
 
+
+ const [newDate, setNewDate] = useState(() => {
+  if (date) {
+    const dateObj = new Date(date);
+    if (isNaN(dateObj.getTime())) {
+      return new Date();
+    }
+    return dateObj;
+  }
+    return new Date();
+  });
+
   const handleDateChange = (event: any, selectedDate?: Date) => {
     setShowDatePicker(false);
     if (selectedDate) {
@@ -168,7 +174,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     }
   };
   
-
   const getDateLabel = () => {
     return formatDate(newDate);
   };
@@ -179,7 +184,19 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
-  
+
+  const handleSubtaskEdit = async (subtaskId: string, editedText: string) => {
+    const taskIndex = tasks.findIndex(t => t.id === id);
+    if (taskIndex < 0) return;
+    const updatedTasks = [...tasks];
+    updatedTasks[taskIndex] = {
+      ...updatedTasks[taskIndex],
+      subtasks: updatedTasks[taskIndex].subtasks?.map(subtask =>
+        subtask.id === subtaskId ? { ...subtask, name: editedText } : subtask
+      ),
+    };
+    await saveTasks(updatedTasks);
+  }; 
 
   return (
     <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
@@ -207,7 +224,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
 
         {loadingTasks ? (
           <View>
-            <ActivityIndicator size="large" color="#1A72F3" />
+            <ActivityIndicator size="large" color="#7A12FF" />
           </View>
         ) : (
           <S.OptionsContainer>
@@ -228,7 +245,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
                   </S.SubtaskText>
                 </S.SubtaskLeft>
                 <S.DeleteButton onPress={() => handleDeleteSubtask(id, subtask.id)}>
-                  <S.DeleteIcon tintColor={'#D2D2D2'} source={require('../../assets/icons/close.png')} />
+                  <S.DeleteIcon tintColor={'#777E99'} source={require('../../assets/icons/close.png')} />
                 </S.DeleteButton>
               </S.SubtaskContainer>
             ))}
@@ -256,7 +273,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
 
         <S.OptionsContainer>
           <S.OptionRow>
-            <S.Icon tintColor={'#A4A4A4'} source={require('../../assets/icons/date-solid.png')} />
+            <S.Icon tintColor={'#777E99'} source={require('../../assets/icons/date-solid.png')} />
             <S.OptionText>Finaliza em</S.OptionText>
             <S.OptionValue onPress={() => setShowDatePicker(true)}>
             {getDateLabel()}
@@ -265,13 +282,13 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
           </S.OptionRow>
           <S.Separator />
           <S.OptionRow>
-            <S.Icon tintColor={'#A4A4A4'} source={require('../../assets/icons/repeat-rounded.png')} />
+            <S.Icon tintColor={'#777E99'} source={require('../../assets/icons/repeat-rounded.png')} />
             <S.OptionText>Repetir</S.OptionText>
             <S.OptionValue>Não</S.OptionValue>
           </S.OptionRow>
           <S.Separator />
           <S.OptionRow>
-            <S.Icon tintColor={'#A4A4A4'} source={require('../../assets/icons/notification-fill.png')} />
+            <S.Icon tintColor={'#777E99'} source={require('../../assets/icons/notification-fill.png')} />
             <S.OptionText>Lembrar</S.OptionText>
             <S.OptionValue>Não</S.OptionValue>
           </S.OptionRow>

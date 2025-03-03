@@ -7,9 +7,9 @@ export const Container = styled.View`
 
 export const Title = styled.Text`
     color: #fff;
-    font-size:  ${moderateScale(13)}px;
-    font-weight: 500;
-    margin-bottom: 10px;
+    font-size:  ${moderateScale(14)}px;
+    font-weight: 700;
+    margin-bottom: ${verticalScale(6)}px;
 `;
 
 export const Value = styled.Text`
@@ -17,10 +17,6 @@ export const Value = styled.Text`
     font-size:  ${moderateScale(13)}px;
 `;
 
-export const DateValue = styled.Text`
-    color: #fff;
-    font-size:  ${moderateScale(11)}px;
-`;
 
 export const Wrapper = styled.View`
     justify-content: space-between;
@@ -30,7 +26,7 @@ export const Wrapper = styled.View`
 `;
 
 export const CurrentDate = styled.View`
-    background-color: #86B7F3;
+    background-color: #7A12FF;
     border-top-left-radius: 0px;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;

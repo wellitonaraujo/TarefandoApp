@@ -3,12 +3,12 @@ import styled from 'styled-components/native';
 
 export const Container = styled.ScrollView`
   flex: 1;
-  background-color: #1E2129;
+  background-color: #1A1A2F;
   padding: 16px;
 `;
 
 export const Title = styled.Text`
-  color: #f5f5f5;
+  color: #fff;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 16px;
@@ -24,15 +24,6 @@ export const SubtaskContainer = styled.View`
 export const SubtaskLeft = styled.View`
   flex-direction: row;
   align-items: center;
-`;
-
-export const RadioButton = styled.TouchableOpacity`
-  width: 20px;
-  height: 20px;
-  border-radius: 10px;
-  border-width: 2px;
-  border-color: #D2D2D2;
-  margin-right: 8px;
 `;
 
 export const SubtaskText = styled.Text`
@@ -57,7 +48,7 @@ export const NoSubtasks = styled.Text`
 `;
 
 export const AddSubtaskText = styled.Text`
-  color: #5D9CEC;
+  color: #7A12FF;
   font-size: 16px;
   margin-bottom: 10px;
 `;
@@ -73,20 +64,20 @@ export const OptionRow = styled.View`
 `;
 
 export const OptionText = styled.Text`
-  color: #A4A4A4;
+  color: #A1A1C1;
   font-size: 14px;
   flex: 1;
   margin-left: 8px;
 `;
 
 export const OptionValue = styled.Text`
-  color: #A4A4A4;
+  color: #fff;
   font-size: 14px;
 `;
 
 export const Separator = styled.View`
   height: 1px;
-  background-color: #313747;
+  background-color: #242443;
   margin-vertical: 16px;
 `;
 
@@ -100,8 +91,8 @@ export const ActionsContainer = styled.View`
 export const ActionButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-  background-color: #313747;
-  border-radius: 4px;
+  background-color: #242443;
+  border-radius: 6px;
   padding: 8px;
 `;
 
