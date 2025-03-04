@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ActivityIndicator, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback, Pressable, Alert, Platform } from 'react-native';
 import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -8,6 +8,7 @@ import CustomCheckBox from '@/src/components/CustomCheckBox';
 import Toast from 'react-native-toast-message';
 import { RootParamList } from '@/src/navigation/types';
 import { useTaskManager } from '@/src/context/TaskContext';
+import { useTaskDates } from './hook/useTaskDates';
 
 type TaskDetailsRouteProp = RouteProp<RootStackParamList, 'TaskDetails'>;
 
@@ -16,27 +17,40 @@ interface TaskDetailsProps {
 }
 
 const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
-  const { id, name, date } = route.params;
-  const { tasks, handleDeleteSubtask, handleDeleteTask, loadingTasks, handleCompleteSubtask, saveTasks } = useTaskManager();
   const navigation = useNavigation<NavigationProp<RootParamList>>();
+  const { id, name, date } = route.params;
+
+  const { tasks, handleDeleteSubtask, handleDeleteTask, loadingTasks, handleCompleteSubtask, saveTasks } = useTaskManager();
+  const { getTaskDate, updateTaskDate } = useTaskDates();
+
   const task = tasks.find(t => t.id === id);
   const subtasks = task?.subtasks || [];
 
+  const [showDatePicker, setShowDatePicker] = useState(false); 
   const [newSubtask, setNewSubtask] = useState('');
   const [showInput, setShowInput] = useState(false);
   const inputRef = useRef<TextInput>(null);
 
   const [editableName, setEditableName] = useState(name);
   const [isEditing, setIsEditing] = useState(false);
+
+  const [localDate, setLocalDate] = useState<string>(() => {
+    return getTaskDate(id);
+  });
+
   const inputRefs = useRef<TextInput>(null);
+
+  const [newDate, setNewDate] = useState<Date | null>(() => {
+    if (date) {
+      const parsedDate = new Date(date);
+      return isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
+    }
+    return new Date();
+  });
 
   const [editingSubtaskId, setEditingSubtaskId] = useState<string | null>(null);
   const [editedText, setEditedText] = useState<string>('');
 
-
-  const [showDatePicker, setShowDatePicker] = useState(false); 
-  
-  
   const handleAddSubtask = async () => {
     if (!newSubtask.trim()) return;
   
@@ -144,47 +158,31 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     );
   };
 
+  useEffect(() => {
+    setLocalDate(getTaskDate(id));
+  }, [id, getTaskDate]);
 
- const [newDate, setNewDate] = useState(() => {
-  if (date) {
-    const dateObj = new Date(date);
-    if (isNaN(dateObj.getTime())) {
-      return new Date();
-    }
-    return dateObj;
-  }
-    return new Date();
-  });
 
   const handleDateChange = (event: any, selectedDate?: Date) => {
     setShowDatePicker(false);
     if (selectedDate) {
-      const updatedDate = selectedDate;
-      setNewDate(updatedDate);
-      
-      const taskIndex = tasks.findIndex(t => t.id === id);
-      if (taskIndex >= 0) {
-        const updatedTasks = [...tasks];
-        updatedTasks[taskIndex] = {
-          ...updatedTasks[taskIndex],
-          date: formatDate(updatedDate),
-        };
-        saveTasks(updatedTasks);
-      }
+      const formattedDate = formatDate(selectedDate);
+      setLocalDate(formattedDate);
+      updateTaskDate(id, formattedDate);
     }
   };
-  
+
   const getDateLabel = () => {
-    return formatDate(newDate);
+    return localDate;
   };
 
   const formatDate = (date: Date): string => {
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
-
+  
   const handleSubtaskEdit = async (subtaskId: string, editedText: string) => {
     const taskIndex = tasks.findIndex(t => t.id === id);
     if (taskIndex < 0) return;
@@ -310,7 +308,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
         </S.ActionsContainer>
         {showDatePicker && (
         <DateTimePicker
-          value={newDate}
+        value={newDate || new Date()}
           mode="date"
           display={Platform.OS === 'ios' ? 'spinner' : 'default'}
           onChange={handleDateChange}

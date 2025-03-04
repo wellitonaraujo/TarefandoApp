@@ -54,8 +54,12 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const savedTasks = await AsyncStorage.getItem(TASKS_KEY);
         if (savedTasks) {
           const parsedTasks = JSON.parse(savedTasks);
-          console.log("Tarefas carregadas:", parsedTasks);
-          setTasks(parsedTasks);
+          // Normaliza as datas ao carregar
+          const normalizedTasks = parsedTasks.map(task => ({
+            ...task,
+            date: formatDate(parseDate(task.date))
+          }));
+          setTasks(normalizedTasks);
         }
       } catch (error) {
         console.error("Erro ao carregar as tarefas", error);
@@ -66,7 +70,6 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
     loadTasks();
   }, [updateKey]);
   
-
   const saveTasks = async (updatedTasks: Task[]) => {
     try {
         console.log("Tarefas a serem salvas:", JSON.stringify(updatedTasks, null, 2));
@@ -75,26 +78,37 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (error) {
         console.error("Erro ao salvar as tarefas", error);
     }
-};
+  };
+
+  const parseDate = (dateString: string): Date => {
+    const [day, month, year] = dateString.split('/');
+    return new Date(Number(year), Number(month) - 1, Number(day));
+  };
 
   const handleSaveTask = (taskName: string, taskDate: string, subtasks: Subtask[] = []) => {
+
+    const normalizedDate = formatDate(parseDate(taskDate));
+    
     let updatedTasks: Task[];
-  
     if (editingTask) {
       updatedTasks = tasks.map(task =>
         task.id === editingTask.id
-          ? { ...task, name: taskName, date: taskDate, subtasks }
+          ? { ...task, name: taskName, date: normalizedDate, subtasks }
           : task
       );
     } else {
-      updatedTasks = [...tasks, { id: Date.now().toString(), name: taskName, completed: false, date: taskDate, subtasks }];
+      updatedTasks = [...tasks, { 
+        id: Date.now().toString(), 
+        name: taskName, 
+        completed: false, 
+        date: normalizedDate, 
+        subtasks 
+      }];
     }
-  
     saveTasks(updatedTasks);
     setEditingTask(null);
     setUpdateKey(prevKey => prevKey + 1);
   };
-  
 
   const handleEditTask = (id: string) => {
     const taskToEdit = tasks.find(task => task.id === id);
