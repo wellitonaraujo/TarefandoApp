@@ -121,7 +121,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                   placeholderTextColor="#CCD7E5"
                   value={inputValue}
                   onChangeText={setInputValue}
-                  maxLength={100}
+                  maxLength={80}
                 />
               </S.InputWrapper>
 
@@ -137,7 +137,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                         onChangeText={(value) => updateSubtask(index, value)}
                       />
                       <S.RemoveIconWrapper onPress={() => removeSubtask(index)}>
-                        <S.RemoveIcon source={require('../../assets/icons/close.png')} />
+                        <S.RemoveIcon tintColor={'#A1A1C1'} source={require('../../assets/icons/close.png')} />
                       </S.RemoveIconWrapper>
                     </S.SubtaskWrapper>
                   ))}
@@ -145,7 +145,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
               </S.SubtasksContainer>
 
               <S.SendButton onPress={saveTask}>
-                <S.SendIcon source={require('../../assets/icons/send.png')} />
+                <S.SendIcon  tintColor={'#fff'} source={require('../../assets/icons/send.png')} />
               </S.SendButton>
 
               <S.ActionsContainer>
@@ -153,13 +153,14 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                   <S.DateIcon
                     source={require('../../assets/icons/date.png')}
                     style={{ marginRight: 8 }}
-                    tintColor={'#86B7F3'}
+                    tintColor={'#A1A1C1'}
                   />
                   <S.DateText>{getDateLabel()}</S.DateText>
                 </S.DateWrapper>
 
                 <S.AddSubtaskButton onPress={addSubtask}>
                   <S.AddSubtaskIcon 
+                   tintColor={'#A1A1C1'}
                     source={require('../../assets/icons/subtask.png')} 
                     resizeMode="contain"/>
                 </S.AddSubtaskButton>

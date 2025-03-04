@@ -8,7 +8,7 @@ export const Overlay = styled.View`
 `;
 
 export const ModalContainer = styled.View`
-  background-color: #2d3341;
+  background-color: #242443;
   padding: 16px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
@@ -21,9 +21,9 @@ export const InputWrapper = styled.View`
 `;
 
 export const StyledTextInput = styled(TextInput)`
-  font-size: 16px;
-  font-weight: 700;
-  background-color: #424a5f;
+  font-size: 15px;
+  font-weight: 400;
+  background-color: #1A1A2F;
   height: 50px;
   border-radius: 6px;
   padding: 0 16px;
@@ -34,7 +34,7 @@ export const StyledTextInput = styled(TextInput)`
 export const Underline = styled.View`
   width: 100%;
   height: 1px;
-  background-color: #424a5f;
+  background-color: #7A12FF;
 `;
 
 export const DateWrapper = styled(TouchableOpacity)`
@@ -44,7 +44,7 @@ export const DateWrapper = styled(TouchableOpacity)`
 
 export const DateText = styled.Text`
   font-size: 13px;
-  color: #86b7f3;
+  color: #888888;
   font-weight: 600;
 `;
 
@@ -54,7 +54,7 @@ export const SendButton = styled(TouchableOpacity)`
   bottom: 16px;
   width: 40px;
   height: 40px;
-  background-color: #86b7f3;
+  background-color: #7A12FF;
   border-radius: 25px;
   justify-content: center;
   align-items: center;
@@ -74,7 +74,7 @@ export const SubtaskWrapper = styled.View`
   flex-direction: row;
   align-items: center;
   padding: 8px;
-  background-color: #2d3341;
+  background-color: #242443;
 `;
 
 export const SubtaskInput = styled.TextInput`

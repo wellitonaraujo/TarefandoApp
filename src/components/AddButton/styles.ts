@@ -8,13 +8,13 @@ export const Container = styled.View`
 `;
 
 export const Button = styled.TouchableOpacity`
-  background-color: #86B7F3;
+  background-color: #7A12FF;
   align-items: center;
   justify-content: center;
-  width: ${moderateScale(50)}px;
-  height: ${moderateScale(50)}px;
+  width: ${moderateScale(48)}px;
+  height: ${moderateScale(48)}px;
   padding: 10px;
-  border-radius: ${moderateScale(50)}px;
+  border-radius: ${moderateScale(48)}px;
 `;
 
 export const PlusIcon = styled.Image`

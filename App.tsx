@@ -9,7 +9,7 @@ const MyTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: '#1E2129',
+    background: '#1A1A2F',
   },
 };
 
@@ -18,7 +18,7 @@ function App(): React.JSX.Element {
     <>
      <TaskProvider>
       <NavigationContainer theme={MyTheme}>
-        <StatusBar barStyle={'light-content'} backgroundColor={'#1E2129'} />
+        <StatusBar barStyle={'light-content'} backgroundColor={'#1A1A2F'} />
         <AppNavigator />
       </NavigationContainer>
 

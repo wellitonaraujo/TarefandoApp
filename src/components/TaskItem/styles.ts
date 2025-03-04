@@ -4,8 +4,8 @@ import styled from 'styled-components/native';
 export const TaskItemContainer = styled.Pressable`
   width: ${horizontalScale(305)}px;
   padding: ${moderateScale(7)}px;
-  background-color: #313747;
-  border-radius: ${moderateScale(4)}px;
+  background-color: #242443;
+  border-radius: ${moderateScale(8)}px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -14,7 +14,8 @@ export const TaskItemContainer = styled.Pressable`
 
 export const TaskText = styled.Text`
   color: #fff; 
-  font-size: ${moderateScale(13)}px;
+  font-size: ${moderateScale(14)}px;
+  font-weight: 700;
   flex-shrink: 1;
   flex-basis: 0;
   margin-right:${horizontalScale(13)}px;
