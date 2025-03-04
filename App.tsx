@@ -4,6 +4,7 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import AppNavigator from './src/navigation/AppNavigator';
 import Toast from 'react-native-toast-message';
 import  { TaskProvider } from "./src/context/TaskContext" 
+import {toastConfig} from "./src/context/toastConfig"
 
 const MyTheme = {
   ...DefaultTheme,
@@ -22,7 +23,7 @@ function App(): React.JSX.Element {
         <AppNavigator />
       </NavigationContainer>
 
-      <Toast />
+      <Toast config={toastConfig}/>
       </TaskProvider>
     </>
   );

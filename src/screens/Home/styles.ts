@@ -1,37 +1,30 @@
-import { StyleSheet } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import styled from "styled-components/native";
 
-export const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#1A1A2F',
-    },
-    loadingContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    tabsContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      paddingVertical: 10,
-      paddingHorizontal: 16,
+export const Container = styled(GestureHandlerRootView)`
+  flex: 1;
+  background-color: #1a1a2f;
+`;
 
-    },
-    tab: {
-      paddingVertical: 5,
-      paddingHorizontal: 20,
-      borderRadius: 5,
-    },
-    selectedTab: {
-    },
+export const TabsContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-around;
+  padding-vertical: 10px;
+  padding-horizontal: 16px;
+`;
 
-    tabText: {
-      fontSize: 14,
-    },
-    selectedTabText: {
-      color: '#fff',
-    },
-    deselectedTabText: {
-      color: '#888888',
-    },
-  });
+export const Tab = styled.TouchableOpacity<{ selected: boolean }>`
+  padding-vertical: 5px;
+`;
+
+export const TabText = styled.Text<{ selected: boolean }>`
+  font-size: 14px;
+  color: ${(props: any) => (props.selected ? "#fff" : "#A1A1C1")};
+  font-weight: ${(props: any) => (props.selected ? 700 : 300)};
+`;
+
+export const LoadingContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;

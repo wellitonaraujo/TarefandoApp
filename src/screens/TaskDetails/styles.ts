@@ -11,7 +11,7 @@ export const Title = styled.Text`
   color: #fff;
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 `;
 
 export const SubtaskContainer = styled.View`
@@ -30,21 +30,19 @@ export const SubtaskText = styled.Text`
   color: #f5f5f5;
   font-size: 16px;
   margin-left: 10px;
+  flex-wrap: wrap;
+  max-width: 85%; 
 `;
 
 export const DeleteButton = styled.TouchableOpacity`
-  padding: 8px;
+  flex-shrink: 0; 
+  padding: 3px;
 `;
+
 
 export const DeleteIcon = styled.Image`
   width: 8px;
   height: 8px;
-`;
-
-export const NoSubtasks = styled.Text`
-  color: #D2D2D2;
-  font-size: 16px;
-  font-style: italic;
 `;
 
 export const AddSubtaskText = styled.Text`

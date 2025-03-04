@@ -15,7 +15,7 @@ export const TaskItemContainer = styled.Pressable`
 export const TaskText = styled.Text`
   color: #fff; 
   font-size: ${moderateScale(14)}px;
-  font-weight: 700;
+  font-weight: 500;
   flex-shrink: 1;
   flex-basis: 0;
   margin-right:${horizontalScale(13)}px;

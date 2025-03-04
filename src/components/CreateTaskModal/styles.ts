@@ -98,6 +98,7 @@ export const RemoveIcon = styled.Image`
 
 export const AddSubtaskButton = styled.TouchableOpacity`
   margin-left: 15px;
+  padding: 3px;
 `;
 
 export const AddSubtaskIcon = styled.Image`
