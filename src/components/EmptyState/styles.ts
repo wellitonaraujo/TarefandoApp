@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         marginBottom: 8
     },
     highlightedText: {
-        color: '#fff',
+        color: '#5F33E1',
         fontWeight: 'bold',
     },
     emptyDescription: {

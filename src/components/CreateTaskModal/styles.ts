@@ -34,7 +34,7 @@ export const StyledTextInput = styled(TextInput)`
 export const Underline = styled.View`
   width: 100%;
   height: 1px;
-  background-color: #7A12FF;
+  background-color: #5F33E1;
 `;
 
 export const DateWrapper = styled(TouchableOpacity)`
@@ -44,7 +44,7 @@ export const DateWrapper = styled(TouchableOpacity)`
 
 export const DateText = styled.Text`
   font-size: 13px;
-  color: #888888;
+  color: #A1A1C1;
   font-weight: 600;
 `;
 
@@ -54,7 +54,7 @@ export const SendButton = styled(TouchableOpacity)`
   bottom: 16px;
   width: 40px;
   height: 40px;
-  background-color: #7A12FF;
+  background-color: #5F33E1;
   border-radius: 25px;
   justify-content: center;
   align-items: center;

@@ -2,16 +2,12 @@ import { Modal, TouchableWithoutFeedback, Platform, TextInput, View } from 'reac
 import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useEffect, useRef, useState } from 'react';
 import * as S from './styles';
+import { Subtask } from '@/src/context/TaskContext';
 
 interface CreateTaskModalProps {
   visible: boolean;
   onClose: () => void;
-  onSave: (taskName: string, taskDate: string, subtasks: Subtask[]) => void;
-}
-
-interface Subtask {
-  id: string;
-  name: string;
+  onSave: (taskName: string, taskDate: string, subtasks?: Subtask[]) => void;
 }
 
 const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
@@ -42,6 +38,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
       const formattedSubtasks = subtasks.map((subtask, index) => ({
         id: String(index),
         name: subtask,
+        completed: false,
       }));
   
       onSave(inputValue, formattedDate, formattedSubtasks);
@@ -134,7 +131,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                         placeholder="Nome da subtarefa"
                         placeholderTextColor="#CCD7E5"
                         value={subtask}
-                        onChangeText={(value) => updateSubtask(index, value)}
+                        onChangeText={(value: string) => updateSubtask(index, value)}
                       />
                       <S.RemoveIconWrapper onPress={() => removeSubtask(index)}>
                         <S.RemoveIcon tintColor={'#A1A1C1'} source={require('../../assets/icons/close.png')} />
