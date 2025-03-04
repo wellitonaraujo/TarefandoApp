@@ -149,7 +149,8 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
         {
           text: 'Deletar',
           onPress: async () => {
-            handleDeleteTask(id); // Chamando a função que já remove a tarefa pai
+            handleDeleteTask(id);
+            navigation.navigate("Home")
           },
         },
       ],
