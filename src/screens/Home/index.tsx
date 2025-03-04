@@ -1,13 +1,12 @@
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { ActivityIndicator, View, Text, TouchableOpacity } from "react-native";
+import { useTaskManager } from "../../context/TaskContext";
 import CreateTaskModal from "@/src/components/CreateTaskModal";
 import EmptyState from "@/src/components/EmptyState";
 import AddButton from "@/src/components/AddButton";
+import { ActivityIndicator } from "react-native";
 import TaskList from "@/src/components/TaskList";
 import Header from "@/src/components/Header";
+import * as S from "./styles";
 import React from "react";
-import { styles } from "./styles";
-import { useTaskManager } from "../../context/TaskContext"
 
 const Home: React.FC = () => {
   const {
@@ -29,31 +28,24 @@ const Home: React.FC = () => {
   const isEmptyStateVisible = selectedTab === 0 && filteredTasks().length === 0;
 
   return (
-    <GestureHandlerRootView style={styles.container}>
+    <S.Container>
       <Header tasks={tasks} />
-      <View style={styles.tabsContainer}>
+      <S.TabsContainer>
         {["Hoje", "Próximas", "Atrasadas", "Concluídas"].map((tab, index) => (
-          <TouchableOpacity
+          <S.Tab
             key={index}
-            style={[styles.tab, selectedTab === index && styles.selectedTab]}
+            selected={selectedTab === index}
             onPress={() => setSelectedTab(index)}
           >
-            <Text
-              style={[
-                styles.tabText,
-                selectedTab === index ? styles.selectedTabText : styles.deselectedTabText,
-              ]}
-            >
-              {tab}
-            </Text>
-          </TouchableOpacity>
+            <S.TabText selected={selectedTab === index}>{tab}</S.TabText>
+          </S.Tab>
         ))}
-      </View>
+      </S.TabsContainer>
 
       {loadingTasks ? (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#7A12FF"/>
-        </View>
+        <S.LoadingContainer>
+          <ActivityIndicator size="large" color="#5F33E1" />
+        </S.LoadingContainer>
       ) : isEmptyStateVisible ? (
         <EmptyState />
       ) : (
@@ -72,7 +64,7 @@ const Home: React.FC = () => {
         onSave={handleSaveTask}
       />
       <AddButton onPress={openModal} />
-    </GestureHandlerRootView>
+    </S.Container>
   );
 };
 

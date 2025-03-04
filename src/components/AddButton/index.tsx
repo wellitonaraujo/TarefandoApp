@@ -1,4 +1,4 @@
-import {Image, ImageSourcePropType, TouchableOpacity, View} from 'react-native';
+import {ImageSourcePropType} from 'react-native';
 import * as S from './styles';
 
 interface AddButtonProps {
