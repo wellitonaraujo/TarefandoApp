@@ -48,7 +48,7 @@ export const NoSubtasks = styled.Text`
 `;
 
 export const AddSubtaskText = styled.Text`
-  color: #7A12FF;
+  color: #5F33E1;
   font-size: 16px;
   margin-bottom: 10px;
 `;
