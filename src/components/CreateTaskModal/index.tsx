@@ -141,7 +141,9 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                 </S.SubtasksScrollView>
               </S.SubtasksContainer>
 
-              <S.SendButton onPress={saveTask}>
+              <S.SendButton onPress={saveTask} 
+                disabled={!inputValue.trim()} 
+                style={{ opacity: inputValue.trim() ? 1 : 0.5 }}>
                 <S.SendIcon  tintColor={'#fff'} source={require('../../assets/icons/send.png')} />
               </S.SendButton>
 

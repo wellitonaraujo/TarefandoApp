@@ -94,30 +94,45 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
   };
   
   const handleNameBlur = async () => {
-    if (editableName.trim() !== name) {
-      const taskIndex = tasks.findIndex(t => t.id === id);
+    const trimmedName = editableName.trim();
+  
+    if (trimmedName === "") {
+      Toast.show({
+        type: "error",
+        text1: "O nome não pode ficar vazio",
+        position: "bottom",
+        visibilityTime: 3000,
+        autoHide: true,
+      });
+      
+      return;
+    }
+  
+    if (trimmedName !== name) {
+      const taskIndex = tasks.findIndex((t) => t.id === id);
       if (taskIndex < 0) return;
-
+  
       const updatedTasks = [...tasks];
       updatedTasks[taskIndex] = {
         ...updatedTasks[taskIndex],
-        name: editableName.trim(),
+        name: trimmedName,
       };
-
+  
       await saveTasks(updatedTasks);
     }
     setIsEditing(false);
   };
-
+  
   const handleCompleteAllSubtasks = async () => {
     if (subtasks.length === 0) {
       Toast.show({
-        type: 'info',
-        position: 'bottom',
-        text1: 'Nenhuma Subtarefa',
-        text2: 'Não há subtarefas para concluir.',
+        type: 'success',
+        text1:'Não há subtarefas para concluir',
+        position: "bottom",
         visibilityTime: 3000,
+        autoHide: true,
       });
+      
       return;
     }
   
@@ -157,12 +172,10 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
       { cancelable: false }
     );
   };
-  
 
   useEffect(() => {
     setLocalDate(getTaskDate(id));
   }, [id, getTaskDate]);
-
 
   const handleDateChange = (event: any, selectedDate?: Date) => {
     setShowDatePicker(false);
@@ -223,7 +236,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
       <S.Container showsVerticalScrollIndicator={false}>
         <Pressable onPress={() => setIsEditing(true)}>
-          <View>
             <S.Title style={{ color: isEditing ? "transparent" : "transparent" }}>
               {editableName}
             </S.Title>
@@ -234,13 +246,14 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
               onChangeText={setEditableName}
               onBlur={handleNameBlur}
               autoFocus={isEditing}
+              maxLength={80}
+              multiline
               style={{
                 position: "absolute",
                 top: 0,
                 left: 0,
               }}
             />
-          </View>
         </Pressable>
 
         {loadingTasks ? (
