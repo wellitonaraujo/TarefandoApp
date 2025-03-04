@@ -44,7 +44,7 @@ export const DateWrapper = styled(TouchableOpacity)`
 
 export const DateText = styled.Text`
   font-size: 13px;
-  color: #888888;
+  color: #A1A1C1;
   font-weight: 600;
 `;
 

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ActivityIndicator, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback, Pressable, Alert, Platform } from 'react-native';
+import { ActivityIndicator, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback, Pressable, Alert, Platform, Share } from 'react-native';
 import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { RootStackParamList } from '@/src/navigation/AppNavigator';
@@ -34,6 +34,9 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
   const [editableName, setEditableName] = useState(name);
   const [isEditing, setIsEditing] = useState(false);
 
+  const [editingSubtaskId, setEditingSubtaskId] = useState<string | null>(null);
+  const [editedText, setEditedText] = useState<string>('');
+
   const [localDate, setLocalDate] = useState<string>(() => {
     return getTaskDate(id);
   });
@@ -47,9 +50,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     }
     return new Date();
   });
-
-  const [editingSubtaskId, setEditingSubtaskId] = useState<string | null>(null);
-  const [editedText, setEditedText] = useState<string>('');
 
   const handleAddSubtask = async () => {
     if (!newSubtask.trim()) return;
@@ -111,13 +111,12 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
 
   const handleCompleteAllSubtasks = async () => {
     if (subtasks.length === 0) {
-      // Exibe o Toast informando que não há subtarefas para concluir
       Toast.show({
-        type: 'info', // Tipo de mensagem
-        position: 'bottom', // Posição na tela
-        text1: 'Nenhuma Subtarefa', // Título
-        text2: 'Não há subtarefas para concluir.', // Texto informativo
-        visibilityTime: 3000, // Tempo de exibição em milissegundos
+        type: 'info',
+        position: 'bottom',
+        text1: 'Nenhuma Subtarefa',
+        text2: 'Não há subtarefas para concluir.',
+        visibilityTime: 3000,
       });
       return;
     }
@@ -139,24 +138,25 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
 
   const handleDeleteAllSubtasks = async () => {
     Alert.alert(
-      'Excluir tarefa?',
-      '',
+      'Confirmar Exclusão', 
+      'Deletar esta tarefa e todas as suas subtarefas? Esta ação não pode ser desfeita.', 
       [
         {
           text: 'Cancelar',
+          onPress: () => console.log('Exclusão cancelada'),
           style: 'cancel',
         },
         {
           text: 'Deletar',
           onPress: async () => {
-            handleDeleteTask(id);
-            navigation.navigate("Home");
+            handleDeleteTask(id); // Chamando a função que já remove a tarefa pai
           },
         },
       ],
       { cancelable: false }
     );
   };
+  
 
   useEffect(() => {
     setLocalDate(getTaskDate(id));
@@ -195,6 +195,28 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     };
     await saveTasks(updatedTasks);
   }; 
+
+  const handleShareTask = async () => {
+    if (!task) return;
+  
+    const formattedSubtasks = subtasks
+      .map(subtask => `${subtask.completed ? '(x)' : '( )'} ${subtask.name}`)
+      .join('\n');
+  
+    const message = `
+  ${task.name}
+  Prazo: ${localDate}
+  ${subtasks.length > 0 ? `\nSubtarefas:\n${formattedSubtasks}` : '\nSem subtarefas'}
+    `;
+  
+    try {
+      await Share.share({
+        message,
+      });
+    } catch (error) {
+      console.error('Erro ao compartilhar:', error);
+    }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
@@ -272,7 +294,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
         <S.OptionsContainer>
           <S.OptionRow>
             <S.Icon tintColor={'#777E99'} source={require('../../assets/icons/date-solid.png')} />
-            <S.OptionText>Finaliza em</S.OptionText>
+            <S.OptionText>Prazo</S.OptionText>
             <S.OptionValue onPress={() => setShowDatePicker(true)}>
             {getDateLabel()}
             </S.OptionValue>
@@ -297,7 +319,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
             <S.ActionIcon tintColor={'#D2D2D2'} source={require('../../assets/icons/check-fill.png')} />
             <S.ActionText>Concluir</S.ActionText>
           </S.ActionButton>
-          <S.ActionButton>
+          <S.ActionButton onPress={handleShareTask}>
             <S.ActionIcon tintColor={'#D2D2D2'} source={require('../../assets/icons/share-filled.png')} />
             <S.ActionText>Compartilhar</S.ActionText>
           </S.ActionButton>
