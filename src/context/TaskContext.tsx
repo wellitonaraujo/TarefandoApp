@@ -94,19 +94,21 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   
     PushNotification.cancelAllLocalNotifications();
   
-    const notifyDate = new Date();
-    notifyDate.setSeconds(notifyDate.getSeconds() + 10);
-  
-    console.log("Notificação agendada para:", notifyDate);
-    PushNotification.localNotificationSchedule({
-      channelId: "task-reminders",
-      title: "📅 Tarefa do Dia!",
-      message: `Você tem ${tasksForToday.length} tarefa(s) para hoje!`,
-      date: notifyDate,
-      playSound: true,
-      soundName: "default",
-      vibrate: true,
-    });
+    for (let i = 1; i <= 3; i++) {
+      const notifyDate = new Date();
+      notifyDate.setMinutes(notifyDate.getMinutes() + i * 15);
+
+      console.log(`Notificação ${i} agendada para:`, notifyDate);
+      PushNotification.localNotificationSchedule({
+        channelId: "task-reminders",
+        title: "Tarefa do Dia!",
+        message: `Você tem ${tasksForToday.length} tarefa(s) para hoje!`,
+        date: notifyDate,
+        playSound: true,
+        soundName: "default",
+        vibrate: true,
+      });
+    }
   
     await AsyncStorage.setItem(NOTIFICATION_SCHEDULED_KEY, currentDate);
   };
@@ -133,6 +135,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.error("Erro ao salvar as tarefas", error);
     }
   };
+  
   
   const parseDate = (dateString: string): Date => {
     const [day, month, year] = dateString.split('/');
