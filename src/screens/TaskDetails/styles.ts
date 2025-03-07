@@ -1,14 +1,15 @@
+import colors from '@/src/themes/colors';
 import { TextInput } from 'react-native';
 import styled from 'styled-components/native';
 
 export const Container = styled.ScrollView`
   flex: 1;
-  background-color: #1A1A2F;
+  background-color: ${colors.white};
   padding: 16px;
 `;
 
 export const Title = styled.Text`
-  color: #fff;
+  color: ${colors.black};;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
@@ -26,8 +27,27 @@ export const SubtaskLeft = styled.View`
   align-items: center;
 `;
 
+export const AddSubTaskButton = styled.TouchableOpacity`
+  background-color: ${colors.primary};
+  width: 160px;
+  height: 41px;
+  border-radius: 50px;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const AddSubtaskText = styled.Text`
+  color:  ${colors.white};
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 12px;
+`;
+
+
 export const SubtaskText = styled.Text`
-  color: #f5f5f5;
+  color: ${colors.gray_300};
   font-size: 16px;
   margin-left: 10px;
   flex-wrap: wrap;
@@ -36,19 +56,13 @@ export const SubtaskText = styled.Text`
 
 export const DeleteButton = styled.TouchableOpacity`
   flex-shrink: 0; 
-  padding: 3px;
+  padding: 4px;
 `;
 
 
 export const DeleteIcon = styled.Image`
   width: 8px;
   height: 8px;
-`;
-
-export const AddSubtaskText = styled.Text`
-  color: #5F33E1;
-  font-size: 16px;
-  margin-bottom: 10px;
 `;
 
 export const OptionsContainer = styled.View`
@@ -62,20 +76,20 @@ export const OptionRow = styled.View`
 `;
 
 export const OptionText = styled.Text`
-  color: #A1A1C1;
+  color: ${colors.gray_600};
   font-size: 14px;
   flex: 1;
   margin-left: 8px;
 `;
 
 export const OptionValue = styled.Text`
-  color: #fff;
+  color: ${colors.black};;
   font-size: 14px;
 `;
 
 export const Separator = styled.View`
   height: 1px;
-  background-color: #242443;
+  background-color: ${colors.gray_100};
   margin-vertical: 16px;
 `;
 
@@ -89,8 +103,9 @@ export const ActionsContainer = styled.View`
 export const ActionButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-  background-color: #242443;
-  border-radius: 6px;
+  border-width: 1px;
+  border-color: ${colors.gray_400};
+  border-radius: 40px;
   padding: 8px;
 `;
 
@@ -106,19 +121,19 @@ export const Icon = styled.Image`
 `;
 
 export const ActionText = styled.Text`
-  color: #D2D2D2;
-  font-size: 13px;
+  color: ${colors.gray_400};
+  font-size: 12px;
 `;
 
 export const AddSubtaskInput = styled.TextInput`
   margin-right: 8px;
   margin-bottom: 10px;
-  color: #f5f5f5;
+  color:  ${colors.black};
   font-size: 16px;
 `;
 
 export const NameTextInput = styled(TextInput)`
-  color: #D2D2D2;
+  color: ${colors.black};
   font-size: 24px;
   font-weight: bold;
 `;

@@ -1,3 +1,4 @@
+import colors from "@/src/themes/colors";
 import styled from "styled-components/native";
 
 export const EmptyContainer = styled.View`
@@ -7,7 +8,7 @@ export const EmptyContainer = styled.View`
 `;
 
 export const EmptyTitle = styled.Text`
-  color: #ffffff;
+  color: ${colors.black};
   font-size: 16px;
   text-align: center;
   font-weight: bold;
@@ -15,7 +16,7 @@ export const EmptyTitle = styled.Text`
 `;
 
 export const HighlightedText = styled.Text`
-  color: #5f33e1;
+  color: ${colors.black};
   font-weight: bold;
 `;
 

@@ -5,8 +5,8 @@ import AddButton from "@/src/components/AddButton";
 import { ActivityIndicator } from "react-native";
 import TaskList from "@/src/components/TaskList";
 import Header from "@/src/components/Header";
+import React, { useEffect } from "react";
 import * as S from "./styles";
-import React from "react";
 
 const Home: React.FC = () => {
   const {
