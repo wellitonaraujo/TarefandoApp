@@ -9,6 +9,7 @@ import { RootParamList } from '@/src/navigation/types';
 import { useTaskDates } from './hook/useTaskDates';
 import Toast from 'react-native-toast-message';
 import * as S from './styles';
+import colors from '@/src/themes/colors';
 
 type TaskDetailsRouteProp = RouteProp<RootStackParamList, 'TaskDetails'>;
 
@@ -179,7 +180,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
 
   const parseDate = (dateString: string): Date => {
     const [day, month, year] = dateString.split('/').map(Number);
-    const date = new Date(year, month - 1, day); // mês é zero-based
+    const date = new Date(year, month - 1, day);
     return isNaN(date.getTime()) ? new Date() : date;
   };
   
@@ -312,19 +313,19 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
             onBlur={handleBlurSubtask}
             onSubmitEditing={handleAddSubtask}
             returnKeyType="done"
-            placeholderTextColor={'#D2D2D2'}
+            placeholderTextColor={colors.gray_300}
           />
         )}
 
         {!showInput && (
-          <TouchableOpacity onPress={handleShowInput}>
+          <S.AddSubTaskButton onPress={handleShowInput}>
             <S.AddSubtaskText>Adicionar subtarefa</S.AddSubtaskText>
-          </TouchableOpacity>
+          </S.AddSubTaskButton>
         )}
 
         <S.OptionsContainer>
           <S.OptionRow>
-            <S.Icon tintColor={'#777E99'} source={require('../../assets/icons/date-solid.png')} />
+            <S.Icon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/shape.png')} />
             <S.OptionText>Prazo</S.OptionText>
             <S.OptionValue onPress={() => setShowDatePicker(true)}>
             {getDateLabel()}
@@ -333,13 +334,13 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
           </S.OptionRow>
           <S.Separator />
           <S.OptionRow>
-            <S.Icon tintColor={'#777E99'} source={require('../../assets/icons/repeat-rounded.png')} />
+            <S.Icon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/repeat-rounded.png')} />
             <S.OptionText>Repetir</S.OptionText>
             <S.OptionValue>Não</S.OptionValue>
           </S.OptionRow>
           <S.Separator />
           <S.OptionRow>
-            <S.Icon tintColor={'#777E99'} source={require('../../assets/icons/notification-fill.png')} />
+            <S.Icon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/notification-fill.png')} />
             <S.OptionText>Lembrar</S.OptionText>
             <S.OptionValue>Não</S.OptionValue>
           </S.OptionRow>
@@ -347,15 +348,15 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
 
         <S.ActionsContainer>
           <S.ActionButton onPress={handleCompleteAllSubtasks}>
-            <S.ActionIcon tintColor={'#D2D2D2'} source={require('../../assets/icons/check-fill.png')} />
+            <S.ActionIcon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/check-fill.png')} />
             <S.ActionText>Concluir</S.ActionText>
           </S.ActionButton>
           <S.ActionButton onPress={handleShareTask}>
-            <S.ActionIcon tintColor={'#D2D2D2'} source={require('../../assets/icons/share-filled.png')} />
+            <S.ActionIcon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/share-filled.png')} />
             <S.ActionText>Compartilhar</S.ActionText>
           </S.ActionButton>
           <S.ActionButton onPress={handleDeleteAllSubtasks}>
-          <S.ActionIcon tintColor={'#D2D2D2'} source={require('../../assets/icons/delete-filled.png')} />
+          <S.ActionIcon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/delete-filled.png')} />
           <S.ActionText>Deletar</S.ActionText>
         </S.ActionButton>
         </S.ActionsContainer>

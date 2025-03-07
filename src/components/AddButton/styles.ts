@@ -1,3 +1,4 @@
+import colors from '@/src/themes/colors';
 import { moderateScale, verticalScale } from '@/src/utils/metrics';
 import styled from 'styled-components/native';
 
@@ -8,7 +9,7 @@ export const Container = styled.View`
 `;
 
 export const Button = styled.TouchableOpacity`
-  background-color: #5F33E1;
+  background-color: ${colors.primary};
   align-items: center;
   justify-content: center;
   width: ${moderateScale(48)}px;

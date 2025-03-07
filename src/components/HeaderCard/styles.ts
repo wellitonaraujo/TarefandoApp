@@ -1,3 +1,4 @@
+import colors from "@/src/themes/colors";
 import { moderateScale, verticalScale } from "@/src/utils/metrics";
 import styled from "styled-components/native";
 
@@ -6,7 +7,7 @@ export const Container = styled.View`
 `;
 
 export const Title = styled.Text`
-    color: #fff;
+    color: ${colors.black};
     font-size:  ${moderateScale(14)}px;
     font-weight: 700;
     margin-bottom: ${verticalScale(6)}px;
@@ -26,7 +27,7 @@ export const Wrapper = styled.View`
 `;
 
 export const CurrentDate = styled.View`
-    background-color: #5F33E1;
+    background-color: ${colors.primary};
     border-top-left-radius: 0px;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;

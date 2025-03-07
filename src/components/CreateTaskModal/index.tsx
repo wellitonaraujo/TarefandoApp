@@ -3,6 +3,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useEffect, useRef, useState } from 'react';
 import * as S from './styles';
 import { Subtask } from '@/src/context/TaskContext';
+import colors from '@/src/themes/colors';
 
 interface CreateTaskModalProps {
   visible: boolean;
@@ -115,7 +116,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
               <S.InputWrapper>
                 <S.StyledTextInput
                   placeholder="Nome da tarefa"
-                  placeholderTextColor="#CCD7E5"
+                  placeholderTextColor={colors.gray_200}
                   value={inputValue}
                   onChangeText={setInputValue}
                   maxLength={80}
@@ -129,12 +130,12 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                       <S.SubtaskInput
                         ref={(el:any) => (subtasksRefs.current[index] = el)}
                         placeholder="Nome da subtarefa"
-                        placeholderTextColor="#CCD7E5"
+                        placeholderTextColor={colors.gray_200}
                         value={subtask}
                         onChangeText={(value: string) => updateSubtask(index, value)}
                       />
                       <S.RemoveIconWrapper onPress={() => removeSubtask(index)}>
-                        <S.RemoveIcon tintColor={'#A1A1C1'} source={require('../../assets/icons/close.png')} />
+                        <S.RemoveIcon tintColor={colors.gray_200} source={require('../../assets/icons/close.png')} />
                       </S.RemoveIconWrapper>
                     </S.SubtaskWrapper>
                   ))}
@@ -144,22 +145,23 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
               <S.SendButton onPress={saveTask} 
                 disabled={!inputValue.trim()} 
                 style={{ opacity: inputValue.trim() ? 1 : 0.5 }}>
-                <S.SendIcon  tintColor={'#fff'} source={require('../../assets/icons/send.png')} />
+                <S.SendIcon tintColor={'#fff'} source={require('../../assets/icons/send.png')} />
               </S.SendButton>
 
               <S.ActionsContainer>
                 <S.DateWrapper onPress={() => setShowDatePicker(true)}>
                   <S.DateIcon
+                    resizeMode="contain" 
                     source={require('../../assets/icons/date.png')}
                     style={{ marginRight: 8 }}
-                    tintColor={'#A1A1C1'}
+                    tintColor={colors.gray_200}
                   />
                   <S.DateText>{getDateLabel()}</S.DateText>
                 </S.DateWrapper>
 
                 <S.AddSubtaskButton onPress={addSubtask}>
                   <S.AddSubtaskIcon 
-                   tintColor={'#A1A1C1'}
+                    tintColor={'#A1A1C1'}
                     source={require('../../assets/icons/subtask.png')} 
                     resizeMode="contain"/>
                 </S.AddSubtaskButton>

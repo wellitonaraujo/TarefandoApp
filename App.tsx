@@ -6,12 +6,13 @@ import {toastConfig} from "./src/context/toastConfig"
 import Toast from 'react-native-toast-message';
 import React, { useEffect } from 'react';
 import { PermissionsAndroid, Platform, StatusBar } from 'react-native';
+import colors from './src/themes/colors';
 
 const MyTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: '#1A1A2F',
+    background: colors.white,
   },
 };
 
@@ -74,7 +75,7 @@ function App(): React.JSX.Element {
     <>
      <TaskProvider>
       <NavigationContainer theme={MyTheme}>
-        <StatusBar barStyle={'light-content'} backgroundColor={'#1A1A2F'} />
+        <StatusBar barStyle={'dark-content'} backgroundColor={colors.white} />
         <AppNavigator />
       </NavigationContainer>
 

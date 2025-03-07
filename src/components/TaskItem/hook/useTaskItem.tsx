@@ -75,7 +75,7 @@ export const useTaskItem = ({ task, onEdit, onDelete, completed }: UseTaskItemPr
     </S.RightActionsContainer>
   ), [completed, onDelete, onEdit, task.id]);
 
-  const taskOpacity = useMemo(() => (completed ? 0.4 : 1), [completed]);
+  const taskOpacity = useMemo(() => (completed ? 0.7 : 1), [completed]);
 
   const textDecoration = useMemo(() => (completed ? 'line-through' : 'none'), [completed]);
 

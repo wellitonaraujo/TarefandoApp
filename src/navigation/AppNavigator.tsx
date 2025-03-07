@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from '../screens/Home';
 import TaskDetails from '../screens/TaskDetails';
+import colors from '../themes/colors';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -39,11 +40,11 @@ const AppNavigator: React.FC = () => {
           options={{
             headerTitle: '',
             headerStyle: {
-              backgroundColor: '#1A1A2F',
+              backgroundColor: colors.white,
               elevation: 0,
               shadowOpacity: 0,
             },
-            headerTintColor: '#D9D9D9',
+            headerTintColor: colors.black,
           }}
         />
       </Stack.Navigator>

@@ -1,9 +1,10 @@
+import colors from "@/src/themes/colors";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 
 export const Container = styled(GestureHandlerRootView)`
   flex: 1;
-  background-color: #1a1a2f;
+  background-color: ${colors.white};
 `;
 
 export const TabsContainer = styled.View`
@@ -19,7 +20,7 @@ export const Tab = styled.TouchableOpacity<{ selected: boolean }>`
 
 export const TabText = styled.Text<{ selected: boolean }>`
   font-size: 14px;
-  color: ${(props: any) => (props.selected ? "#fff" : "#A1A1C1")};
+  color: ${(props: any) => (props.selected ? colors.primary :  colors.gray_600)};
   font-weight: ${(props: any) => (props.selected ? 700 : 300)};
 `;
 

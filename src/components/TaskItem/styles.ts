@@ -1,10 +1,11 @@
+import colors from '@/src/themes/colors';
 import { horizontalScale, moderateScale, verticalScale } from '@/src/utils/metrics';
 import styled from 'styled-components/native';
 
 export const TaskItemContainer = styled.Pressable`
   width: ${horizontalScale(305)}px;
   padding: ${moderateScale(7)}px;
-  background-color: #242443;
+  background-color: ${colors.gray_50};
   border-radius: ${moderateScale(8)}px;
   flex-direction: row;
   align-items: center;
@@ -13,7 +14,7 @@ export const TaskItemContainer = styled.Pressable`
 `;
 
 export const TaskText = styled.Text`
-  color: #fff; 
+  color:  ${colors.black};; 
   font-size: ${moderateScale(14)}px;
   font-weight: 500;
   flex-shrink: 1;

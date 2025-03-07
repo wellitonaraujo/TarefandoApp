@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { TouchableOpacity, TextInput } from 'react-native';
+import colors from '@/src/themes/colors';
 
 export const Overlay = styled.View`
   flex: 1;
@@ -8,14 +9,13 @@ export const Overlay = styled.View`
 `;
 
 export const ModalContainer = styled.View`
-  background-color: #242443;
+  background-color: ${colors.white};
   padding: 16px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   align-items: flex-start;
 `;
 
-/* Input */
 export const InputWrapper = styled.View`
   width: 100%;
 `;
@@ -23,18 +23,18 @@ export const InputWrapper = styled.View`
 export const StyledTextInput = styled(TextInput)`
   font-size: 15px;
   font-weight: 400;
-  background-color: #1A1A2F;
+  background-color: ${colors.backgound};
   height: 50px;
-  border-radius: 6px;
+  border-radius: 10px;
   padding: 0 16px;
-  color: #ccd7e5;
+  color: ${colors.gray_500};
   margin-bottom: 8px;
 `;
 
 export const Underline = styled.View`
   width: 100%;
   height: 1px;
-  background-color: #5F33E1;
+  background-color: ${colors.primary};
 `;
 
 export const DateWrapper = styled(TouchableOpacity)`
@@ -44,8 +44,8 @@ export const DateWrapper = styled(TouchableOpacity)`
 
 export const DateText = styled.Text`
   font-size: 13px;
-  color: #A1A1C1;
   font-weight: 600;
+  color: ${colors.gray_200};
 `;
 
 export const SendButton = styled(TouchableOpacity)`
@@ -54,7 +54,7 @@ export const SendButton = styled(TouchableOpacity)`
   bottom: 16px;
   width: 40px;
   height: 40px;
-  background-color: #5F33E1;
+  background-color: ${colors.primary};
   border-radius: 25px;
   justify-content: center;
   align-items: center;
@@ -66,27 +66,28 @@ export const SendIcon = styled.Image`
 `;
 
 export const DateIcon = styled.Image`
-  width: 12px;
-  height: 12px;
+  width: 13px;
+  height: 13px;
 `;
 
 export const SubtaskWrapper = styled.View`
   flex-direction: row;
   align-items: center;
   padding: 8px;
-  background-color: #242443;
+  background-color: ${colors.white};
 `;
 
 export const SubtaskInput = styled.TextInput`
   flex: 1;
   font-size: 14px;
-  color: #CCD7E5;
+  color: ${colors.gray_300};
   padding: 0;
 `;
 
 export const RemoveIconWrapper = styled.Pressable`
   justify-content: center;
   align-items: center;
+  padding: 4px;
 `;
 
 export const RemoveIcon = styled.Image`
