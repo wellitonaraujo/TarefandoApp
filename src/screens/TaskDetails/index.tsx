@@ -128,12 +128,12 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     if (subtasks.length === 0) {
       Toast.show({
         type: 'success',
-        text1:'Não há subtarefas para concluir',
+        text1: 'Não há subtarefas para concluir',
         position: "bottom",
         visibilityTime: 3000,
         autoHide: true,
       });
-      
+  
       return;
     }
   
@@ -141,16 +141,29 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     if (taskIndex < 0) return;
   
     const updatedTasks = [...tasks];
-    updatedTasks[taskIndex] = {
-      ...updatedTasks[taskIndex],
-      subtasks: updatedTasks[taskIndex].subtasks?.map(subtask => ({
-        ...subtask,
-        completed: true
-      }))
-    };
+    const updatedSubtasks = updatedTasks[taskIndex].subtasks?.map(subtask => ({
+      ...subtask,
+      completed: true
+    }));
+  
+    const allSubtasksCompleted = updatedSubtasks?.every(subtask => subtask.completed);
+  
+    if (allSubtasksCompleted) {
+      updatedTasks[taskIndex] = {
+        ...updatedTasks[taskIndex],
+        completed: true,
+        subtasks: updatedSubtasks,
+      };
+    } else {
+      updatedTasks[taskIndex] = {
+        ...updatedTasks[taskIndex],
+        subtasks: updatedSubtasks,
+      };
+    }
   
     await saveTasks(updatedTasks);
   };
+  
 
   const handleDeleteAllSubtasks = async () => {
     Alert.alert(

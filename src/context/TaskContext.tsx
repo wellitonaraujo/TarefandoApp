@@ -74,44 +74,102 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [updateKey]);
   
   const NOTIFICATION_SCHEDULED_KEY = "notificationScheduled";
-
+  const OVERDUE_NOTIFICATION_KEY = "overdueNotificationScheduled";
+  
   const checkAndScheduleNotification = async (tasks: Task[]) => {
-    console.log("Verificando necessidade de agendar notificação...");
+    console.log("Verificando necessidade de agendar notificação para tarefas do dia...");
   
     const currentDate = formatDate(new Date());
     const currentDateComparable = convertToComparableDate(currentDate);
   
+    // Filtra as tarefas para o dia de hoje e que não estão completadas
     const tasksForToday = tasks.filter(
       (task) => convertToComparableDate(task.date) === currentDateComparable && !task.completed
     );
   
     if (tasksForToday.length === 0) {
       console.log("Nenhuma tarefa pendente para hoje. Cancelando notificações...");
+      // Se não houver tarefas para hoje, cancela todas as notificações
       PushNotification.cancelAllLocalNotifications();
       await AsyncStorage.removeItem(NOTIFICATION_SCHEDULED_KEY);
       return;
     }
   
-    PushNotification.cancelAllLocalNotifications();
+    // Checa se a notificação já foi agendada para hoje
+    const notificationScheduled = await AsyncStorage.getItem(NOTIFICATION_SCHEDULED_KEY);
+    if (notificationScheduled === currentDate) {
+      console.log("Notificações já agendadas para hoje. Nenhuma nova notificação será enviada.");
+      return;
+    }
   
-    for (let i = 1; i <= 3; i++) {
+    // Caso haja tarefas para hoje e não tenha sido agendada ainda
+    PushNotification.cancelAllLocalNotifications(); // Cancela notificações anteriores
+  
+    const notifyTimes = [10, 20, 30]; // Horários para as notificações
+  
+    // Agenda as 3 notificações
+    notifyTimes.forEach((minutes, index) => {
       const notifyDate = new Date();
-      notifyDate.setMinutes(notifyDate.getMinutes() + i * 15);
-
-      console.log(`Notificação ${i} agendada para:`, notifyDate);
+      notifyDate.setMinutes(notifyDate.getMinutes() + minutes); // Incrementa o tempo por minutos
+      notifyDate.setSeconds(0); // Zerando os segundos
+  
+      console.log(`Notificação ${index + 1} agendada para tarefas do dia:`, notifyDate);
       PushNotification.localNotificationSchedule({
         channelId: "task-reminders",
-        title: "Tarefa do Dia!",
+        title: "📅 Tarefa do Dia!",
         message: `Você tem ${tasksForToday.length} tarefa(s) para hoje!`,
         date: notifyDate,
         playSound: true,
         soundName: "default",
         vibrate: true,
       });
-    }
+    });
   
+    // Salva a data da notificação agendada no AsyncStorage para evitar agendar novamente
     await AsyncStorage.setItem(NOTIFICATION_SCHEDULED_KEY, currentDate);
   };
+  
+  const checkAndScheduleOverdueNotification = async (tasks: Task[]) => {
+    console.log("Verificando necessidade de agendar notificação para tarefas atrasadas...");
+  
+    const currentDate = formatDate(new Date());
+    const currentDateComparable = convertToComparableDate(currentDate);
+  
+    const overdueTasks = tasks.filter(
+      (task) => convertToComparableDate(task.date) < currentDateComparable && !task.completed
+    );
+  
+    if (overdueTasks.length === 0) {
+      console.log("Nenhuma tarefa atrasada. Cancelando notificações de atraso...");
+      await AsyncStorage.removeItem(OVERDUE_NOTIFICATION_KEY);
+      return;
+    }
+  
+    PushNotification.cancelAllLocalNotifications();
+  
+    // Definindo os intervalos de 10 minutos para as notificações
+    const notifyTimes = [10, 20, 30]; // Intervalos de 10 minutos
+  
+    notifyTimes.forEach((minutes, index) => {
+      const notifyDate = new Date();
+      notifyDate.setMinutes(notifyDate.getMinutes() + minutes); // Incrementa o tempo por 10 minutos
+      notifyDate.setSeconds(0); // Zerando os segundos
+  
+      console.log(`Notificação ${index + 1} agendada para tarefas atrasadas:`, notifyDate);
+      PushNotification.localNotificationSchedule({
+        channelId: "task-overdue-reminders",
+        title: "⏳ Tarefas Atrasadas!",
+        message: `Você tem ${overdueTasks.length} tarefa(s) atrasada(s)! Não se esqueça de concluí-las.`,
+        date: notifyDate,
+        playSound: true,
+        soundName: "default",
+        vibrate: true,
+      });
+    });
+  
+    await AsyncStorage.setItem(OVERDUE_NOTIFICATION_KEY, currentDate);
+  };
+  
   
   const saveTasks = async (updatedTasks: Task[]) => {
     try {
@@ -130,12 +188,12 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
         await AsyncStorage.removeItem(NOTIFICATION_SCHEDULED_KEY);
       }
   
-      checkAndScheduleNotification(updatedTasks);
+      await checkAndScheduleNotification(updatedTasks);
+      await checkAndScheduleOverdueNotification(updatedTasks);
     } catch (error) {
       console.error("Erro ao salvar as tarefas", error);
     }
   };
-  
   
   const parseDate = (dateString: string): Date => {
     const [day, month, year] = dateString.split('/');
@@ -177,11 +235,17 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const handleCompleteTask = (id: string) => {
     const updatedTasks = tasks.map(task =>
-      task.id === id ? { ...task, completed: !task.completed } : task
+      task.id === id
+        ? {
+            ...task,
+            completed: !task.completed,
+            subtasks: task.subtasks?.map(subtask => ({ ...subtask, completed: !task.completed }))
+          }
+        : task
     );
     saveTasks(updatedTasks);
   };
-
+  
   const handleDeleteTask = (id: string) => {
     const updatedTasks = tasks.filter(task => task.id !== id);
     saveTasks(updatedTasks);
