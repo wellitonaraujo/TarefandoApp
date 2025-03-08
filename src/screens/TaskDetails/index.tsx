@@ -164,7 +164,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     await saveTasks(updatedTasks);
   };
   
-
   const handleDeleteAllSubtasks = async () => {
     Alert.alert(
       'Confirmar Exclusão', 

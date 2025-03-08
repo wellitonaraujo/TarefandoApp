@@ -259,17 +259,26 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const handleCompleteSubtask = (taskId: string, subtaskId: string) => {
-    const updatedTasks = tasks.map(task =>
-      task.id === taskId
-        ? {
-            ...task,
-            subtasks: task.subtasks?.map(sub => (sub.id === subtaskId ? { ...sub, completed: !sub.completed } : sub)),
-          }
-        : task
-    );
+    const updatedTasks = tasks.map(task => {
+      if (task.id === taskId) {
+        const updatedSubtasks = task.subtasks?.map(subtask =>
+          subtask.id === subtaskId ? { ...subtask, completed: !subtask.completed } : subtask
+        );
+  
+        const allSubtasksCompleted = updatedSubtasks?.every(subtask => subtask.completed);
+  
+        return {
+          ...task,
+          subtasks: updatedSubtasks,
+          completed: allSubtasksCompleted ?? false,
+        };
+      }
+      return task;
+    });
+  
     saveTasks(updatedTasks);
   };
-
+  
   const openModal = () => {
     setModalVisible(true);
     setEditingTask(null);

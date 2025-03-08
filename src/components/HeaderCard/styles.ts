@@ -7,14 +7,14 @@ export const Container = styled.View`
 `;
 
 export const Title = styled.Text`
-    color: ${colors.black};
+    color: ${colors.gray_100};
     font-size:  ${moderateScale(14)}px;
     font-weight: 700;
     margin-bottom: ${verticalScale(6)}px;
 `;
 
 export const Value = styled.Text`
-    color: #fff;
+    color: ${colors.gray_50};
     font-size:  ${moderateScale(13)}px;
 `;
 

@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 
 export const Container = styled(GestureHandlerRootView)`
   flex: 1;
-  background-color: ${colors.white};
+  background-color: ${colors.backgound};
 `;
 
 export const TabsContainer = styled.View`
@@ -20,7 +20,7 @@ export const Tab = styled.TouchableOpacity<{ selected: boolean }>`
 
 export const TabText = styled.Text<{ selected: boolean }>`
   font-size: 14px;
-  color: ${(props: any) => (props.selected ? colors.primary :  colors.gray_600)};
+  color: ${(props: any) => (props.selected ? colors.primary :  colors.gray_500)};
   font-weight: ${(props: any) => (props.selected ? 700 : 300)};
 `;
 
