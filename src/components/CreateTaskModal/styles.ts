@@ -23,12 +23,8 @@ export const InputWrapper = styled.View`
 export const StyledTextInput = styled(TextInput)`
   font-size: 15px;
   font-weight: 400;
-  background-color: ${colors.backgound};
-  height: 50px;
-  border-radius: 10px;
-  padding: 0 16px;
+  padding: 0;
   color: ${colors.gray_500};
-  margin-bottom: 8px;
 `;
 
 export const Underline = styled.View`
@@ -55,7 +51,7 @@ export const SendButton = styled(TouchableOpacity)`
   width: 40px;
   height: 40px;
   background-color: ${colors.primary};
-  border-radius: 25px;
+  border-radius: 45px;
   justify-content: center;
   align-items: center;
 `;
@@ -73,14 +69,13 @@ export const DateIcon = styled.Image`
 export const SubtaskWrapper = styled.View`
   flex-direction: row;
   align-items: center;
-  padding: 8px;
   background-color: ${colors.white};
 `;
 
 export const SubtaskInput = styled.TextInput`
   flex: 1;
   font-size: 14px;
-  color: ${colors.gray_300};
+  color: ${colors.gray_200};
   padding: 0;
 `;
 

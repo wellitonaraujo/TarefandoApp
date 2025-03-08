@@ -130,7 +130,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                       <S.SubtaskInput
                         ref={(el:any) => (subtasksRefs.current[index] = el)}
                         placeholder="Nome da subtarefa"
-                        placeholderTextColor={colors.gray_300}
+                        placeholderTextColor={colors.gray_200}
                         value={subtask}
                         onChangeText={(value: string) => updateSubtask(index, value)}
                       />

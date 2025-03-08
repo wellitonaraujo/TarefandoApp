@@ -40,7 +40,7 @@ const AppNavigator: React.FC = () => {
           options={{
             headerTitle: '',
             headerStyle: {
-              backgroundColor: colors.white,
+              backgroundColor: colors.backgound,
               elevation: 0,
               shadowOpacity: 0,
             },

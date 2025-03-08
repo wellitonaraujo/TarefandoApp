@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 export const TaskItemContainer = styled.Pressable`
   width: ${horizontalScale(305)}px;
   padding: ${moderateScale(7)}px;
-  background-color: ${colors.gray_50};
+  background-color: ${colors.white};
   border-radius: ${moderateScale(8)}px;
   flex-direction: row;
   align-items: center;

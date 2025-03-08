@@ -151,7 +151,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     if (allSubtasksCompleted) {
       updatedTasks[taskIndex] = {
         ...updatedTasks[taskIndex],
-        completed: true,
+        completed: true, // Marca a tarefa principal como concluída
         subtasks: updatedSubtasks,
       };
     } else {

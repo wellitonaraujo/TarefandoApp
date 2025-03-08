@@ -4,22 +4,22 @@ import styled from 'styled-components/native';
 
 export const Container = styled.ScrollView`
   flex: 1;
-  background-color: ${colors.white};
+  background-color: ${colors.backgound};
   padding: 16px;
 `;
 
 export const Title = styled.Text`
   color: ${colors.black};;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `;
 
 export const SubtaskContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 `;
 
 export const SubtaskLeft = styled.View`
@@ -76,7 +76,7 @@ export const OptionRow = styled.View`
 `;
 
 export const OptionText = styled.Text`
-  color: ${colors.gray_600};
+  color: ${colors.gray_500};
   font-size: 14px;
   flex: 1;
   margin-left: 8px;
@@ -90,7 +90,7 @@ export const OptionValue = styled.Text`
 export const Separator = styled.View`
   height: 1px;
   background-color: ${colors.gray_100};
-  margin-vertical: 16px;
+  margin-vertical: 10px;
 `;
 
 export const ActionsContainer = styled.View`
@@ -134,7 +134,8 @@ export const AddSubtaskInput = styled.TextInput`
 
 export const NameTextInput = styled(TextInput)`
   color: ${colors.black};
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
+  margin-bottom: 10px;
 `;
 

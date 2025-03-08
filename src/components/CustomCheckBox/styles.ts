@@ -5,9 +5,9 @@ import styled from "styled-components/native";
 
 
 export const StyledTouchableOpacity = styled(TouchableOpacity)<{ value: boolean }>`
-  width: ${moderateScale(24)}px;
-  height:${moderateScale(24)}px;
-  border-radius: ${moderateScale(24)}px;
+  width: ${moderateScale(20)}px;
+  height:${moderateScale(20)}px;
+  border-radius: ${moderateScale(2)}px;
   border-width: ${moderateScale(1)}px;
   border-color: ${({ value }) => (value ? colors.primary : colors.gray_200)};
   background-color: ${({ value }) => (value ? colors.primary : 'transparent')};

@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 
 export const Container = styled(GestureHandlerRootView)`
   flex: 1;
-  background-color: ${colors.white};
+  background-color: ${colors.backgound};
 `;
 
 export const TabsContainer = styled.View`

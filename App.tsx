@@ -1,7 +1,7 @@
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import PushNotification from "react-native-push-notification";
 import AppNavigator from './src/navigation/AppNavigator';
-import  { TaskProvider } from "./src/context/TaskContext" 
+import  { TaskProvider } from "./src/context/TaskContext"
 import {toastConfig} from "./src/context/toastConfig"
 import Toast from 'react-native-toast-message';
 import React, { useEffect } from 'react';
@@ -12,7 +12,7 @@ const MyTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: colors.white,
+    background: colors.backgound,
   },
 };
 
@@ -72,16 +72,14 @@ function App(): React.JSX.Element {
   }, []);
   
   return (
-    <>
      <TaskProvider>
       <NavigationContainer theme={MyTheme}>
-        <StatusBar barStyle={'dark-content'} backgroundColor={colors.white} />
+        <StatusBar barStyle={'dark-content'} backgroundColor={colors.backgound} />
         <AppNavigator />
       </NavigationContainer>
 
       <Toast config={toastConfig}/>
       </TaskProvider>
-    </>
   );
 }
 
