@@ -130,12 +130,12 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                       <S.SubtaskInput
                         ref={(el:any) => (subtasksRefs.current[index] = el)}
                         placeholder="Nome da subtarefa"
-                        placeholderTextColor={colors.gray_200}
+                        placeholderTextColor={colors.gray_300}
                         value={subtask}
                         onChangeText={(value: string) => updateSubtask(index, value)}
                       />
                       <S.RemoveIconWrapper onPress={() => removeSubtask(index)}>
-                        <S.RemoveIcon tintColor={colors.gray_200} source={require('../../assets/icons/close.png')} />
+                        <S.RemoveIcon tintColor={colors.gray_300} source={require('../../assets/icons/close.png')} />
                       </S.RemoveIconWrapper>
                     </S.SubtaskWrapper>
                   ))}

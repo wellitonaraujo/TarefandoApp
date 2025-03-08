@@ -8,7 +8,7 @@ export const EmptyContainer = styled.View`
 `;
 
 export const EmptyTitle = styled.Text`
-  color: ${colors.black};
+  color: ${colors.gray_100};
   font-size: 16px;
   text-align: center;
   font-weight: bold;
@@ -16,7 +16,7 @@ export const EmptyTitle = styled.Text`
 `;
 
 export const HighlightedText = styled.Text`
-  color: ${colors.black};
+  color: ${colors.primary};
   font-weight: bold;
 `;
 

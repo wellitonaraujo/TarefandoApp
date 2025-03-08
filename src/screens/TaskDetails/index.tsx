@@ -151,7 +151,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     if (allSubtasksCompleted) {
       updatedTasks[taskIndex] = {
         ...updatedTasks[taskIndex],
-        completed: true, // Marca a tarefa principal como concluída
+        completed: true,
         subtasks: updatedSubtasks,
       };
     } else {
@@ -164,7 +164,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     await saveTasks(updatedTasks);
   };
   
-
   const handleDeleteAllSubtasks = async () => {
     Alert.alert(
       'Confirmar Exclusão', 

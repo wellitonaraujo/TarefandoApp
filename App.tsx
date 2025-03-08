@@ -74,7 +74,7 @@ function App(): React.JSX.Element {
   return (
      <TaskProvider>
       <NavigationContainer theme={MyTheme}>
-        <StatusBar barStyle={'dark-content'} backgroundColor={colors.backgound} />
+        <StatusBar barStyle={'light-content'} backgroundColor={colors.backgound} />
         <AppNavigator />
       </NavigationContainer>
 

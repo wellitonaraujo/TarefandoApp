@@ -9,7 +9,7 @@ export const Overlay = styled.View`
 `;
 
 export const ModalContainer = styled.View`
-  background-color: ${colors.white};
+  background-color: ${colors.backgound};
   padding: 16px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
@@ -24,7 +24,7 @@ export const StyledTextInput = styled(TextInput)`
   font-size: 15px;
   font-weight: 400;
   padding: 0;
-  color: ${colors.gray_500};
+  color: ${colors.gray_200};
 `;
 
 export const Underline = styled.View`
@@ -69,7 +69,7 @@ export const DateIcon = styled.Image`
 export const SubtaskWrapper = styled.View`
   flex-direction: row;
   align-items: center;
-  background-color: ${colors.white};
+  background-color: ${colors.backgound};
 `;
 
 export const SubtaskInput = styled.TextInput`

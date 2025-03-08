@@ -44,7 +44,7 @@ const AppNavigator: React.FC = () => {
               elevation: 0,
               shadowOpacity: 0,
             },
-            headerTintColor: colors.black,
+            headerTintColor: colors.gray_100,
           }}
         />
       </Stack.Navigator>
