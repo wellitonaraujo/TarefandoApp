@@ -10,7 +10,7 @@ interface EmptyStateProps {
 const EmptyState: React.FC<EmptyStateProps> = ({ tabIndex }) => {
   return (
     <S.EmptyContainer>
-      {tabIndex !== 0 && <Image source={require('../../assets/icons/empty.png')} style={{ width: 200, height: 200 }} />}
+      {tabIndex !== 0 && <Image source={require('../../assets/icons/empty-icon.png')} style={{ width: 200, height: 200 }} />}
       <S.EmptyTitle>
         {tabIndex === 0 ? (
           <>

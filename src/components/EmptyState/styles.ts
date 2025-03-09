@@ -8,8 +8,8 @@ export const EmptyContainer = styled.View`
 `;
 
 export const EmptyTitle = styled.Text`
-  color: ${colors.gray_100};
-  font-size: 16px;
+  color: ${colors.white};
+  font-size: 15px;
   text-align: center;
   font-weight: 500;
   margin-bottom: 8px;

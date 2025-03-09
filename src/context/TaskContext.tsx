@@ -142,13 +142,12 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   
     PushNotification.cancelAllLocalNotifications();
   
-    // Definindo os intervalos de 10 minutos para as notificações
-    const notifyTimes = [1, 2, 3]; // Intervalos de 10 minutos
+    const notifyTimes = [1, 2, 3];
   
     notifyTimes.forEach((minutes, index) => {
       const notifyDate = new Date();
-      notifyDate.setMinutes(notifyDate.getMinutes() + minutes); // Incrementa o tempo por 10 minutos
-      notifyDate.setSeconds(0); // Zerando os segundos
+      notifyDate.setMinutes(notifyDate.getMinutes() + minutes);
+      notifyDate.setSeconds(0);
   
       console.log(`Notificação ${index + 1} agendada para tarefas atrasadas:`, notifyDate);
       PushNotification.localNotificationSchedule({
@@ -164,42 +163,6 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   
     await AsyncStorage.setItem(OVERDUE_NOTIFICATION_KEY, currentDate);
   };
-
-  useEffect(() => {
-    const configureBackgroundFetch = async () => {
-      try {
-        await BackgroundFetch.configure(
-          {
-            minimumFetchInterval: 15,
-            stopOnTerminate: false,
-            enableHeadless: true,
-            startOnBoot: true
-          },
-          async taskId => {
-            console.log('[BackgroundFetch] Verificando tarefas atrasadas...');
-            
-            const savedTasks = await AsyncStorage.getItem(TASKS_KEY);
-            const tasks = savedTasks ? JSON.parse(savedTasks) : [];
-            
-            await checkAndScheduleOverdueNotification(tasks);
-            await checkAndScheduleNotification(tasks);
-            
-            BackgroundFetch.finish(taskId);
-          },
-          error => {
-            console.error('[BackgroundFetch] Erro:', error);
-          }
-        );
-      } catch (err) {
-        console.error('[BackgroundFetch] Falha na configuração:', err);
-      }
-    };
-  
-    configureBackgroundFetch();
-    return () => {
-      BackgroundFetch.stop();
-    };
-  }, []);
   
   const saveTasks = async (updatedTasks: Task[]) => {
     try {
