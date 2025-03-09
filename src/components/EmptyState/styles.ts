@@ -11,7 +11,7 @@ export const EmptyTitle = styled.Text`
   color: ${colors.gray_100};
   font-size: 16px;
   text-align: center;
-  font-weight: bold;
+  font-weight: 500;
   margin-bottom: 8px;
 `;
 
@@ -21,7 +21,7 @@ export const HighlightedText = styled.Text`
 `;
 
 export const EmptyDescription = styled.Text`
-  color: #a1a1c1;
+  color: ${colors.gray_400};
   font-size: 12px;
   text-align: center;
 `;

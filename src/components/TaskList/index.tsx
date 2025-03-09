@@ -1,11 +1,11 @@
-import React, { useRef, useState } from "react";
-import { View, Animated } from "react-native";
-import * as S from "./styles";
-import TaskItem from "../TaskItem";
-import CustomCheckBox from "../CustomCheckBox";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "@/src/navigation/AppNavigator";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
+import React, { useRef, useState } from "react";
+import CustomCheckBox from "../CustomCheckBox";
+import { View, Animated } from "react-native";
+import TaskItem from "../TaskItem";
+import * as S from "./styles";
 
 type Subtask = {
   id: string;

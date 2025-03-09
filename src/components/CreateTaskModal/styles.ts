@@ -113,7 +113,7 @@ export const ActionsContainer = styled.View`
 export const SubtasksContainer = styled.View`
   max-height: 120px;
   width: 100%;
-  margin-bottom: 10px;
+  margin: 10px 0;
 `;
 
 export const SubtasksScrollView = styled.ScrollView.attrs({
