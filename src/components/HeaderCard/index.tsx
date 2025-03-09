@@ -1,7 +1,7 @@
-import useHeaderCard from "./hook/useHeaderCard";
 import * as S from "./styles";
 import React from "react";
-import { Image, View } from "react-native"; // Importando o componente Image
+import { View } from "react-native";
+import useHeaderCard from "./hook/useHeaderCard";
 
 interface HeaderCardProps {
   totalTasks: number;
@@ -9,17 +9,21 @@ interface HeaderCardProps {
 }
 
 const HeaderCard: React.FC<HeaderCardProps> = ({ totalTasks, completedTasks }) => {
-  const { taskProgress } = useHeaderCard(totalTasks, completedTasks);
+  const { taskProgress, capitalizedDate } = useHeaderCard(totalTasks, completedTasks);
+
 
   return (
     <S.Container>
       <S.Wrapper>
-       <View>
-        <S.Title>Tarefas concluídas</S.Title>
-            <S.CurrentDate>
+        <View>
+          <S.Title>Tarefas concluídas</S.Title>
+          <S.CurrentDate>
             <S.Value>{taskProgress}</S.Value>
-            </S.CurrentDate>
-       </View>
+          </S.CurrentDate>
+        </View>
+        <S.DateContainer>
+          <S.DateText>{capitalizedDate}</S.DateText>
+        </S.DateContainer>
       </S.Wrapper>
     </S.Container>
   );

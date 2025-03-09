@@ -54,7 +54,7 @@ export const AddSubtaskText = styled.Text`
 
 
 export const SubtaskText = styled.Text`
-  color: ${colors.gray_300};
+  color: ${colors.gray_200};
   font-size: 16px;
   margin-left: 10px;
   flex-wrap: wrap;
@@ -68,8 +68,8 @@ export const DeleteButton = styled.TouchableOpacity`
 
 
 export const DeleteIcon = styled.Image`
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
 `;
 
 export const OptionsContainer = styled.View`
@@ -83,7 +83,7 @@ export const OptionRow = styled.View`
 `;
 
 export const OptionText = styled.Text`
-  color: ${colors.gray_300};
+  color: ${colors.gray_200};
   font-size: 14px;
   flex: 1;
   margin-left: 8px;
@@ -96,7 +96,7 @@ export const OptionValue = styled.Text`
 
 export const Separator = styled.View`
   height: 1px;
-  background-color: ${colors.gray_600};
+  background-color: ${colors.cardTask};
   margin-vertical: 10px;
 `;
 
@@ -111,7 +111,7 @@ export const ActionButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   border-width: 1px;
-  border-color: ${colors.gray_600};
+  border-color: ${colors.cardTask};
   border-radius: 40px;
   padding: 8px;
 `;
@@ -128,7 +128,7 @@ export const Icon = styled.Image`
 `;
 
 export const ActionText = styled.Text`
-  color: ${colors.gray_500};
+  color: ${colors.gray_200};
   font-size: 12px;
 `;
 

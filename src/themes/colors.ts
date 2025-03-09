@@ -1,8 +1,8 @@
 const colors = {
   primary: "#246BFD",
-  backgound: "#1A1A2F",
+  backgound: "#181A20",
   title: "#24252C",
-  cardTask: "#242443",
+  cardTask: "#1E2129",
   
   gray_50: "#F9F9F9",
   gray_100: "#CCD7E5",

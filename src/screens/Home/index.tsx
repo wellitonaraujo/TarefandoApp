@@ -7,6 +7,7 @@ import TaskList from "@/src/components/TaskList";
 import Header from "@/src/components/Header";
 import React, { useEffect } from "react";
 import * as S from "./styles";
+import colors from "@/src/themes/colors";
 
 const Home: React.FC = () => {
   const {
@@ -41,22 +42,28 @@ const Home: React.FC = () => {
           </S.Tab>
         ))}
       </S.TabsContainer>
-
       {loadingTasks ? (
-        <S.LoadingContainer>
-          <ActivityIndicator size="large" color="#5F33E1" />
-        </S.LoadingContainer>
-      ) : isEmptyStateVisible ? (
-        <EmptyState />
+    <S.LoadingContainer>
+      <ActivityIndicator size="large" color={colors.primary} />
+    </S.LoadingContainer>
+    ) : (
+
+      (selectedTab === 0 && filteredTasks().length === 0) ? (
+        <EmptyState tabIndex={selectedTab} />
       ) : (
-        <TaskList
-          tasks={filteredTasks()}
-          updateKey={updateKey}
-          onEditTask={handleEditTask}
-          onCompleteTask={handleCompleteTask}
-          onDeleteTask={handleDeleteTask}
-        />
-      )}
+        (filteredTasks().length === 0) ? (
+          <EmptyState tabIndex={selectedTab} />
+        ) : (
+          <TaskList
+            tasks={filteredTasks()}
+            updateKey={updateKey}
+            onEditTask={handleEditTask}
+            onCompleteTask={handleCompleteTask}
+            onDeleteTask={handleDeleteTask}
+          />
+        )
+      )
+    )}
 
       <CreateTaskModal
         visible={modalVisible}

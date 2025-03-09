@@ -1,4 +1,4 @@
-import * as S from "./styles.ts"
+import * as S from "./styles"
 
 interface CustomCheckBoxProps {
   value: boolean;
