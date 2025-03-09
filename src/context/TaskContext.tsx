@@ -89,7 +89,6 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   
     if (tasksForToday.length === 0) {
       console.log("Nenhuma tarefa pendente para hoje. Cancelando notificações...");
-      PushNotification.cancelAllLocalNotifications();
       await AsyncStorage.removeItem(NOTIFICATION_SCHEDULED_KEY);
       return;
     }
@@ -100,9 +99,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return;
     }
   
-    PushNotification.cancelAllLocalNotifications();
-  
-    const notifyTimes = [1, 2, 3];
+    const notifyTimes = [5, 10, 15];
   
     notifyTimes.forEach((minutes, index) => {
       const notifyDate = new Date();
@@ -140,9 +137,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return;
     }
   
-    PushNotification.cancelAllLocalNotifications();
-  
-    const notifyTimes = [1, 2, 3];
+    const notifyTimes = [5, 10, 15];
   
     notifyTimes.forEach((minutes, index) => {
       const notifyDate = new Date();
@@ -163,6 +158,43 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   
     await AsyncStorage.setItem(OVERDUE_NOTIFICATION_KEY, currentDate);
   };
+  
+  useEffect(() => {
+    const configureBackgroundFetch = async () => {
+      try {
+        await BackgroundFetch.configure(
+          {
+            minimumFetchInterval: 15,
+            stopOnTerminate: false,
+            enableHeadless: true,
+            startOnBoot: true
+          },
+          async taskId => {
+            console.log('[BackgroundFetch] Verificando tarefas atrasadas...');
+            
+            const savedTasks = await AsyncStorage.getItem(TASKS_KEY);
+            const tasks = savedTasks ? JSON.parse(savedTasks) : [];
+            
+            await checkAndScheduleOverdueNotification(tasks);
+            await checkAndScheduleNotification(tasks);
+            
+            BackgroundFetch.finish(taskId);
+          },
+          error => {
+            console.error('[BackgroundFetch] Erro:', error);
+          }
+        );
+      } catch (err) {
+        console.error('[BackgroundFetch] Falha na configuração:', err);
+      }
+    };
+  
+    configureBackgroundFetch();
+    return () => {
+      BackgroundFetch.stop();
+    };
+  }, []);
+  
   
   const saveTasks = async (updatedTasks: Task[]) => {
     try {
