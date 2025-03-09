@@ -20,7 +20,7 @@ export const Tab = styled.TouchableOpacity<{ selected: boolean }>`
 
 export const TabText = styled.Text<{ selected: boolean }>`
   font-size: 14px;
-  color: ${(props: any) => (props.selected ? colors.primary :  colors.gray_500)};
+  color: ${(props: any) => (props.selected ? colors.primary :  colors.gray_200)};
   font-weight: ${(props: any) => (props.selected ? 700 : 300)};
 `;
 

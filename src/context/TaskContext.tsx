@@ -1,8 +1,7 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { Platform, PermissionsAndroid } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import PushNotification from "react-native-push-notification";
-
+import BackgroundFetch from "react-native-background-fetch";
 
 export const TASKS_KEY = "@tasks_key";
 
@@ -39,9 +38,11 @@ type TaskContextData = {
   updateKey: number;
   setUpdateKey: React.Dispatch<React.SetStateAction<number>>;
   saveTasks: (updatedTasks: Task[]) => void;
+  checkAndScheduleNotification: (tasks: any[]) => void;
+  checkAndScheduleOverdueNotification: (tasks: any[]) => void;
 };
 
-const TaskContext = createContext<TaskContextData | undefined>(undefined);
+export const TaskContext = createContext<TaskContextData | undefined>(undefined);
 
 export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -82,36 +83,31 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const currentDate = formatDate(new Date());
     const currentDateComparable = convertToComparableDate(currentDate);
   
-    // Filtra as tarefas para o dia de hoje e que não estão completadas
     const tasksForToday = tasks.filter(
       (task) => convertToComparableDate(task.date) === currentDateComparable && !task.completed
     );
   
     if (tasksForToday.length === 0) {
       console.log("Nenhuma tarefa pendente para hoje. Cancelando notificações...");
-      // Se não houver tarefas para hoje, cancela todas as notificações
       PushNotification.cancelAllLocalNotifications();
       await AsyncStorage.removeItem(NOTIFICATION_SCHEDULED_KEY);
       return;
     }
   
-    // Checa se a notificação já foi agendada para hoje
     const notificationScheduled = await AsyncStorage.getItem(NOTIFICATION_SCHEDULED_KEY);
     if (notificationScheduled === currentDate) {
       console.log("Notificações já agendadas para hoje. Nenhuma nova notificação será enviada.");
       return;
     }
   
-    // Caso haja tarefas para hoje e não tenha sido agendada ainda
-    PushNotification.cancelAllLocalNotifications(); // Cancela notificações anteriores
+    PushNotification.cancelAllLocalNotifications();
   
-    const notifyTimes = [10, 20, 30]; // Horários para as notificações
+    const notifyTimes = [1, 2, 3];
   
-    // Agenda as 3 notificações
     notifyTimes.forEach((minutes, index) => {
       const notifyDate = new Date();
-      notifyDate.setMinutes(notifyDate.getMinutes() + minutes); // Incrementa o tempo por minutos
-      notifyDate.setSeconds(0); // Zerando os segundos
+      notifyDate.setMinutes(notifyDate.getMinutes() + minutes);
+      notifyDate.setSeconds(0);
   
       console.log(`Notificação ${index + 1} agendada para tarefas do dia:`, notifyDate);
       PushNotification.localNotificationSchedule({
@@ -125,7 +121,6 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
     });
   
-    // Salva a data da notificação agendada no AsyncStorage para evitar agendar novamente
     await AsyncStorage.setItem(NOTIFICATION_SCHEDULED_KEY, currentDate);
   };
   
@@ -148,7 +143,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
     PushNotification.cancelAllLocalNotifications();
   
     // Definindo os intervalos de 10 minutos para as notificações
-    const notifyTimes = [10, 20, 30]; // Intervalos de 10 minutos
+    const notifyTimes = [1, 2, 3]; // Intervalos de 10 minutos
   
     notifyTimes.forEach((minutes, index) => {
       const notifyDate = new Date();
@@ -169,7 +164,42 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   
     await AsyncStorage.setItem(OVERDUE_NOTIFICATION_KEY, currentDate);
   };
+
+  useEffect(() => {
+    const configureBackgroundFetch = async () => {
+      try {
+        await BackgroundFetch.configure(
+          {
+            minimumFetchInterval: 15,
+            stopOnTerminate: false,
+            enableHeadless: true,
+            startOnBoot: true
+          },
+          async taskId => {
+            console.log('[BackgroundFetch] Verificando tarefas atrasadas...');
+            
+            const savedTasks = await AsyncStorage.getItem(TASKS_KEY);
+            const tasks = savedTasks ? JSON.parse(savedTasks) : [];
+            
+            await checkAndScheduleOverdueNotification(tasks);
+            await checkAndScheduleNotification(tasks);
+            
+            BackgroundFetch.finish(taskId);
+          },
+          error => {
+            console.error('[BackgroundFetch] Erro:', error);
+          }
+        );
+      } catch (err) {
+        console.error('[BackgroundFetch] Falha na configuração:', err);
+      }
+    };
   
+    configureBackgroundFetch();
+    return () => {
+      BackgroundFetch.stop();
+    };
+  }, []);
   
   const saveTasks = async (updatedTasks: Task[]) => {
     try {
@@ -352,6 +382,8 @@ const formatDate = (date: Date): string => {
         updateKey,
         setUpdateKey,
         saveTasks,
+        checkAndScheduleNotification,
+        checkAndScheduleOverdueNotification,
       }}
     >
       {children}

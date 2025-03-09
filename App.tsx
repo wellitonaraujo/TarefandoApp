@@ -1,4 +1,5 @@
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import BackgroundFetch from "react-native-background-fetch";
 import PushNotification from "react-native-push-notification";
 import AppNavigator from './src/navigation/AppNavigator';
 import  { TaskProvider } from "./src/context/TaskContext"
@@ -70,6 +71,7 @@ function App(): React.JSX.Element {
 
     requestNotificationPermission()
   }, []);
+  
   
   return (
      <TaskProvider>

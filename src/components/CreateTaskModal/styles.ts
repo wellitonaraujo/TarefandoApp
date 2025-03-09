@@ -24,7 +24,7 @@ export const StyledTextInput = styled(TextInput)`
   font-size: 15px;
   font-weight: 400;
   padding: 0;
-  color: ${colors.gray_200};
+  color: ${colors.gray_100};
 `;
 
 export const Underline = styled.View`
@@ -39,9 +39,9 @@ export const DateWrapper = styled(TouchableOpacity)`
 `;
 
 export const DateText = styled.Text`
-  font-size: 13px;
-  font-weight: 600;
-  color: ${colors.gray_200};
+  font-size: 14px;
+  font-weight: 500;
+  color: ${colors.gray_100};
 `;
 
 export const SendButton = styled(TouchableOpacity)`
@@ -62,8 +62,10 @@ export const SendIcon = styled.Image`
 `;
 
 export const DateIcon = styled.Image`
-  width: 13px;
-  height: 13px;
+  width: 14px;
+  height: 14px;
+  margin-right: 3px;
+
 `;
 
 export const SubtaskWrapper = styled.View`
@@ -94,12 +96,11 @@ export const RemoveIcon = styled.Image`
 
 export const AddSubtaskButton = styled.TouchableOpacity`
   margin-left: 15px;
-  padding: 3px;
 `;
 
 export const AddSubtaskIcon = styled.Image`
-  width: 12px;
-  height: 12px;
+  width: 15px;
+  height: 15px;
 `;
 
 export const ActionsContainer = styled.View`

@@ -3,6 +3,7 @@ import { Swipeable } from 'react-native-gesture-handler';
 import * as S from './styles';
 import { Image, View } from 'react-native';
 import { useTaskItem } from './hook/useTaskItem';
+import colors from '@/src/themes/colors';
 
 interface Subtask {
   id: string;
@@ -46,8 +47,8 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete, completed =
             {task.subtasks && task.subtasks.length > 0 ? (
               <Image
                 source={require('../../assets/icons/subtask.png')}
-                style={{ width: 10, height: 10 }}
-                tintColor={'#888888'}
+                style={{ width: 12, height: 12 }}
+                tintColor={colors.gray_200}
                 resizeMode="contain"
               />
             ) : null}

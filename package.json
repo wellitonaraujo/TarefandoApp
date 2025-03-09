@@ -20,6 +20,7 @@
     "react": "18.2.0",
     "react-native": "0.73.6",
     "react-native-animatable": "^1.4.0",
+    "react-native-background-fetch": "^4.2.7",
     "react-native-gesture-handler": "2.16.0",
     "react-native-picker-select": "^9.1.3",
     "react-native-push-notification": "^8.1.1",

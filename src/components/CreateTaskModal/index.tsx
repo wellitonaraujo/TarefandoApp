@@ -115,8 +115,8 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             <S.ModalContainer>
               <S.InputWrapper>
                 <S.StyledTextInput
-                  placeholder="Nome da tarefa"
-                  placeholderTextColor={colors.gray_300}
+                  placeholder="O que planeja fazer?"
+                  placeholderTextColor={colors.gray_200}
                   value={inputValue}
                   onChangeText={setInputValue}
                   maxLength={80}
@@ -145,23 +145,22 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
               <S.SendButton onPress={saveTask} 
                 disabled={!inputValue.trim()} 
                 style={{ opacity: inputValue.trim() ? 1 : 0.5 }}>
-                <S.SendIcon tintColor={'#fff'} source={require('../../assets/icons/send.png')} />
+                <S.SendIcon tintColor={colors.white} source={require('../../assets/icons/send.png')} />
               </S.SendButton>
 
               <S.ActionsContainer>
                 <S.DateWrapper onPress={() => setShowDatePicker(true)}>
                   <S.DateIcon
                     resizeMode="contain" 
-                    source={require('../../assets/icons/date.png')}
-                    style={{ marginRight: 8 }}
-                    tintColor={colors.gray_200}
+                    source={require('../../assets/icons/calendar-outline.png')}
+                    tintColor={colors.gray_100}
                   />
                   <S.DateText>{getDateLabel()}</S.DateText>
                 </S.DateWrapper>
 
                 <S.AddSubtaskButton onPress={addSubtask}>
                   <S.AddSubtaskIcon 
-                    tintColor={'#A1A1C1'}
+                    tintColor={colors.gray_100}
                     source={require('../../assets/icons/subtask.png')} 
                     resizeMode="contain"/>
                 </S.AddSubtaskButton>

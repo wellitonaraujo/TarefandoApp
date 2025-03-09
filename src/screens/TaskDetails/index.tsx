@@ -288,7 +288,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
 
         {loadingTasks ? (
           <View>
-            <ActivityIndicator size="large" color="#7A12FF" />
+            <ActivityIndicator size="large" color={colors.primary} />
           </View>
         ) : (
           <S.OptionsContainer>
@@ -309,7 +309,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
                   </S.SubtaskText>
                 </S.SubtaskLeft>
                 <S.DeleteButton onPress={() => handleDeleteSubtask(id, subtask.id)}>
-                  <S.DeleteIcon tintColor={'#777E99'} source={require('../../assets/icons/close.png')} />
+                  <S.DeleteIcon tintColor={colors.gray_300} source={require('../../assets/icons/close.png')} />
                 </S.DeleteButton>
               </S.SubtaskContainer>
             ))}
@@ -337,7 +337,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
 
         <S.OptionsContainer>
           <S.OptionRow>
-            <S.Icon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/shape.png')} />
+            <S.Icon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/calendar-outline.png')} />
             <S.OptionText>Prazo</S.OptionText>
             <S.OptionValue onPress={() => setShowDatePicker(true)}>
             {getDateLabel()}
