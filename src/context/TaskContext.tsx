@@ -16,6 +16,7 @@ export type Task = {
   name: string;
   completed: boolean;
   date: string;
+  repetition: 'daily' | 'weekly' | 'monthly' | 'none';
   subtasks?: Subtask[];
 };
 
@@ -138,11 +139,11 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
             BackgroundFetch.finish(taskId);
           },
           error => {
-            console.error('[BackgroundFetch] Erro:', error);
+            console.log('[BackgroundFetch] Erro:', error);
           }
         );
       } catch (err) {
-        console.error('[BackgroundFetch] Falha na configuração:', err);
+        console.log('[BackgroundFetch] Falha na configuração:', err);
       }
     };
   
@@ -268,10 +269,12 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setEditingTask(null);
   };
 
-  const convertToComparableDate = (date: string): string => {
+  const convertToComparableDate = (date: string): number => {
     const [day, month, year] = date.split('/');
-    return `${year}-${month}-${day}`; 
+    const dateObj = new Date(`${year}-${month}-${day}`);
+    return dateObj.getTime(); // Retorna o timestamp numérico
 };
+
 
 const formatDate = (date: Date): string => {
   const day = String(date.getDate()).padStart(2, '0');
@@ -280,35 +283,34 @@ const formatDate = (date: Date): string => {
   return `${day}/${month}/${year}`;
 };
 
-  const filteredTasks = () => {
-    const currentDate = formatDate(new Date());
-    const currentDateComparable = convertToComparableDate(currentDate);
+const filteredTasks = () => {
+  const currentDate = formatDate(new Date());
+  const currentDateComparable = convertToComparableDate(currentDate);
 
-    switch (selectedTab) {
-        case 0:
-            return tasks.filter(task => convertToComparableDate(task.date) === currentDateComparable && !task.completed);
-        case 1:
-            return tasks
-                .filter(task => convertToComparableDate(task.date) > currentDateComparable && !task.completed)
-                .sort((a, b) => {
-                    return convertToComparableDate(a.date) < convertToComparableDate(b.date) ? -1 : 1;
-                });
-        case 2:
-            return tasks
-                .filter(task => convertToComparableDate(task.date) < currentDateComparable && !task.completed)
-                .sort((a, b) => { 
-                    return convertToComparableDate(a.date) > convertToComparableDate(b.date) ? -1 : 1;
-                });
-        case 3:
-            return tasks
-                .filter(task => task.completed)
-                .sort((a, b) => {
-                    return convertToComparableDate(a.date) < convertToComparableDate(b.date) ? -1 : 1;
-                });
-        default:
-            return tasks;
-    }
+  switch (selectedTab) {
+      case 0:
+          // Excluir tarefas repetidas que ainda não foram criadas (tarefas repetidas no futuro)
+          return tasks.filter(task => 
+              (convertToComparableDate(task.date) === currentDateComparable || task.repetition === 'daily') && 
+              !task.completed
+          );
+      case 1:
+          return tasks
+              .filter(task => convertToComparableDate(task.date) > currentDateComparable && !task.completed)
+              .sort((a, b) => convertToComparableDate(a.date) < convertToComparableDate(b.date) ? -1 : 1);
+      case 2:
+          return tasks
+              .filter(task => convertToComparableDate(task.date) < currentDateComparable && !task.completed && task.repetition === 'daily')
+              .sort((a, b) => convertToComparableDate(a.date) > convertToComparableDate(b.date) ? -1 : 1);
+      case 3:
+          return tasks
+              .filter(task => task.completed)
+              .sort((a, b) => convertToComparableDate(a.date) < convertToComparableDate(b.date) ? -1 : 1);
+      default:
+          return tasks;
+  }
 };
+
 
   return (
     <TaskContext.Provider

@@ -41,6 +41,7 @@ export const AddSubTaskButton = styled.TouchableOpacity`
   border-radius: 50px;
   align-items: center;
   justify-content: center;
+  margin-bottom: 24px;
 `;
 
 export const AddSubtaskText = styled.Text`

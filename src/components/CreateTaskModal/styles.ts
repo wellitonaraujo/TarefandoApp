@@ -38,10 +38,10 @@ export const DateWrapper = styled(TouchableOpacity)`
   align-items: center;
 `;
 
-export const DateText = styled.Text`
+export const DateText = styled.Text<{ selected: boolean }>`
   font-size: 13px;
   font-weight: 400;
-  color: ${colors.gray_200};
+  color: ${(props: any) => (props.selected ? colors.primary :  colors.gray_200)};
 `;
 
 export const SendButton = styled(TouchableOpacity)`

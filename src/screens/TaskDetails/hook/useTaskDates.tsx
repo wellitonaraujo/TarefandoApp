@@ -1,4 +1,5 @@
 import { useTaskManager } from "@/src/context/TaskContext";
+import { useCallback } from "react";
 
 export const useTaskDates = () => {
   const { tasks, saveTasks } = useTaskManager();
@@ -11,10 +12,11 @@ export const useTaskDates = () => {
   };  
     
   
-  const getTaskDate = (taskId: string): string => {
+  const getTaskDate = useCallback((taskId: string) => {
     const task = tasks.find(t => t.id === taskId);
-    return task?.date || formatDate(new Date());
-  };
+    return task?.date || '';
+  }, [tasks]); // Depende apenas de `tasks`
+  
 
   const updateTaskDate = (taskId: string, newDate: string) => {
     const taskIndex = tasks.findIndex(t => t.id === taskId);
