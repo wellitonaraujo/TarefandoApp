@@ -67,15 +67,22 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
       prev.map((subtask, i) => (i === index ? value : subtask))
     );
   };
-
   const removeSubtask = (index: number) => {
+    if (subtasksRefs.current[index + 1]) {
+      subtasksRefs.current[index + 1]?.focus();
+    } else if (subtasksRefs.current[index - 1]) {
+      subtasksRefs.current[index - 1]?.focus();
+    } else {
+      inputRef.current?.focus();
+    }
+  
     setSubtasks((prev) => {
       const updatedSubtasks = prev.filter((_, i) => i !== index);
       subtasksRefs.current = subtasksRefs.current.filter((_, i) => i !== index);
       return updatedSubtasks;
     });
   };
-
+  
   const handleDateChange = (event: any, selectedDate?: Date) => {
     setShowDatePicker(false);
     if (selectedDate) {
@@ -109,9 +116,9 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
       visible={visible}
       onRequestClose={onClose}
     >
-      <TouchableWithoutFeedback onPress={onClose}>
+      <TouchableWithoutFeedback onPress={onClose} accessible={false}>
         <S.Overlay>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback  onPress={() => {}} accessible={false}>
             <S.ModalContainer>
               <S.InputWrapper>
                 <S.StyledTextInput

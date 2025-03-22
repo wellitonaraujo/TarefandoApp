@@ -26,7 +26,7 @@ export const SubtaskContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 18px;
 `;
 
 export const SubtaskLeft = styled.View`
@@ -64,13 +64,13 @@ export const SubtaskText = styled.Text`
 
 export const DeleteButton = styled.TouchableOpacity`
   flex-shrink: 0; 
-  padding: 4px;
+  padding: 5px;
 `;
 
 
 export const DeleteIcon = styled.Image`
-  width: 9px;
-  height: 9px;
+  width: 11px;
+  height: 11px;
 `;
 
 export const OptionsContainer = styled.View`

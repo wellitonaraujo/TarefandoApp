@@ -84,7 +84,8 @@ export const SubtaskInput = styled.TextInput`
 export const RemoveIconWrapper = styled.Pressable`
   justify-content: center;
   align-items: center;
-  padding: 4px;
+  padding: 5px;
+  background-color: red;
 `;
 
 export const RemoveIcon = styled.Image`
