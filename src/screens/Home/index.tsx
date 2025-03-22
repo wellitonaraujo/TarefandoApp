@@ -5,7 +5,7 @@ import AddButton from "@/src/components/AddButton";
 import { ActivityIndicator } from "react-native";
 import TaskList from "@/src/components/TaskList";
 import Header from "@/src/components/Header";
-import React, { useEffect } from "react";
+import React from "react";
 import * as S from "./styles";
 import colors from "@/src/themes/colors";
 
@@ -25,8 +25,6 @@ const Home: React.FC = () => {
     setSelectedTab,
     filteredTasks,
   } = useTaskManager();
-
-  const isEmptyStateVisible = selectedTab === 0 && filteredTasks().length === 0;
 
   return (
     <S.Container>

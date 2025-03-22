@@ -19,7 +19,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({ tabIndex }) => {
         ) : (
          <View>
           <S.EmptyTitle>Nada por aqui</S.EmptyTitle>
-          <S.EmptyDescription>Relaxe um pouco ou crie uma nova :) </S.EmptyDescription>
+          <S.EmptyDescription>Relaxe um pouco ou crie uma nova tarefa :) </S.EmptyDescription>
          </View>
         )}
       </S.EmptyTitle>
