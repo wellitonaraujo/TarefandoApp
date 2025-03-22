@@ -75,11 +75,8 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [updateKey]);
   
   const NOTIFICATION_SCHEDULED_KEY = "notificationScheduled";
-  const OVERDUE_NOTIFICATION_KEY = "overdueNotificationScheduled";
   
   const checkAndScheduleNotification = async (tasks: Task[]) => {
-    console.log("Verificando necessidade de agendar notificação para tarefas do dia...");
-  
     const currentDate = formatDate(new Date());
     const currentDateComparable = convertToComparableDate(currentDate);
   
@@ -99,18 +96,17 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return;
     }
   
-    const notifyTimes = [5, 10, 15];
+    const notifyTimes = [5];
   
     notifyTimes.forEach((minutes, index) => {
       const notifyDate = new Date();
-      notifyDate.setMinutes(notifyDate.getMinutes() + minutes);
+      notifyDate.setHours(notifyDate.getUTCHours() + minutes);
       notifyDate.setSeconds(0);
-  
-      console.log(`Notificação ${index + 1} agendada para tarefas do dia:`, notifyDate);
+
       PushNotification.localNotificationSchedule({
         channelId: "task-reminders",
-        title: "📅 Tarefa do Dia!",
-        message: `Você tem ${tasksForToday.length} tarefa(s) para hoje!`,
+        title: "Tarefa do Dia!",
+        message: `Verifique suas tarefas de hoje`,
         date: notifyDate,
         playSound: true,
         soundName: "default",
@@ -119,44 +115,6 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   
     await AsyncStorage.setItem(NOTIFICATION_SCHEDULED_KEY, currentDate);
-  };
-  
-  const checkAndScheduleOverdueNotification = async (tasks: Task[]) => {
-    console.log("Verificando necessidade de agendar notificação para tarefas atrasadas...");
-  
-    const currentDate = formatDate(new Date());
-    const currentDateComparable = convertToComparableDate(currentDate);
-  
-    const overdueTasks = tasks.filter(
-      (task) => convertToComparableDate(task.date) < currentDateComparable && !task.completed
-    );
-  
-    if (overdueTasks.length === 0) {
-      console.log("Nenhuma tarefa atrasada. Cancelando notificações de atraso...");
-      await AsyncStorage.removeItem(OVERDUE_NOTIFICATION_KEY);
-      return;
-    }
-  
-    const notifyTimes = [5, 10, 15];
-  
-    notifyTimes.forEach((minutes, index) => {
-      const notifyDate = new Date();
-      notifyDate.setMinutes(notifyDate.getMinutes() + minutes);
-      notifyDate.setSeconds(0);
-  
-      console.log(`Notificação ${index + 1} agendada para tarefas atrasadas:`, notifyDate);
-      PushNotification.localNotificationSchedule({
-        channelId: "task-overdue-reminders",
-        title: "⏳ Tarefas Atrasadas!",
-        message: `Você tem ${overdueTasks.length} tarefa(s) atrasada(s)! Não se esqueça de concluí-las.`,
-        date: notifyDate,
-        playSound: true,
-        soundName: "default",
-        vibrate: true,
-      });
-    });
-  
-    await AsyncStorage.setItem(OVERDUE_NOTIFICATION_KEY, currentDate);
   };
   
   useEffect(() => {
@@ -175,7 +133,6 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
             const savedTasks = await AsyncStorage.getItem(TASKS_KEY);
             const tasks = savedTasks ? JSON.parse(savedTasks) : [];
             
-            await checkAndScheduleOverdueNotification(tasks);
             await checkAndScheduleNotification(tasks);
             
             BackgroundFetch.finish(taskId);
@@ -195,7 +152,6 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
   }, []);
   
-  
   const saveTasks = async (updatedTasks: Task[]) => {
     try {
       console.log("Tarefas a serem salvas:", JSON.stringify(updatedTasks, null, 2));
@@ -213,8 +169,6 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
         await AsyncStorage.removeItem(NOTIFICATION_SCHEDULED_KEY);
       }
   
-      await checkAndScheduleNotification(updatedTasks);
-      await checkAndScheduleOverdueNotification(updatedTasks);
     } catch (error) {
       console.error("Erro ao salvar as tarefas", error);
     }
@@ -378,7 +332,6 @@ const formatDate = (date: Date): string => {
         setUpdateKey,
         saveTasks,
         checkAndScheduleNotification,
-        checkAndScheduleOverdueNotification,
       }}
     >
       {children}

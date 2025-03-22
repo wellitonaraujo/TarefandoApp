@@ -53,7 +53,7 @@ export const DragIcon = styled.Image`
 `;
 
 export const TaskDate = styled.Text`
-  color: #888888;
+  color: ${colors.gray_200};
   font-size: ${moderateScale(10)}px;
   margin-right: 5px;
 `;

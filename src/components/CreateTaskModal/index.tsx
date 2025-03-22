@@ -153,14 +153,14 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                   <S.DateIcon
                     resizeMode="contain" 
                     source={require('../../assets/icons/calendar-outline.png')}
-                    tintColor={colors.gray_100}
+                    tintColor={colors.gray_200}
                   />
                   <S.DateText>{getDateLabel()}</S.DateText>
                 </S.DateWrapper>
 
                 <S.AddSubtaskButton onPress={addSubtask}>
                   <S.AddSubtaskIcon 
-                    tintColor={colors.gray_100}
+                    tintColor={colors.gray_200}
                     source={require('../../assets/icons/subtask.png')} 
                     resizeMode="contain"/>
                 </S.AddSubtaskButton>

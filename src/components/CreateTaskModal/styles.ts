@@ -39,9 +39,9 @@ export const DateWrapper = styled(TouchableOpacity)`
 `;
 
 export const DateText = styled.Text`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${colors.gray_100};
+  font-size: 13px;
+  font-weight: 400;
+  color: ${colors.gray_200};
 `;
 
 export const SendButton = styled(TouchableOpacity)`
@@ -78,7 +78,7 @@ export const SubtaskInput = styled.TextInput`
   flex: 1;
   font-size: 14px;
   color: ${colors.gray_200};
-  padding: 0;
+  padding: 4px 0;
 `;
 
 export const RemoveIconWrapper = styled.Pressable`
@@ -113,7 +113,6 @@ export const ActionsContainer = styled.View`
 export const SubtasksContainer = styled.View`
   max-height: 120px;
   width: 100%;
-  margin: 10px 0;
 `;
 
 export const SubtasksScrollView = styled.ScrollView.attrs({
