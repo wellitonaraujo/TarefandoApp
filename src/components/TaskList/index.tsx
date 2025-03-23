@@ -26,6 +26,7 @@ interface TaskListProps {
   onEditTask: (id: string) => void;
   onCompleteTask: (id: string) => void;
   onDeleteTask: (id: string) => void;
+  updateKey: number;
 }
 
 const TaskList: React.FC<TaskListProps> = ({

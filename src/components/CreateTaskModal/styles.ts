@@ -9,10 +9,10 @@ export const Overlay = styled.View`
 `;
 
 export const ModalContainer = styled.View`
-  background-color: ${colors.backgound};
+  background-color: ${colors.cardTask};
   padding: 16px;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
   align-items: flex-start;
 `;
 
@@ -25,9 +25,9 @@ export const StyledTextInput = styled(TextInput)`
   font-weight: 400;
   padding: 0;
   color: ${colors.gray_100};
-  background-color: ${colors.cardTask};
+  background-color: ${colors.input};
   padding: 16px;
-  border-radius: 8px;
+  border-radius: 10px;
 `;
 
 export const Underline = styled.View`
@@ -44,7 +44,7 @@ export const DateWrapper = styled(TouchableOpacity)`
 export const DateText = styled.Text<{ selected: boolean }>`
   font-size: 15px;
   font-weight: 400;
-  color: ${(props: any) => (props.selected ? colors.primary :  colors.gray_200)};
+  color: ${(props: any) => (props.selected ? colors.primary :  colors.gray_100)};
 `;
 
 export const SendButton = styled(TouchableOpacity)`
@@ -74,7 +74,7 @@ export const DateIcon = styled.Image`
 export const SubtaskWrapper = styled.View`
   flex-direction: row;
   align-items: center;
-  background-color: ${colors.backgound};
+  background-color: ${colors.cardTask};
 `;
 
 export const SubtaskInput = styled.TextInput`
@@ -104,6 +104,7 @@ export const AddSubtaskButton = styled.TouchableOpacity`
 export const AddSubtaskIcon = styled.Image`
   width: 16px;
   height: 16px;
+  padding: 9px;
 `;
 
 export const ActionsContainer = styled.View`

@@ -52,54 +52,25 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     return task?.repetition || 'none';
   });
 
-  const handleAddSubtask = async () => {
+  const handleAddSubtask = useCallback(async () => {
     if (!newSubtask.trim()) return;
-  
     const taskIndex = tasks.findIndex(t => t.id === id);
     if (taskIndex < 0) return;
-  
     const updatedTasks = [...tasks];
     updatedTasks[taskIndex] = {
-      ...updatedTasks[taskIndex],
-      subtasks: [
-        ...(updatedTasks[taskIndex].subtasks || []),
-        {
-          id: Date.now().toString(),
-          name: newSubtask.trim(),
-          completed: false
-        }
-      ],
-      repetition // Adiciona o campo de repetição
-    };
-  
-    await saveTasks(updatedTasks);
-    setNewSubtask('');
-    setTimeout(() => inputRef.current?.focus(), 10);
-  };
-
-  const createRecurringTask = async (task: Task) => {
-    if (task.repetition !== 'none') {
-        let nextDate = calculateNextDate(task.date, task.repetition);
-
-        while (parseDate(nextDate) < new Date()) {
-            nextDate = calculateNextDate(nextDate, task.repetition);
-        }
-
-        const newTask: Task = {
-            ...task,
-            id: Date.now().toString(),
-            date: nextDate,
-            completed: false,
-            subtasks: task.subtasks?.map(subtask => ({
-                ...subtask,
+        ...updatedTasks[taskIndex],
+        subtasks: [
+            ...(updatedTasks[taskIndex].subtasks || []),
+            {
+                id: Date.now().toString(),
+                name: newSubtask.trim(),
                 completed: false
-            }))
-        };
+            }
+        ],
+    };
+    await saveTasks(updatedTasks);
+}, [id, newSubtask]);
 
-        // Aqui você deve atualizar o estado de tarefas, adicionando a nova tarefa
-        await saveTasks([...tasks, newTask]);
-    }
-  };
 
   const calculateNextDate = (currentDate: string, repetition: string): string => {
     const date = parseDate(currentDate);
@@ -119,25 +90,10 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
   
     return formatDate(nextDate);
   };
-  
-  useEffect(() => {
-    const task = tasks.find(t => t.id === id);
-    if (task?.completed && task?.repetition !== 'none') {
-      createRecurringTask(task);
-    }
-  }, [tasks]);
 
   const getDateLabel = () => {
     return localDate;
   };
-
-  const ensureCorrectDate = useCallback(() => {
-    const labelDate = getDateLabel();
-    const parsedDate = parseDate(labelDate);
-    if (!newDate || parsedDate.getTime() !== newDate.getTime()) {
-      setNewDate(parsedDate);
-    }
-  }, [newDate, getDateLabel]);
   
   const handleRepetitionChange = async (newRepetition: 'daily' | 'weekly' | 'monthly' | 'none') => {
     const taskIndex = tasks.findIndex(t => t.id === id);
@@ -166,19 +122,11 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     setRepetition(newRepetition);
   };
 
-  useEffect(() => {
-    ensureCorrectDate();
-  }, [ensureCorrectDate, newDate]);
 
   useEffect(() => {
     setLocalDate(getTaskDate(id));
   }, [id, getTaskDate]);
-
-  useEffect(() => {
-    if (task?.repetition) {
-      setRepetition(task.repetition);
-    }
-  }, [task]);
+  
 
   const handleShowInput = () => {
     setShowInput(true);
@@ -440,11 +388,13 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
             {repetition === 'none' ? 'Não' : repetition === 'daily' ? 'Diariamente' : repetition === 'weekly' ? 'Semanalmente' : repetition === 'monthly' ? 'Mensalmente' : ''}</S.OptionValue>
           </S.OptionRow>
           <S.Separator />
-          {/* <S.OptionRow>
+          <S.OptionRow>
             <S.Icon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/notification-fill.png')} />
             <S.OptionText>Lembrar</S.OptionText>
-            <S.OptionValue>Não</S.OptionValue>
-          </S.OptionRow> */}
+            <S.OptionValue onPress={() => {
+                Alert.alert('Em desenvolvimento')
+              }}>Não</S.OptionValue>
+          </S.OptionRow>
         </S.OptionsContainer>
 
         <S.ActionsContainer>
