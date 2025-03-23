@@ -21,10 +21,13 @@ export const InputWrapper = styled.View`
 `;
 
 export const StyledTextInput = styled(TextInput)`
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
   padding: 0;
   color: ${colors.gray_100};
+  background-color: ${colors.cardTask};
+  padding: 16px;
+  border-radius: 8px;
 `;
 
 export const Underline = styled.View`
@@ -39,7 +42,7 @@ export const DateWrapper = styled(TouchableOpacity)`
 `;
 
 export const DateText = styled.Text<{ selected: boolean }>`
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 400;
   color: ${(props: any) => (props.selected ? colors.primary :  colors.gray_200)};
 `;
@@ -62,9 +65,9 @@ export const SendIcon = styled.Image`
 `;
 
 export const DateIcon = styled.Image`
-  width: 14px;
-  height: 14px;
-  margin-right: 3px;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
 
 `;
 
@@ -76,16 +79,15 @@ export const SubtaskWrapper = styled.View`
 
 export const SubtaskInput = styled.TextInput`
   flex: 1;
-  font-size: 14px;
-  color: ${colors.gray_200};
-  padding: 4px 0;
+  font-size: 15px;
+  color: ${colors.gray_100};
+  padding: 8px 0;
 `;
 
 export const RemoveIconWrapper = styled.Pressable`
   justify-content: center;
   align-items: center;
   padding: 5px;
-  background-color: red;
 `;
 
 export const RemoveIcon = styled.Image`
@@ -100,8 +102,8 @@ export const AddSubtaskButton = styled.TouchableOpacity`
 `;
 
 export const AddSubtaskIcon = styled.Image`
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
 `;
 
 export const ActionsContainer = styled.View`

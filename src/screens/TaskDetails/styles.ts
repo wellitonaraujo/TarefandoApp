@@ -34,23 +34,9 @@ export const SubtaskLeft = styled.View`
   align-items: center;
 `;
 
-export const AddSubTaskButton = styled.TouchableOpacity`
-  background-color: ${colors.primary};
-  width: 160px;
-  height: 41px;
-  border-radius: 50px;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 24px;
-`;
-
 export const AddSubtaskText = styled.Text`
-  color:  ${colors.white};
-  align-items: center;
-  align-self: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 12px;
+  color:  ${colors.primary};
+  font-size: 15px;
 `;
 
 
