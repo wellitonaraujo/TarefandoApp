@@ -45,7 +45,7 @@ export const SubtaskText = styled.Text`
   font-size: 16px;
   margin-left: 10px;
   flex-wrap: wrap;
-  max-width: 85%; 
+  max-width: 86%; 
 `;
 
 export const DeleteButton = styled.TouchableOpacity`
@@ -84,7 +84,7 @@ export const OptionValue = styled.Text`
 export const Separator = styled.View`
   height: 1px;
   background-color: ${colors.cardTask};
-  margin-vertical: 10px;
+  margin-vertical: 16px;
 `;
 
 export const ActionsContainer = styled.View`
@@ -122,7 +122,7 @@ export const ActionText = styled.Text`
 export const AddSubtaskInput = styled.TextInput`
   margin-right: 8px;
   margin-bottom: 10px;
-  color:  ${colors.gray_500};
+  color:  ${colors.gray_100};
   font-size: 16px;
 `;
 
