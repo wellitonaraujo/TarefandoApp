@@ -401,9 +401,9 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
         )}
 
         {!showInput && (
-          <S.AddSubTaskButton onPress={handleShowInput}>
-            <S.AddSubtaskText>Adicionar subtarefa</S.AddSubtaskText>
-          </S.AddSubTaskButton>
+          <>
+            <S.AddSubtaskText  onPress={handleShowInput}>+ Adicionar Subtarefa</S.AddSubtaskText>
+          </>
         )}
 
         <S.OptionsContainer>
