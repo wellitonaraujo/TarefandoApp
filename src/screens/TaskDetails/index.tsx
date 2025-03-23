@@ -243,6 +243,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     }
   };
 
+
   return (
     <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
       <S.Container showsVerticalScrollIndicator={false}>
