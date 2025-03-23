@@ -48,10 +48,38 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     return new Date();
   });
 
-  const [repetition, setRepetition] = useState<'daily' | 'weekly' | 'monthly' | 'none'>(() => {
-    return task?.repetition || 'none';
-  });
+  const parseDate = (dateString: string): Date => {
+    const [day, month, year] = dateString.split('/').map(Number);
+    const date = new Date(year, month - 1, day);
+    return isNaN(date.getTime()) ? new Date() : date;
+  };
 
+  const getDateLabel = () => {
+    return localDate;
+  };
+  
+  const ensureCorrectDate = useCallback(() => {
+    const labelDate = getDateLabel();
+    const parsedDate = parseDate(labelDate);
+    if (!newDate || parsedDate.getTime() !== newDate.getTime()) {
+      setNewDate(parsedDate);
+    }
+  }, [newDate, getDateLabel]);
+  
+  useEffect(() => {
+    ensureCorrectDate();
+  }, [ensureCorrectDate, newDate]);
+
+
+  const handleDateChange = (event: any, selectedDate?: Date) => {
+    setShowDatePicker(false);
+    if (selectedDate) {
+      const formattedDate = formatDate(selectedDate);
+      setLocalDate(formattedDate);
+      updateTaskDate(id, formattedDate);
+    }
+  };
+  
   const handleAddSubtask = useCallback(async () => {
     if (!newSubtask.trim()) return;
     const taskIndex = tasks.findIndex(t => t.id === id);
@@ -68,66 +96,14 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
             }
         ],
     };
+    setNewSubtask('');
     await saveTasks(updatedTasks);
 }, [id, newSubtask]);
-
-
-  const calculateNextDate = (currentDate: string, repetition: string): string => {
-    const date = parseDate(currentDate);
-    const nextDate = new Date(date);
-  
-    switch (repetition) {
-      case 'daily':
-        nextDate.setDate(nextDate.getDate() + 1);
-        break;
-      case 'weekly':
-        nextDate.setDate(nextDate.getDate() + 7);
-        break;
-      case 'monthly':
-        nextDate.setMonth(nextDate.getMonth() + 1);
-        break;
-    }
-  
-    return formatDate(nextDate);
-  };
-
-  const getDateLabel = () => {
-    return localDate;
-  };
-  
-  const handleRepetitionChange = async (newRepetition: 'daily' | 'weekly' | 'monthly' | 'none') => {
-    const taskIndex = tasks.findIndex(t => t.id === id);
-    if (taskIndex < 0) return;
-
-    const updatedTasks = [...tasks];
-    updatedTasks[taskIndex] = {
-        ...updatedTasks[taskIndex],
-        repetition: newRepetition,
-    };
-
-    if (newRepetition !== 'none') {
-        let nextDate = calculateNextDate(updatedTasks[taskIndex].date, newRepetition);
-
-        while (parseDate(nextDate) < new Date()) {
-            nextDate = calculateNextDate(nextDate, newRepetition);
-        }
-
-        updatedTasks[taskIndex] = {
-            ...updatedTasks[taskIndex],
-            date: nextDate,
-        };
-    }
-
-    await saveTasks(updatedTasks);
-    setRepetition(newRepetition);
-  };
-
 
   useEffect(() => {
     setLocalDate(getTaskDate(id));
   }, [id, getTaskDate]);
   
-
   const handleShowInput = () => {
     setShowInput(true);
     setTimeout(() => inputRef.current?.focus(), 10);
@@ -238,21 +214,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     );
   };
 
-  const parseDate = (dateString: string): Date => {
-    const [day, month, year] = dateString.split('/').map(Number);
-    const date = new Date(year, month - 1, day);
-    return isNaN(date.getTime()) ? new Date() : date;
-  };
-  
-  const handleDateChange = (event: any, selectedDate?: Date) => {
-    setShowDatePicker(false);
-    if (selectedDate) {
-      const formattedDate = formatDate(selectedDate);
-      setLocalDate(formattedDate);
-      updateTaskDate(id, formattedDate);
-    }
-  };
-
   const formatDate = (date: Date): string => {
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -281,6 +242,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
       console.error('Erro ao compartilhar:', error);
     }
   };
+
 
   return (
     <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
@@ -359,8 +321,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
             <S.Icon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/calendar-outline.png')} />
             <S.OptionText>Prazo</S.OptionText>
             <S.OptionValue 
-            onPress={() => {setShowDatePicker(true)}} 
-            style={{ color: repetition ? colors.gray_400 : colors.primary }}>
+            onPress={() => {setShowDatePicker(true)}}>
             {getDateLabel()}
           </S.OptionValue>
           </S.OptionRow>
@@ -372,28 +333,14 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
               onPress={() => {
                 Alert.alert('Em desenvolvimento')
               }}
-            // onPress={() => {
-            //   Alert.alert(
-            //     'Repetir Tarefa',
-            //     'Escolha a frequência de repetição',
-            //     [
-            //       { text: 'Não', onPress: () => handleRepetitionChange('none') },
-            //       { text: 'Diariamente', onPress: () => handleRepetitionChange('daily') },
-            //       { text: 'Semanalmente', onPress: () => handleRepetitionChange('weekly') },
-            //       { text: 'Mensalmente', onPress: () => handleRepetitionChange('monthly') },
-            //     ]
-            //   );
-            // }}
             > 
-            {repetition === 'none' ? 'Não' : repetition === 'daily' ? 'Diariamente' : repetition === 'weekly' ? 'Semanalmente' : repetition === 'monthly' ? 'Mensalmente' : ''}</S.OptionValue>
+            {'Não'}</S.OptionValue>
           </S.OptionRow>
           <S.Separator />
           <S.OptionRow>
             <S.Icon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/notification-fill.png')} />
             <S.OptionText>Lembrar</S.OptionText>
-            <S.OptionValue onPress={() => {
-                Alert.alert('Em desenvolvimento')
-              }}>Não</S.OptionValue>
+            <S.OptionValue>Não</S.OptionValue>
           </S.OptionRow>
         </S.OptionsContainer>
 
@@ -412,13 +359,13 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
         </S.ActionButton>
         </S.ActionsContainer>
         {showDatePicker && (
-        <DateTimePicker
-          value={newDate ?? new Date()}
-          mode="date"
-          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-          onChange={handleDateChange}
-          minimumDate={new Date()}
-        />
+          <DateTimePicker
+            value={newDate ?? new Date()}
+            mode="date"
+            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            onChange={handleDateChange}
+            minimumDate={new Date()}
+          />
         )}
       </S.Container>
     </TouchableWithoutFeedback>
