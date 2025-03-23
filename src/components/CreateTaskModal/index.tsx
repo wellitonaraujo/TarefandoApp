@@ -123,7 +123,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
               <S.InputWrapper>
                 <S.StyledTextInput
                   placeholder="O que planeja fazer?"
-                  placeholderTextColor={colors.gray_200}
+                  placeholderTextColor={colors.gray_100}
                   value={inputValue}
                   onChangeText={setInputValue}
                   maxLength={80}
@@ -151,7 +151,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
 
               <S.SendButton onPress={saveTask} 
                 disabled={!inputValue.trim()} 
-                style={{ opacity: inputValue.trim() ? 1 : 0.5 }}>
+                style={{ opacity: inputValue.trim() ? 1 : 0.3 }}>
                 <S.SendIcon tintColor={colors.white} source={require('../../assets/icons/send.png')} />
               </S.SendButton>
 
@@ -160,14 +160,14 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                   <S.DateIcon
                     resizeMode="contain" 
                     source={require('../../assets/icons/calendar-outline.png')}
-                    tintColor={colors.gray_200}
+                    tintColor={colors.gray_100}
                   />
                   <S.DateText>{getDateLabel()}</S.DateText>
                 </S.DateWrapper>
 
                 <S.AddSubtaskButton onPress={addSubtask}>
                   <S.AddSubtaskIcon 
-                    tintColor={colors.gray_200}
+                    tintColor={colors.gray_100}
                     source={require('../../assets/icons/subtask.png')} 
                     resizeMode="contain"/>
                 </S.AddSubtaskButton>

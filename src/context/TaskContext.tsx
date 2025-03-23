@@ -39,8 +39,6 @@ type TaskContextData = {
   updateKey: number;
   setUpdateKey: React.Dispatch<React.SetStateAction<number>>;
   saveTasks: (updatedTasks: Task[]) => void;
-  checkAndScheduleNotification: (tasks: any[]) => void;
-  checkAndScheduleOverdueNotification: (tasks: any[]) => void;
 };
 
 export const TaskContext = createContext<TaskContextData | undefined>(undefined);
@@ -117,41 +115,6 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   
     await AsyncStorage.setItem(NOTIFICATION_SCHEDULED_KEY, currentDate);
   };
-  
-  useEffect(() => {
-    const configureBackgroundFetch = async () => {
-      try {
-        await BackgroundFetch.configure(
-          {
-            minimumFetchInterval: 15,
-            stopOnTerminate: false,
-            enableHeadless: true,
-            startOnBoot: true
-          },
-          async taskId => {
-            console.log('[BackgroundFetch] Verificando tarefas atrasadas...');
-            
-            const savedTasks = await AsyncStorage.getItem(TASKS_KEY);
-            const tasks = savedTasks ? JSON.parse(savedTasks) : [];
-            
-            await checkAndScheduleNotification(tasks);
-            
-            BackgroundFetch.finish(taskId);
-          },
-          error => {
-            console.log('[BackgroundFetch] Erro:', error);
-          }
-        );
-      } catch (err) {
-        console.log('[BackgroundFetch] Falha na configuração:', err);
-      }
-    };
-  
-    configureBackgroundFetch();
-    return () => {
-      BackgroundFetch.stop();
-    };
-  }, []);
   
   const saveTasks = async (updatedTasks: Task[]) => {
     try {
@@ -275,7 +238,6 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return dateObj.getTime(); // Retorna o timestamp numérico
 };
 
-
 const formatDate = (date: Date): string => {
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -289,7 +251,6 @@ const filteredTasks = () => {
 
   switch (selectedTab) {
       case 0:
-          // Excluir tarefas repetidas que ainda não foram criadas (tarefas repetidas no futuro)
           return tasks.filter(task => 
               (convertToComparableDate(task.date) === currentDateComparable || task.repetition === 'daily') && 
               !task.completed
@@ -310,7 +271,6 @@ const filteredTasks = () => {
           return tasks;
   }
 };
-
 
   return (
     <TaskContext.Provider
@@ -333,7 +293,6 @@ const filteredTasks = () => {
         updateKey,
         setUpdateKey,
         saveTasks,
-        checkAndScheduleNotification,
       }}
     >
       {children}

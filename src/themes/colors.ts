@@ -3,7 +3,8 @@ const colors = {
   backgound: "#181A20",
   title: "#24252C",
   cardTask: "#1E2129",
-  
+  input: "#22252F",
+
   gray_50: "#F9F9F9",
   gray_100: "#CCD7E5",
   gray_200: "#A1A1C1",
