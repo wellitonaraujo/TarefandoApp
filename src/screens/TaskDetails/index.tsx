@@ -100,10 +100,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     await saveTasks(updatedTasks);
 }, [id, newSubtask]);
 
-  useEffect(() => {
-    setLocalDate(getTaskDate(id));
-  }, [id, getTaskDate]);
-  
   const handleShowInput = () => {
     setShowInput(true);
     setTimeout(() => inputRef.current?.focus(), 10);
@@ -243,7 +239,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     }
   };
 
-
   return (
     <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
       <S.Container showsVerticalScrollIndicator={false}>
@@ -334,13 +329,20 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
                 Alert.alert('Em desenvolvimento')
               }}
             > 
-            {'Não'}</S.OptionValue>
+            Não
+            </S.OptionValue>
           </S.OptionRow>
           <S.Separator />
           <S.OptionRow>
             <S.Icon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/notification-fill.png')} />
             <S.OptionText>Lembrar</S.OptionText>
-            <S.OptionValue>Não</S.OptionValue>
+            <S.OptionValue
+              onPress={() => {
+                Alert.alert('Em desenvolvimento')
+              }}
+              >
+                Não
+                </S.OptionValue>
           </S.OptionRow>
         </S.OptionsContainer>
 
