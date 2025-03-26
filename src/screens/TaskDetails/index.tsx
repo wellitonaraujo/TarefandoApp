@@ -298,7 +298,7 @@ const handleSubtaskBlur = async (subtaskId: string, index: number): Promise<void
                   />
                   <Pressable onPress={() => handleEditSubtask(index)}>
                     <S.NameSubTextInput
-                      ref={inputRef}
+                      ref={(ref: any) => subtaskRefs.current[index] = ref}
                       value={editingSubtaskId === index ? editableSubtaskName : subtask.name}
                       onChangeText={editingSubtaskId === index ? setEditableSubtaskName : undefined}
                       onBlur={() => handleSubtaskBlur(subtask.id, index)}
