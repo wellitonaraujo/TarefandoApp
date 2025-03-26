@@ -331,6 +331,7 @@ const handleSubtaskBlur = async (subtaskId: string, index: number): Promise<void
             onSubmitEditing={handleAddSubtask}
             returnKeyType="done"
             placeholderTextColor={colors.gray_300}
+            maxLength={35}
           />
         )}
 
