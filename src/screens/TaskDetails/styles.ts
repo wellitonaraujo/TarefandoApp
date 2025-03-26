@@ -8,7 +8,7 @@ export const Container = styled.ScrollView`
   padding: 16px;
 `;
 
-export const Title = styled.Text`
+export const Title = styled.Text<{ completed: boolean }>`
   color: ${colors.gray_100};;
   font-size: 20px;
   font-weight: bold;
@@ -22,11 +22,18 @@ export const NameTextInput = styled(TextInput)`
   margin-bottom: 10px;
 `;
 
+export const NameSubTextInput = styled(TextInput)`
+  color: ${colors.gray_200};
+  font-size: 16px;
+  margin-left: 10px;
+  flex-wrap: wrap;
+`;
+
 export const SubtaskContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 18px;
+
 `;
 
 export const SubtaskLeft = styled.View`
