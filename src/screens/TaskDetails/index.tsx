@@ -1,10 +1,10 @@
-import { ActivityIndicator, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback, Pressable, Alert, Platform, Share } from 'react-native';
+import { ActivityIndicator, TextInput, View, Keyboard, TouchableWithoutFeedback, Pressable, Alert, Platform, Share } from 'react-native';
 import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { RootStackParamList } from '@/src/navigation/AppNavigator';
 import CustomCheckBox from '@/src/components/CustomCheckBox';
-import { Task, useTaskManager } from '@/src/context/TaskContext';
+import { Subtask, useTaskManager } from '@/src/context/TaskContext';
 import { RootParamList } from '@/src/navigation/types';
 import { useTaskDates } from './hook/useTaskDates';
 import Toast from 'react-native-toast-message';
@@ -120,47 +120,33 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
   
   const handleNameBlur = async () => {
     const trimmedName = editableName.trim();
-  
+
     if (trimmedName === "") {
       Toast.show({
         type: "error",
         text1: "O nome não pode ficar vazio",
         position: "bottom",
         visibilityTime: 3000,
-        autoHide: true,
       });
-      
       return;
     }
-  
+
     if (trimmedName !== name) {
       const taskIndex = tasks.findIndex((t) => t.id === id);
       if (taskIndex < 0) return;
-  
+
       const updatedTasks = [...tasks];
       updatedTasks[taskIndex] = {
         ...updatedTasks[taskIndex],
         name: trimmedName,
       };
-  
+
       await saveTasks(updatedTasks);
     }
     setIsEditing(false);
   };
   
   const handleCompleteAllSubtasks = async () => {
-    if (subtasks.length === 0) {
-      Toast.show({
-        type: 'success',
-        text1: 'Não há subtarefas para concluir',
-        position: "bottom",
-        visibilityTime: 3000,
-        autoHide: true,
-      });
-  
-      return;
-    }
-  
     const taskIndex = tasks.findIndex(t => t.id === id);
     if (taskIndex < 0) return;
   
@@ -239,13 +225,50 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     }
   };
 
+
+const subtaskRefs = useRef<{ [key: number]: TextInput }>({});
+
+const [editingSubtaskId, setEditingSubtaskId] = useState<number | null>(null);
+const [editableSubtaskName, setEditableSubtaskName] = useState<string>('');
+
+const handleEditSubtask = (index: number): void => {
+  setEditingSubtaskId(index);
+  setEditableSubtaskName(subtasks[index].name);
+};
+
+const handleSubtaskBlur = async (subtaskId: string, index: number): Promise<void> => {
+  const trimmedName = editableSubtaskName.trim();
+
+  if (trimmedName === "") {
+    Toast.show({
+      type: "error",
+      text1: "O nome da subtarefa não pode ficar vazio",
+      position: "bottom",
+      visibilityTime: 3000,
+    });
+    return;
+  }
+  const updatedSubtasks = [...subtasks];
+
+  updatedSubtasks[index] = {
+    ...updatedSubtasks[index],
+    name: trimmedName,
+  };
+
+  const updatedTask = {
+    ...task,
+    subtasks: updatedSubtasks,
+  };
+
+  await saveTasks([updatedTask]);
+
+  setEditingSubtaskId(null);
+};
+
   return (
     <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
       <S.Container showsVerticalScrollIndicator={false}>
         <Pressable onPress={() => setIsEditing(true)}>
-            <S.Title style={{ color: isEditing ? "transparent" : "transparent" }}>
-              {editableName}
-            </S.Title>
             <S.NameTextInput
               ref={inputRefs}
               value={editableName}
@@ -255,9 +278,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
               maxLength={80}
               multiline
               style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
+               textDecorationLine: task?.completed ? "line-through" : "none"
               }}
             />
         </Pressable>
@@ -275,14 +296,22 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
                     value={subtask.completed}
                     onValueChange={() => handleCompleteSubtask(id, subtask.id)}
                   />
-                  <S.SubtaskText
-                    style={{
-                      textDecorationLine: subtask.completed ? 'line-through' : 'none',
-                      opacity: subtask.completed ? 0.5 : 1,
-                    }}
-                  >
-                    {subtask.name}
-                  </S.SubtaskText>
+                  <Pressable onPress={() => handleEditSubtask(index)}>
+                    <S.NameSubTextInput
+                      ref={inputRef}
+                      value={editingSubtaskId === index ? editableSubtaskName : subtask.name}
+                      onChangeText={editingSubtaskId === index ? setEditableSubtaskName : undefined}
+                      onBlur={() => handleSubtaskBlur(subtask.id, index)}
+                      autoFocus={editingSubtaskId === index}
+                      maxLength={35}
+                      multiline
+                      editable={editingSubtaskId === index}
+                      style={{
+                        textDecorationLine: subtask.completed ? 'line-through' : 'none',
+                        opacity: subtask.completed ? 0.5 : 1,
+                      }}
+                    />
+                  </Pressable>
                 </S.SubtaskLeft>
                 <S.DeleteButton onPress={() => handleDeleteSubtask(id, subtask.id)}>
                   <S.DeleteIcon tintColor={colors.gray_300} source={require('../../assets/icons/close.png')} />
@@ -290,7 +319,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
               </S.SubtaskContainer>
             ))}
           </S.OptionsContainer>
-        )}
+         )}
 
         {showInput && (
           <S.AddSubtaskInput
@@ -314,7 +343,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
         <S.OptionsContainer>
           <S.OptionRow>
             <S.Icon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/calendar-outline.png')} />
-            <S.OptionText>Prazo</S.OptionText>
+            <S.OptionText>Agendado para</S.OptionText>
             <S.OptionValue 
             onPress={() => {setShowDatePicker(true)}}>
             {getDateLabel()}

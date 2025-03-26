@@ -16,7 +16,6 @@ export type Task = {
   name: string;
   completed: boolean;
   date: string;
-  repetition: 'daily' | 'weekly' | 'monthly' | 'none';
   subtasks?: Subtask[];
 };
 
