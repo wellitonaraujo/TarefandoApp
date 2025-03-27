@@ -19,14 +19,15 @@ export const NameTextInput = styled(TextInput)`
   color: ${colors.gray_100};
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 10px;
+
 `;
 
 export const NameSubTextInput = styled(TextInput)`
-  color: ${colors.gray_200};
+  color: ${colors.gray_100};
   font-size: 16px;
   margin-left: 10px;
   flex-wrap: wrap;
+  font-weight: 500;
 `;
 
 export const SubtaskContainer = styled.View`
@@ -44,6 +45,7 @@ export const SubtaskLeft = styled.View`
 export const AddSubtaskText = styled.Text`
   color:  ${colors.primary};
   font-size: 15px;
+  margin-bottom: 24px;
 `;
 
 
@@ -68,7 +70,7 @@ export const DeleteIcon = styled.Image`
 
 export const OptionsContainer = styled.View`
   margin-bottom: 24px;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 export const OptionRow = styled.View`
@@ -78,14 +80,14 @@ export const OptionRow = styled.View`
 
 export const OptionText = styled.Text`
   color: ${colors.gray_200};
-  font-size: 14px;
+  font-size: 16px;
   flex: 1;
   margin-left: 8px;
 `;
 
 export const OptionValue = styled.Text`
   color: ${colors.gray_200};;
-  font-size: 14px;
+  font-size: 16px;
 `;
 
 export const Separator = styled.View`
@@ -104,8 +106,7 @@ export const ActionsContainer = styled.View`
 export const ActionButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-  border-width: 1px;
-  border-color: ${colors.cardTask};
+  background-color: ${colors.cardTask};
   border-radius: 40px;
   padding: 8px;
 `;
@@ -123,7 +124,7 @@ export const Icon = styled.Image`
 
 export const ActionText = styled.Text`
   color: ${colors.gray_200};
-  font-size: 12px;
+  font-size: 14px;
 `;
 
 export const AddSubtaskInput = styled.TextInput`
