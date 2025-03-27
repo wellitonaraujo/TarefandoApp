@@ -1,7 +1,4 @@
-import { RootStackParamList } from "@/src/navigation/AppNavigator";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { useNavigation } from "@react-navigation/native";
-import React, { useRef, useState } from "react";
+import { useTaskList } from "./hook/useTaskList";
 import CustomCheckBox from "../CustomCheckBox";
 import { View, Animated } from "react-native";
 import TaskItem from "../TaskItem";
@@ -26,56 +23,38 @@ interface TaskListProps {
   onEditTask: (id: string) => void;
   onCompleteTask: (id: string) => void;
   onDeleteTask: (id: string) => void;
-  updateKey: number;
 }
 
-const TaskList: React.FC<TaskListProps> = ({
-  tasks,
-  onEditTask,
-  onCompleteTask,
-  onDeleteTask,
-}) => {
-  const navigation =
-    useNavigation<StackNavigationProp<RootStackParamList, "TaskDetails">>();
-
-  const handleTaskPress = (task: Task) => {
-    navigation.navigate("TaskDetails", {
-      id: task.id,
-      name: task.name,
-      date: task.date,
-      subtasks: task.subtasks || [],
-    });
-  };
+const TaskList: React.FC<TaskListProps> = ({ tasks, onEditTask, onCompleteTask, onDeleteTask }) => {
+  const { handleTaskPress, useAnimatedTaskRow } = useTaskList(onCompleteTask);
 
   return (
     <S.ListContainer showsVerticalScrollIndicator={false}>
-      {tasks
-        .filter((task) => !task.completed)
-        .map((task) => (
-          <AnimatedTaskRow
-            key={task.id}
-            task={task}
-            onEditTask={onEditTask}
-            onCompleteTask={onCompleteTask}
-            onDeleteTask={onDeleteTask}
-            onPress={() => handleTaskPress(task)}
-          />
-        ))}
+      {tasks.filter((task) => !task.completed).map((task) => (
+        <AnimatedTaskRow
+          key={task.id}
+          task={task}
+          onEditTask={onEditTask}
+          onCompleteTask={onCompleteTask}
+          onDeleteTask={onDeleteTask}
+          onPress={() => handleTaskPress(task)}
+          useAnimatedTaskRow={useAnimatedTaskRow}
+        />
+      ))}
 
       {tasks.some((task) => task.completed) && (
         <S.CompletedSection>
-          {tasks
-            .filter((task) => task.completed)
-            .map((task) => (
-              <AnimatedTaskRow
-                key={task.id}
-                task={task}
-                onEditTask={onEditTask}
-                onCompleteTask={onCompleteTask}
-                onDeleteTask={onDeleteTask}
-                onPress={() => handleTaskPress(task)}
-              />
-            ))}
+          {tasks.filter((task) => task.completed).map((task) => (
+            <AnimatedTaskRow
+              key={task.id}
+              task={task}
+              onEditTask={onEditTask}
+              onCompleteTask={onCompleteTask}
+              onDeleteTask={onDeleteTask}
+              onPress={() => handleTaskPress(task)}
+              useAnimatedTaskRow={useAnimatedTaskRow}
+            />
+          ))}
         </S.CompletedSection>
       )}
     </S.ListContainer>
@@ -90,43 +69,15 @@ const AnimatedTaskRow: React.FC<{
   onCompleteTask: (id: string) => void;
   onDeleteTask: (id: string) => void;
   onPress: () => void;
-}> = ({ task, onEditTask, onCompleteTask, onDeleteTask, onPress }) => {
-  const fadeAnim = useRef(new Animated.Value(1)).current;
-  const translateY = useRef(new Animated.Value(0)).current;
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  const scaleAnim = useRef(new Animated.Value(1)).current;
-
-  const handleCompleteTask = () => {
-    setIsAnimating(true);
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      Animated.timing(translateY, {
-        toValue: 10,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      Animated.sequence([
-        Animated.timing(scaleAnim, {
-          toValue: 1.2,
-          duration: 150,
-          useNativeDriver: true,
-        }),
-        Animated.timing(scaleAnim, {
-          toValue: 0,
-          duration: 150,
-          useNativeDriver: true,
-        }),
-      ]),
-    ]).start(() => {
-      onCompleteTask(task.id);
-      setIsAnimating(false);
-    });
+  useAnimatedTaskRow: (taskId: string) => {
+    fadeAnim: Animated.Value;
+    translateY: Animated.Value;
+    scaleAnim: Animated.Value;
+    handleCompleteTask: () => void;
+    isAnimating: boolean;
   };
+}> = ({ task, onEditTask, onCompleteTask, onDeleteTask, onPress, useAnimatedTaskRow }) => {
+  const { fadeAnim, translateY, scaleAnim, handleCompleteTask } = useAnimatedTaskRow(task.id);
 
   return (
     <Animated.View
@@ -137,10 +88,7 @@ const AnimatedTaskRow: React.FC<{
     >
       <S.TaskRow>
         <View>
-          <CustomCheckBox
-            value={task.completed}
-            onValueChange={handleCompleteTask}
-          />
+          <CustomCheckBox value={task.completed} onValueChange={handleCompleteTask} />
         </View>
         <TaskItem
           task={task}

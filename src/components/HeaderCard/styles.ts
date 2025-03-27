@@ -22,6 +22,10 @@ export const Wrapper = styled.View`
   align-items: center;
 `;
 
+export const RightWrapper = styled.View`
+`;
+
+
 export const CurrentDate = styled.View`
   background-color: ${colors.primary};
   border-top-left-radius: 0px;
