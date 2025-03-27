@@ -242,7 +242,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
   
   const handleSubtaskBlur = async (subtaskId: string, index: number): Promise<void> => {
     const trimmedName = editableSubtaskName.trim();
-  
+    
     if (trimmedName === "") {
       Toast.show({
         type: "error",
@@ -252,14 +252,22 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
       });
       return;
     }
-  
-    const updatedSubtasks = [...subtasks];
+    
+    const updatedTasks = [...tasks];
+
+    const taskIndex = updatedTasks.findIndex(task => task.id === id);
+    if (taskIndex < 0) return;
+    
+    const updatedSubtasks = [...updatedTasks[taskIndex].subtasks!];
     updatedSubtasks[index] = { ...updatedSubtasks[index], name: trimmedName };
-  
-    const updatedTask = { ...task, subtasks: updatedSubtasks };
-  
-    await saveTasks([updatedTask]);
-  
+    
+    updatedTasks[taskIndex] = {
+      ...updatedTasks[taskIndex],
+      subtasks: updatedSubtasks,
+    };
+    
+    await saveTasks(updatedTasks);
+    
     setEditingSubtaskId(null);
   };
 
@@ -294,23 +302,16 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
                     value={subtask.completed}
                     onValueChange={() => handleCompleteSubtask(id, subtask.id)}
                   />
-                   <Pressable onPress={() => handleEditSubtask(index)}>
-                   <S.NameSubTextInput
+                 <Pressable onPress={() => handleEditSubtask(index)}>
+                  <S.NameSubTextInput
                     ref={(ref) => {
                       if (ref) subtaskRefs.current[index] = ref;
                     }}
-                    value={editingSubtaskId === index ? editableSubtaskName : subtask.name}
-
-                    onChangeText={setEditableSubtaskName}
-                    onFocus={() => {
-                      setEditingSubtaskId(index);
-                      setEditableSubtaskName(subtask.name);
-
-                      requestAnimationFrame(() => {
-                        subtaskRefs.current[index]?.focus();
-                      });
-                    }}
+                    defaultValue={subtask.name}
+                    onChangeText={editingSubtaskId === index ? setEditableSubtaskName : undefined}
+                    onFocus={() => setEditingSubtaskId(index)}
                     onBlur={() => handleSubtaskBlur(subtask.id, index)}
+                    autoFocus={editingSubtaskId === index} 
                     maxLength={35}
                     multiline
                     editable={editingSubtaskId === index}
@@ -319,8 +320,8 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
                       opacity: subtask.completed ? 0.5 : 1,
                     }}
                   />
+                </Pressable>
 
-                  </Pressable>
                 </S.SubtaskLeft>
                 <S.DeleteButton onPress={() => handleDeleteSubtask(id, subtask.id)}>
                   <S.DeleteIcon tintColor={colors.gray_300} source={require('../../assets/icons/close.png')} />
