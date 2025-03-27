@@ -337,7 +337,7 @@ const handleSubtaskBlur = async (subtaskId: string, index: number): Promise<void
 
         {!showInput && (
           <>
-            <S.AddSubtaskText  onPress={handleShowInput}>+ Adicionar Subtarefa</S.AddSubtaskText>
+            <S.AddSubtaskText  onPress={handleShowInput}>Adicionar Subtarefa</S.AddSubtaskText>
           </>
         )}
 
