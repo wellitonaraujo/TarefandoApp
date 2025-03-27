@@ -226,44 +226,42 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
   };
 
 
-const subtaskRefs = useRef<{ [key: number]: TextInput }>({});
+  const subtaskRefs = useRef<{ [key: number]: TextInput }>({});
 
-const [editingSubtaskId, setEditingSubtaskId] = useState<number | null>(null);
-const [editableSubtaskName, setEditableSubtaskName] = useState<string>('');
+  const [editingSubtaskId, setEditingSubtaskId] = useState<number | null>(null);
+  const [editableSubtaskName, setEditableSubtaskName] = useState<string>('');
 
-const handleEditSubtask = (index: number): void => {
-  setEditingSubtaskId(index);
-  setEditableSubtaskName(subtasks[index].name);
-};
-
-const handleSubtaskBlur = async (subtaskId: string, index: number): Promise<void> => {
-  const trimmedName = editableSubtaskName.trim();
-
-  if (trimmedName === "") {
-    Toast.show({
-      type: "error",
-      text1: "O nome da subtarefa não pode ficar vazio",
-      position: "bottom",
-      visibilityTime: 3000,
+  const handleEditSubtask = useCallback((index: number) => {
+    setEditingSubtaskId(index);
+    setEditableSubtaskName(subtasks[index].name);
+  
+    requestAnimationFrame(() => {
+      subtaskRefs.current[index]?.focus();
     });
-    return;
-  }
-  const updatedSubtasks = [...subtasks];
-
-  updatedSubtasks[index] = {
-    ...updatedSubtasks[index],
-    name: trimmedName,
+  }, [subtasks]);
+  
+  const handleSubtaskBlur = async (subtaskId: string, index: number): Promise<void> => {
+    const trimmedName = editableSubtaskName.trim();
+  
+    if (trimmedName === "") {
+      Toast.show({
+        type: "error",
+        text1: "O nome da subtarefa não pode ficar vazio",
+        position: "bottom",
+        visibilityTime: 3000,
+      });
+      return;
+    }
+  
+    const updatedSubtasks = [...subtasks];
+    updatedSubtasks[index] = { ...updatedSubtasks[index], name: trimmedName };
+  
+    const updatedTask = { ...task, subtasks: updatedSubtasks };
+  
+    await saveTasks([updatedTask]);
+  
+    setEditingSubtaskId(null);
   };
-
-  const updatedTask = {
-    ...task,
-    subtasks: updatedSubtasks,
-  };
-
-  await saveTasks([updatedTask]);
-
-  setEditingSubtaskId(null);
-};
 
   return (
     <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
@@ -296,21 +294,32 @@ const handleSubtaskBlur = async (subtaskId: string, index: number): Promise<void
                     value={subtask.completed}
                     onValueChange={() => handleCompleteSubtask(id, subtask.id)}
                   />
-                  <Pressable onPress={() => handleEditSubtask(index)}>
-                    <S.NameSubTextInput
-                      ref={(ref: any) => subtaskRefs.current[index] = ref}
-                      value={editingSubtaskId === index ? editableSubtaskName : subtask.name}
-                      onChangeText={editingSubtaskId === index ? setEditableSubtaskName : undefined}
-                      onBlur={() => handleSubtaskBlur(subtask.id, index)}
-                      autoFocus={editingSubtaskId === index}
-                      maxLength={35}
-                      multiline
-                      editable={editingSubtaskId === index}
-                      style={{
-                        textDecorationLine: subtask.completed ? 'line-through' : 'none',
-                        opacity: subtask.completed ? 0.5 : 1,
-                      }}
-                    />
+                   <Pressable onPress={() => handleEditSubtask(index)}>
+                   <S.NameSubTextInput
+                    ref={(ref) => {
+                      if (ref) subtaskRefs.current[index] = ref;
+                    }}
+                    value={editingSubtaskId === index ? editableSubtaskName : subtask.name}
+
+                    onChangeText={setEditableSubtaskName}
+                    onFocus={() => {
+                      setEditingSubtaskId(index);
+                      setEditableSubtaskName(subtask.name);
+
+                      requestAnimationFrame(() => {
+                        subtaskRefs.current[index]?.focus();
+                      });
+                    }}
+                    onBlur={() => handleSubtaskBlur(subtask.id, index)}
+                    maxLength={35}
+                    multiline
+                    editable={editingSubtaskId === index}
+                    style={{
+                      textDecorationLine: subtask.completed ? "line-through" : "none",
+                      opacity: subtask.completed ? 0.5 : 1,
+                    }}
+                  />
+
                   </Pressable>
                 </S.SubtaskLeft>
                 <S.DeleteButton onPress={() => handleDeleteSubtask(id, subtask.id)}>
@@ -331,12 +340,13 @@ const handleSubtaskBlur = async (subtaskId: string, index: number): Promise<void
             onSubmitEditing={handleAddSubtask}
             returnKeyType="done"
             placeholderTextColor={colors.gray_300}
+            maxLength={35}
           />
         )}
 
         {!showInput && (
           <>
-            <S.AddSubtaskText  onPress={handleShowInput}>+ Adicionar Subtarefa</S.AddSubtaskText>
+            <S.AddSubtaskText  onPress={handleShowInput}>Adicionar Subtarefa</S.AddSubtaskText>
           </>
         )}
 
