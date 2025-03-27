@@ -10,6 +10,8 @@ import { useTaskDates } from './hook/useTaskDates';
 import Toast from 'react-native-toast-message';
 import * as S from './styles';
 import colors from '@/src/themes/colors';
+import { OptionRow } from './components/OptionRow';
+import ActionButton from './components/ActionButton';
 
 type TaskDetailsRouteProp = RouteProp<RootStackParamList, 'TaskDetails'>;
 
@@ -352,53 +354,44 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
         )}
 
         <S.OptionsContainer>
-          <S.OptionRow>
-            <S.Icon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/calendar-outline.png')} />
-            <S.OptionText>Agendado para</S.OptionText>
-            <S.OptionValue 
-            onPress={() => {setShowDatePicker(true)}}>
-            {getDateLabel()}
-          </S.OptionValue>
-          </S.OptionRow>
-          <S.Separator />
-          <S.OptionRow>
-            <S.Icon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/repeat-rounded.png')} />
-            <S.OptionText>Repetir</S.OptionText>
-            <S.OptionValue 
-              onPress={() => {
-                Alert.alert('Em desenvolvimento')
-              }}
-            > 
-            Não
-            </S.OptionValue>
-          </S.OptionRow>
-          <S.Separator />
-          <S.OptionRow>
-            <S.Icon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/notification-fill.png')} />
-            <S.OptionText>Lembrar</S.OptionText>
-            <S.OptionValue
-              onPress={() => {
-                Alert.alert('Em desenvolvimento')
-              }}
-              >
-                Não
-                </S.OptionValue>
-          </S.OptionRow>
+          <OptionRow
+            icon={require('../../assets/icons/calendar-outline.png')}
+            text="Agendado para"
+            value={getDateLabel()}
+            onPress={() => setShowDatePicker(true)}
+          />
+
+          <OptionRow
+            icon={require('../../assets/icons/repeat-rounded.png')}
+            text="Repetir"
+            value="Não"
+            onPress={() => Alert.alert('Em desenvolvimento')}
+          />
+          <OptionRow
+            icon={require('../../assets/icons/notification-fill.png')}
+            text="Lembrar"
+            value="Não"
+            onPress={() => Alert.alert('Em desenvolvimento')}
+          />
+
         </S.OptionsContainer>
 
         <S.ActionsContainer>
-          <S.ActionButton onPress={handleCompleteAllSubtasks}>
-            <S.ActionIcon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/check-fill.png')} />
-            <S.ActionText>Concluir</S.ActionText>
-          </S.ActionButton>
-          <S.ActionButton onPress={handleShareTask}>
-            <S.ActionIcon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/share-filled.png')} />
-            <S.ActionText>Compartilhar</S.ActionText>
-          </S.ActionButton>
-          <S.ActionButton onPress={handleDeleteAllSubtasks}>
-          <S.ActionIcon resizeMode="contain" tintColor={colors.gray_400} source={require('../../assets/icons/delete-filled.png')} />
-          <S.ActionText>Deletar</S.ActionText>
-        </S.ActionButton>
+        <ActionButton
+          icon={require('../../assets/icons/check-fill.png')}
+          text="Concluir"
+          onPress={handleCompleteAllSubtasks}
+        />
+        <ActionButton
+          icon={require('../../assets/icons/share-filled.png')}
+          text="Compartilhar"
+          onPress={handleShareTask}
+        />
+        <ActionButton
+          icon={require('../../assets/icons/delete-filled.png')}
+          text="Deletar"
+          onPress={handleDeleteAllSubtasks}
+        />
         </S.ActionsContainer>
         {showDatePicker && (
           <DateTimePicker
