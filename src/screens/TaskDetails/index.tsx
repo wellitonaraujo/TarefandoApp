@@ -4,14 +4,16 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { RootStackParamList } from '@/src/navigation/AppNavigator';
 import CustomCheckBox from '@/src/components/CustomCheckBox';
-import { Subtask, useTaskManager } from '@/src/context/TaskContext';
+import { useTaskManager } from '@/src/context/TaskContext';
 import { RootParamList } from '@/src/navigation/types';
-import { useTaskDates } from './hook/useTaskDates';
-import Toast from 'react-native-toast-message';
-import * as S from './styles';
-import colors from '@/src/themes/colors';
-import { OptionRow } from './components/OptionRow';
+import { useTaskDetails } from './hook/useTaskDetails';
 import ActionButton from './components/ActionButton';
+import { formatDate } from '@/src/utils/formatDate';
+import { OptionRow } from './components/OptionRow';
+import { parseDate } from '@/src/utils/parseDate';
+import Toast from 'react-native-toast-message';
+import colors from '@/src/themes/colors';
+import * as S from './styles';
 
 type TaskDetailsRouteProp = RouteProp<RootStackParamList, 'TaskDetails'>;
 
@@ -24,7 +26,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
   const { id, name, date } = route.params;
 
   const { tasks, handleDeleteSubtask, handleDeleteTask, loadingTasks, handleCompleteSubtask, saveTasks } = useTaskManager();
-  const { getTaskDate, updateTaskDate } = useTaskDates();
+  const { getTaskDate, updateTaskDate } = useTaskDetails();
 
   const task = tasks.find(t => t.id === id);
   const subtasks = task?.subtasks || [];
@@ -32,11 +34,16 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
   const [showDatePicker, setShowDatePicker] = useState(false); 
   const [newSubtask, setNewSubtask] = useState('');
   const [showInput, setShowInput] = useState(false);
+  
   const inputRef = useRef<TextInput>(null);
   const inputRefs = useRef<TextInput>(null);
+  const subtaskRefs = useRef<{ [key: number]: TextInput }>({});
 
   const [editableName, setEditableName] = useState(name);
   const [isEditing, setIsEditing] = useState(false);
+
+  const [editingSubtaskId, setEditingSubtaskId] = useState<number | null>(null);
+  const [editableSubtaskName, setEditableSubtaskName] = useState<string>('');
   
   const [localDate, setLocalDate] = useState<string>(() => {
     return getTaskDate(id);
@@ -49,12 +56,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     }
     return new Date();
   });
-
-  const parseDate = (dateString: string): Date => {
-    const [day, month, year] = dateString.split('/').map(Number);
-    const date = new Date(year, month - 1, day);
-    return isNaN(date.getTime()) ? new Date() : date;
-  };
 
   const getDateLabel = () => {
     return localDate;
@@ -198,13 +199,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     );
   };
 
-  const formatDate = (date: Date): string => {
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
-
   const handleShareTask = async () => {
     if (!task) return;
   
@@ -226,12 +220,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
       console.error('Erro ao compartilhar:', error);
     }
   };
-
-
-  const subtaskRefs = useRef<{ [key: number]: TextInput }>({});
-
-  const [editingSubtaskId, setEditingSubtaskId] = useState<number | null>(null);
-  const [editableSubtaskName, setEditableSubtaskName] = useState<string>('');
 
   const handleEditSubtask = useCallback((index: number) => {
     setEditingSubtaskId(index);

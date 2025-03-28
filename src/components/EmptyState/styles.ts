@@ -9,7 +9,7 @@ export const EmptyContainer = styled.View`
 
 export const EmptyTitle = styled.Text`
   color: ${colors.white};
-  font-size: 15px;
+  font-size: 20px;
   text-align: center;
   font-weight: 500;
   margin-bottom: 8px;
@@ -21,7 +21,7 @@ export const HighlightedText = styled.Text`
 `;
 
 export const EmptyDescription = styled.Text`
-  color: ${colors.gray_400};
-  font-size: 12px;
+  color: ${colors.gray_200};
+  font-size: 14px;
   text-align: center;
 `;
