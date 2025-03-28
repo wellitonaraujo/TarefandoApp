@@ -8,6 +8,7 @@ import Toast from 'react-native-toast-message';
 import React, { useEffect } from 'react';
 import { PermissionsAndroid, Platform, StatusBar } from 'react-native';
 import colors from './src/themes/colors';
+import SplashScreen from 'react-native-splash-screen';
 
 const MyTheme = {
   ...DefaultTheme,
@@ -72,6 +73,9 @@ function App(): React.JSX.Element {
     requestNotificationPermission()
   }, []);
   
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
   
   return (
      <TaskProvider>
