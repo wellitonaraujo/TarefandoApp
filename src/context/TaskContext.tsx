@@ -34,7 +34,7 @@ type TaskContextData = {
   handleCompleteSubtask: (taskId: string, subtaskId: string) => void;
   openModal: () => void;
   closeModal: () => void;
-  filteredTasks: () => Task[];
+  filteredTasks: (tabIndex: number) => Task[];
   updateKey: number;
   setUpdateKey: React.Dispatch<React.SetStateAction<number>>;
   saveTasks: (updatedTasks: Task[]) => void;
@@ -244,14 +244,14 @@ const formatDate = (date: Date): string => {
   return `${day}/${month}/${year}`;
 };
 
-const filteredTasks = () => {
+const filteredTasks = (tabIndex: number) => {
   const currentDate = formatDate(new Date());
   const currentDateComparable = convertToComparableDate(currentDate);
 
-  switch (selectedTab) {
+  switch (tabIndex) {
       case 0:
           return tasks.filter(task => 
-              (convertToComparableDate(task.date) === currentDateComparable || task.repetition === 'daily') && 
+              (convertToComparableDate(task.date) === currentDateComparable ) && 
               !task.completed
           );
       case 1:
@@ -260,7 +260,7 @@ const filteredTasks = () => {
               .sort((a, b) => convertToComparableDate(a.date) < convertToComparableDate(b.date) ? -1 : 1);
       case 2:
           return tasks
-              .filter(task => convertToComparableDate(task.date) < currentDateComparable && !task.completed && task.repetition === 'daily')
+              .filter(task => convertToComparableDate(task.date) < currentDateComparable && !task.completed)
               .sort((a, b) => convertToComparableDate(a.date) > convertToComparableDate(b.date) ? -1 : 1);
       case 3:
           return tasks
@@ -270,6 +270,7 @@ const filteredTasks = () => {
           return tasks;
   }
 };
+
 
   return (
     <TaskContext.Provider

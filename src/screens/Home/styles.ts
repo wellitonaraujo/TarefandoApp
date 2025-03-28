@@ -9,13 +9,12 @@ export const Container = styled(GestureHandlerRootView)`
 
 export const TabsContainer = styled.View`
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   padding-vertical: 10px;
-  padding-horizontal: 16px;
 `;
 
 export const Tab = styled.TouchableOpacity<{ selected: boolean }>`
-  padding-vertical: 5px;
+  padding-vertical: 10px;
 `;
 
 export const TabText = styled.Text<{ selected: boolean }>`
