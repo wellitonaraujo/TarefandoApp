@@ -1,21 +1,10 @@
-import React from 'react';
 import { Swipeable } from 'react-native-gesture-handler';
-import * as S from './styles';
-import { Image, View } from 'react-native';
 import { useTaskItem } from './hook/useTaskItem';
+import { Task } from '@/src/context/TaskContext';
+import { Image, View } from 'react-native';
 import colors from '@/src/themes/colors';
-
-interface Subtask {
-  id: string;
-  name: string;
-}
-
-interface Task {
-  id: string;
-  name: string;
-  date: string;
-  subtasks?: Subtask[];
-}
+import * as S from './styles';
+import React from 'react';
 
 interface TaskItemProps {
   task: Task;

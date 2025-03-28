@@ -6,7 +6,7 @@ export const TaskItemContainer = styled.Pressable`
   width: ${horizontalScale(305)}px;
   padding: ${moderateScale(7)}px;
   background-color: ${colors.cardTask};
-  border-radius: ${moderateScale(8)}px;
+  border-radius: ${moderateScale(4)}px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;

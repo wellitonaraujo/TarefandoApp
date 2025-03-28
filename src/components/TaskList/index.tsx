@@ -1,22 +1,9 @@
+import { Task } from "@/src/context/TaskContext";
 import { useTaskList } from "./hook/useTaskList";
 import CustomCheckBox from "../CustomCheckBox";
 import { View, Animated } from "react-native";
 import TaskItem from "../TaskItem";
 import * as S from "./styles";
-
-type Subtask = {
-  id: string;
-  name: string;
-  completed: boolean;
-};
-
-type Task = {
-  id: string;
-  name: string;
-  completed: boolean;
-  date: string;
-  subtasks?: Subtask[];
-};
 
 interface TaskListProps {
   tasks: Task[];
