@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ActivityIndicator, Dimensions, View } from "react-native";
-import { TabView, TabBar, SceneMap } from "react-native-tab-view";
+import { TabView, TabBar } from "react-native-tab-view";
 import { useTaskManager } from "../../context/TaskContext";
 import CreateTaskModal from "@/src/components/CreateTaskModal";
 import EmptyState from "@/src/components/EmptyState";
@@ -25,8 +25,6 @@ const Home: React.FC = () => {
     openModal,
     closeModal,
     filteredTasks,
-    selectedTab,
-    setSelectedTab,
   } = useTaskManager();
 
   const [index, setIndex] = useState(0);
@@ -34,17 +32,10 @@ const Home: React.FC = () => {
     { key: "today", title: "Hoje" },
     { key: "next", title: "Próximas" },
     { key: "late", title: "Atrasadas" },
-    { key: "completed", title: "Concluídas" },
+    { key: "completed", title: "Concluidas" },
   ]);
 
-  const renderScene = SceneMap({
-    today: () => renderTabContent(0),
-    next: () => renderTabContent(1),
-    late: () => renderTabContent(2),
-    completed: () => renderTabContent(3),
-  });
-
-  const renderTabContent = (tabIndex: number) => {
+  const renderScene = ({ route }: { route: { key: string } }) => {
     if (loadingTasks) {
       return (
         <S.LoadingContainer>
@@ -52,39 +43,34 @@ const Home: React.FC = () => {
         </S.LoadingContainer>
       );
     }
-    const tasksToShow = filteredTasks(tabIndex);
+
+    const tasksToShow = filteredTasks();
     if (tasksToShow.length === 0) {
-      return <EmptyState tabIndex={tabIndex} />;
+      return <EmptyState tabIndex={index} />;
     }
+
     return (
       <View style={{ marginTop: 15 }}>
-        <TaskList
-         key={index} 
-          tasks={tasksToShow}
-          updateKey={updateKey}
-          onEditTask={handleEditTask}
-          onCompleteTask={handleCompleteTask}
-          onDeleteTask={handleDeleteTask}
-        />
+      <TaskList
+        tasks={tasksToShow}
+        updateKey={updateKey}
+        onEditTask={handleEditTask}
+        onCompleteTask={handleCompleteTask}
+        onDeleteTask={handleDeleteTask}
+      />
       </View>
     );
   };
-  
-  const handleIndexChange = (newIndex: number) => {
-    setIndex(newIndex);
-    setSelectedTab(newIndex);
-  };
 
   return (
-    <S.Container>
+    <S.Container >
       <Header tasks={tasks} />
+
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
-        onIndexChange={handleIndexChange}
+        onIndexChange={setIndex}
         initialLayout={initialLayout}
-        lazy
-        lazyPreloadDistance={1}
         renderTabBar={(props) => (
           <TabBar
             {...props}
