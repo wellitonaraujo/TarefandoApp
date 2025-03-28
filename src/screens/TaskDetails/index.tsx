@@ -1,4 +1,4 @@
-import { ActivityIndicator, TextInput, View, Keyboard, TouchableWithoutFeedback, Pressable, Alert, Platform, Share } from 'react-native';
+import { ActivityIndicator, TextInput, View, Keyboard, TouchableWithoutFeedback, Pressable, Alert, Platform, Share, UIManager, LayoutAnimation } from 'react-native';
 import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -83,31 +83,39 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     }
   };
   
+  if (Platform.OS === 'android') {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+  
   const handleAddSubtask = useCallback(async () => {
     if (!newSubtask.trim()) return;
+  
     const taskIndex = tasks.findIndex(t => t.id === id);
     if (taskIndex < 0) return;
+  
     const updatedTasks = [...tasks];
     updatedTasks[taskIndex] = {
-        ...updatedTasks[taskIndex],
-        subtasks: [
-            ...(updatedTasks[taskIndex].subtasks || []),
-            {
-                id: Date.now().toString(),
-                name: newSubtask.trim(),
-                completed: false
-            }
-        ],
+      ...updatedTasks[taskIndex],
+      subtasks: [
+        ...(updatedTasks[taskIndex].subtasks || []),
+        {
+          id: Date.now().toString(),
+          name: newSubtask.trim(),
+          completed: false,
+        },
+      ],
     };
+  
     setNewSubtask('');
     await saveTasks(updatedTasks);
-}, [id, newSubtask]);
-
-  const handleShowInput = () => {
+  
+    setShowInput(false);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  
     setShowInput(true);
-    setTimeout(() => inputRef.current?.focus(), 10);
-  };
-
+    setTimeout(() => inputRef.current?.focus(), 10); 
+  }, [id, newSubtask, tasks, saveTasks, showInput]);
+  
   const handleBlurSubtask = async () => {
     if (newSubtask.trim()) {
       await handleAddSubtask();
@@ -115,12 +123,15 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
       setShowInput(false);
     }
   };
-
-  const handleDismissKeyboard = () => {
-    Keyboard.dismiss();
-    setShowInput(false);
-  };
   
+
+  const handleShowInput = () => {
+    setShowInput(true);
+    // Adiciona foco assim que o input for exibido
+    setTimeout(() => inputRef.current?.focus(), 10);
+  };
+
+
   const handleNameBlur = async () => {
     const trimmedName = editableName.trim();
 
@@ -262,7 +273,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+    <TouchableWithoutFeedback>
       <S.Container showsVerticalScrollIndicator={false}>
         <Pressable onPress={() => setIsEditing(true)}>
             <S.NameTextInput
@@ -285,6 +296,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
           </View>
         ) : (
           <S.OptionsContainer>
+            {/* Renderiza as subtarefas */}
             {subtasks.map((subtask, index) => (
               <S.SubtaskContainer key={index}>
                 <S.SubtaskLeft>
@@ -292,54 +304,54 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
                     value={subtask.completed}
                     onValueChange={() => handleCompleteSubtask(id, subtask.id)}
                   />
-                 <Pressable onPress={() => handleEditSubtask(index)}>
-                  <S.NameSubTextInput
-                    ref={(ref) => {
-                      if (ref) subtaskRefs.current[index] = ref;
-                    }}
-                    defaultValue={subtask.name}
-                    onChangeText={editingSubtaskId === index ? setEditableSubtaskName : undefined}
-                    onFocus={() => setEditingSubtaskId(index)}
-                    onBlur={() => handleSubtaskBlur(subtask.id, index)}
-                    autoFocus={editingSubtaskId === index} 
-                    maxLength={35}
-                    multiline
-                    editable={editingSubtaskId === index}
-                    style={{
-                      textDecorationLine: subtask.completed ? "line-through" : "none",
-                      opacity: subtask.completed ? 0.5 : 1,
-                    }}
-                  />
-                </Pressable>
-
+                  <Pressable onPress={() => handleEditSubtask(index)}>
+                    <S.NameSubTextInput
+                      ref={(ref) => {
+                        if (ref) subtaskRefs.current[index] = ref;
+                      }}
+                      defaultValue={subtask.name}
+                      onChangeText={editingSubtaskId === index ? setEditableSubtaskName : undefined}
+                      onFocus={() => setEditingSubtaskId(index)}
+                      onBlur={() => handleSubtaskBlur(subtask.id, index)}
+                      autoFocus={editingSubtaskId === index}
+                      maxLength={35}
+                      multiline
+                      editable={editingSubtaskId === index}
+                      style={{
+                        textDecorationLine: subtask.completed ? "line-through" : "none",
+                        opacity: subtask.completed ? 0.5 : 1,
+                      }}
+                    />
+                  </Pressable>
                 </S.SubtaskLeft>
                 <S.DeleteButton onPress={() => handleDeleteSubtask(id, subtask.id)}>
                   <S.DeleteIcon tintColor={colors.gray_300} source={require('../../assets/icons/close.png')} />
                 </S.DeleteButton>
               </S.SubtaskContainer>
             ))}
+
+            {/* Exibe o campo de input de subtarefa */}
+            {showInput && (
+              <S.AddSubtaskInput
+                ref={inputRef}
+                value={newSubtask}
+                placeholder="Insira a subtarefa"
+                onChangeText={setNewSubtask}
+                onBlur={handleBlurSubtask}
+                onSubmitEditing={handleAddSubtask}
+                returnKeyType="done"
+                placeholderTextColor={colors.gray_300}
+                maxLength={35}
+              />
+            )}
+
           </S.OptionsContainer>
-         )}
-
-        {showInput && (
-          <S.AddSubtaskInput
-            ref={inputRef}
-            value={newSubtask}
-            placeholder='Insira a subtarefa'
-            onChangeText={setNewSubtask}
-            onBlur={handleBlurSubtask}
-            onSubmitEditing={handleAddSubtask}
-            returnKeyType="done"
-            placeholderTextColor={colors.gray_300}
-            maxLength={35}
-          />
         )}
 
-        {!showInput && (
-          <>
-            <S.AddSubtaskText  onPress={handleShowInput}>Adicionar Subtarefa</S.AddSubtaskText>
-          </>
-        )}
+        {/* O botão "Adicionar Subtarefa" está sempre visível abaixo da lista de subtarefas */}
+        <S.AddSubtaskText onPress={handleShowInput}>Adicionar Subtarefa</S.AddSubtaskText>
+
+
 
         <S.OptionsContainer>
           <OptionRow

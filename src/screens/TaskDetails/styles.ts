@@ -71,6 +71,7 @@ export const DeleteIcon = styled.Image`
 export const OptionsContainer = styled.View`
   margin-bottom: 24px;
   margin-top: 10px;
+  
 `;
 
 export const OptionRow = styled.View`
