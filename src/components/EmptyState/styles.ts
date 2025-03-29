@@ -9,7 +9,7 @@ export const EmptyContainer = styled.View`
 
 export const EmptyTitle = styled.Text`
   color: ${colors.white};
-  font-size: 20px;
+  font-size: 18px;
   text-align: center;
   font-weight: 500;
   margin-bottom: 8px;

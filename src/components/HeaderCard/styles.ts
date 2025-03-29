@@ -23,7 +23,7 @@ export const Wrapper = styled.View`
   align-items: center;
 `;
 
-export const RightWrapper = styled.TouchableOpacity`
+export const RightWrapper = styled.Pressable`
 `;
 
 

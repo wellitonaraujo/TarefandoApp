@@ -23,7 +23,7 @@ export const NameTextInput = styled(TextInput)`
 `;
 
 export const NameSubTextInput = styled(TextInput)`
-  color: ${colors.gray_100};
+  color: ${colors.gray_200};
   font-size: 16px;
   margin-left: 10px;
   flex-wrap: wrap;
@@ -130,7 +130,6 @@ export const ActionText = styled.Text`
 
 export const AddSubtaskInput = styled.TextInput`
   margin-right: 8px;
-  margin-bottom: 10px;
   color:  ${colors.gray_100};
   font-size: 16px;
 `;

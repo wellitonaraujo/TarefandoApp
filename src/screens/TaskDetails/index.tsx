@@ -271,6 +271,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
     
     setEditingSubtaskId(null);
   };
+  
 
   return (
     <TouchableWithoutFeedback>
@@ -306,7 +307,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
                   />
                   <Pressable onPress={() => handleEditSubtask(index)}>
                     <S.NameSubTextInput
-                      ref={(ref) => {
+                      ref={(ref: TextInput) => {
                         if (ref) subtaskRefs.current[index] = ref;
                       }}
                       defaultValue={subtask.name}
@@ -330,7 +331,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
               </S.SubtaskContainer>
             ))}
 
-            {/* Exibe o campo de input de subtarefa */}
             {showInput && (
               <S.AddSubtaskInput
                 ref={inputRef}
@@ -347,12 +347,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
 
           </S.OptionsContainer>
         )}
-
-        {/* O botão "Adicionar Subtarefa" está sempre visível abaixo da lista de subtarefas */}
         <S.AddSubtaskText onPress={handleShowInput}>Adicionar Subtarefa</S.AddSubtaskText>
-
-
-
         <S.OptionsContainer>
           <OptionRow
             icon={require('../../assets/icons/calendar-outline.png')}

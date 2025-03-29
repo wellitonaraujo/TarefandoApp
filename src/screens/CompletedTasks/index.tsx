@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TouchableOpacity, Image } from "react-native";
+import { View, TouchableOpacity, Image, Pressable } from "react-native";
 import { useTaskManager } from "../../context/TaskContext";
 import TaskList from "@/src/components/TaskList";
 import * as S from "./styles";
@@ -21,12 +21,15 @@ const CompletedTasks: React.FC = () => {
   return (
     <S.Container>
       <S.Wrapper>
-        <TouchableOpacity onPress={handleDeleteAllCompletedTasks}>
+        <Pressable onPress={handleDeleteAllCompletedTasks}>
           <S.Icon
             source={require("../../assets/icons/delete-filled.png")}
-          tintColor={colors.gray_200}
+            tintColor={colors.gray_200}
+            style={{
+              opacity: completedTasks.length === 0 ? 0.5 : 1,
+            }}
           />
-        </TouchableOpacity>
+        </Pressable>
       </S.Wrapper>
 
       {completedTasks.length === 0 ? (
