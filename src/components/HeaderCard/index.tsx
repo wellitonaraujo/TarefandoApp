@@ -7,12 +7,12 @@ interface HeaderCardProps {
 }
 
 const HeaderCard: React.FC<HeaderCardProps> = ({ totalTasks, completedTasks }) => {
-  const { taskProgress, capitalizedDate } = useHeaderCard(totalTasks, completedTasks);
+  const { taskProgress, capitalizedDate, navigation } = useHeaderCard(totalTasks, completedTasks);
 
   return (
     <S.Container>
       <S.Wrapper>
-        <S.RightWrapper>
+        <S.RightWrapper onPress={() => navigation.navigate("CompletedTasks")}>
           <S.Title>Tarefas concluídas</S.Title>
           <S.CurrentDate>
             <S.Value>{taskProgress}</S.Value>

@@ -2,7 +2,8 @@ import colors from "@/src/themes/colors";
 import { moderateScale, verticalScale } from "@/src/utils/metrics";
 import styled from "styled-components/native";
 
-export const Container = styled.View``;
+export const Container = styled.View`
+`;
 
 export const Title = styled.Text`
   color: ${colors.gray_100};
@@ -22,7 +23,7 @@ export const Wrapper = styled.View`
   align-items: center;
 `;
 
-export const RightWrapper = styled.View`
+export const RightWrapper = styled.TouchableOpacity`
 `;
 
 
@@ -32,7 +33,7 @@ export const CurrentDate = styled.View`
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
   border-bottom-left-radius: 25px;
-  padding: ${moderateScale(4)}px;
+  padding: ${moderateScale(6)}px;
   width: ${verticalScale(125)}px;
   align-items: center;
 `;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ActivityIndicator, Dimensions, View } from "react-native";
+import { ActivityIndicator, View, useWindowDimensions } from "react-native";
 import { TabView, TabBar, SceneMap } from "react-native-tab-view";
 import { useTaskManager } from "../../context/TaskContext";
 import CreateTaskModal from "@/src/components/CreateTaskModal";
@@ -9,8 +9,6 @@ import TaskList from "@/src/components/TaskList";
 import Header from "@/src/components/Header";
 import colors from "@/src/themes/colors";
 import * as S from "./styles";
-
-const initialLayout = { width: Dimensions.get("window").width };
 
 const Home: React.FC = () => {
   const {
@@ -25,16 +23,14 @@ const Home: React.FC = () => {
     openModal,
     closeModal,
     filteredTasks,
-    selectedTab,
     setSelectedTab,
   } = useTaskManager();
 
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(1);
   const [routes] = useState([
+    { key: "late", title: "Atrasadas" },
     { key: "today", title: "Hoje" },
     { key: "next", title: "Próximas" },
-    { key: "late", title: "Atrasadas" },
-    { key: "completed", title: "Concluídas" },
   ]);
 
   const renderScene = SceneMap({
@@ -43,6 +39,8 @@ const Home: React.FC = () => {
     late: () => renderTabContent(2),
     completed: () => renderTabContent(3),
   });
+
+  const layout = useWindowDimensions();
 
   const renderTabContent = (tabIndex: number) => {
     if (loadingTasks) {
@@ -59,7 +57,7 @@ const Home: React.FC = () => {
     return (
       <View style={{ marginTop: 15 }}>
         <TaskList
-         key={index} 
+          key={index} 
           tasks={tasksToShow}
           updateKey={updateKey}
           onEditTask={handleEditTask}
@@ -74,7 +72,6 @@ const Home: React.FC = () => {
     setIndex(newIndex);
     setSelectedTab(newIndex);
   };
-
   return (
     <S.Container>
       <Header tasks={tasks} />
@@ -82,7 +79,7 @@ const Home: React.FC = () => {
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={handleIndexChange}
-        initialLayout={initialLayout}
+        initialLayout={{ width: layout.width }}
         lazy
         lazyPreloadDistance={1}
         renderTabBar={(props) => (
@@ -92,10 +89,6 @@ const Home: React.FC = () => {
             style={{ backgroundColor: colors.backgound }}
             activeColor={colors.primary}
             inactiveColor={colors.gray_100}
-            tabStyle={{
-              width: 'auto',
-              paddingHorizontal: 16,
-            }}
           />
         )}
       />

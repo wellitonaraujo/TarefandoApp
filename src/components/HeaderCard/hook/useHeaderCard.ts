@@ -1,6 +1,9 @@
+import { useNavigation } from "@react-navigation/native";
 import { useMemo } from "react";
 
 const useHeaderCard = (totalTasks: number, completedTasks: number) => {
+  const navigation = useNavigation();
+
     const taskProgress = useMemo(() => {
         return `${completedTasks}/${totalTasks}`;
     }, [completedTasks, totalTasks]);
@@ -23,7 +26,8 @@ const useHeaderCard = (totalTasks: number, completedTasks: number) => {
 
     return {
         taskProgress,
-        capitalizedDate
+        capitalizedDate,
+        navigation,
     };
 };
 

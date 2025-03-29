@@ -13,6 +13,7 @@ type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({ tasks }) => (
+    
     <S.HeaderContainer>
         <HeaderCard
             totalTasks={tasks.length}
