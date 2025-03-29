@@ -38,6 +38,7 @@ type TaskContextData = {
   updateKey: number;
   setUpdateKey: React.Dispatch<React.SetStateAction<number>>;
   saveTasks: (updatedTasks: Task[]) => void;
+  handleDeleteAllCompletedTasks: () => void;
 };
 
 export const TaskContext = createContext<TaskContextData | undefined>(undefined);
@@ -193,6 +194,11 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
     saveTasks(updatedTasks);
   };
 
+  const handleDeleteAllCompletedTasks = () => {
+    const updatedTasks = tasks.filter(task => !task.completed); // Filtra as tarefas que não são concluídas
+    saveTasks(updatedTasks);
+  };
+
   const handleDeleteSubtask = (taskId: string, subtaskId: string) => {
     const updatedTasks = tasks.map(task =>
       task.id === taskId ? { ...task, subtasks: task.subtasks?.filter(sub => sub.id !== subtaskId) || [] } : task
@@ -234,7 +240,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const convertToComparableDate = (date: string): number => {
     const [day, month, year] = date.split('/');
     const dateObj = new Date(`${year}-${month}-${day}`);
-    return dateObj.getTime(); // Retorna o timestamp numérico
+    return dateObj.getTime();
 };
 
 const formatDate = (date: Date): string => {
@@ -293,6 +299,7 @@ const filteredTasks = (tabIndex: number) => {
         updateKey,
         setUpdateKey,
         saveTasks,
+        handleDeleteAllCompletedTasks,
       }}
     >
       {children}

@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Home from '../screens/Home';
 import TaskDetails from '../screens/TaskDetails';
 import colors from '../themes/colors';
+import CompletedTasks from '../screens/CompletedTasks';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -12,6 +13,7 @@ export type RootStackParamList = {
     date: string;
     subtasks: Subtask[];
   };
+  CompletedTasks: undefined;
 };
 
 type Subtask = {
@@ -19,7 +21,6 @@ type Subtask = {
   name: string;
   completed: boolean;
 };
-
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -43,6 +44,21 @@ const AppNavigator: React.FC = () => {
               backgroundColor: colors.backgound,
               elevation: 0,
               shadowOpacity: 0,
+            },
+            headerTintColor: colors.white,
+          }}
+        />
+         <Stack.Screen
+          name="CompletedTasks"
+          component={CompletedTasks}
+          options={{
+            headerTitle: 'Concluídas',
+            headerTitleAlign: 'center', 
+            headerStyle: {
+              backgroundColor: colors.backgound,
+              elevation: 0,
+              shadowOpacity: 0,
+            
             },
             headerTintColor: colors.white,
           }}
