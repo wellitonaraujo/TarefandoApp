@@ -21,25 +21,27 @@ export const NameTextInput = styled(TextInput)`
   font-weight: bold;
 
 `;
-
 export const NameSubTextInput = styled(TextInput)`
   color: ${colors.gray_200};
   font-size: 16px;
   margin-left: 10px;
-  flex-wrap: wrap;
   font-weight: 500;
 `;
 
+
 export const SubtaskContainer = styled.View`
   flex-direction: row;
+  align-items: flex-start; 
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
 
 `;
+
 
 export const SubtaskLeft = styled.View`
   flex-direction: row;
   align-items: center;
+  flex: 1; 
 `;
 
 export const AddSubtaskText = styled.Text`
@@ -60,6 +62,7 @@ export const SubtaskText = styled.Text`
 export const DeleteButton = styled.TouchableOpacity`
   flex-shrink: 0; 
   padding: 5px;
+  margin-left: 30px;
 `;
 
 

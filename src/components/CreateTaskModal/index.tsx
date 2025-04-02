@@ -41,7 +41,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({ visible, onClose, onS
                   placeholderTextColor={colors.gray_100}
                   value={inputValue}
                   onChangeText={setInputValue}
-                  maxLength={80}
+                  maxLength={150}
                 />
               </S.InputWrapper>
 
@@ -55,7 +55,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({ visible, onClose, onS
                         placeholderTextColor={colors.gray_300}
                         value={subtask}
                         onChangeText={(value) => updateSubtask(index, value)}
-                        maxLength={35}
+                        maxLength={150}
                       />
                       <S.RemoveIconWrapper onPress={() => removeSubtask(index)}>
                         <S.RemoveIcon tintColor={colors.gray_300} source={require('../../assets/icons/close.png')} />

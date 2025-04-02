@@ -97,14 +97,15 @@ export const RemoveIcon = styled.Image`
   align-items: center;
 `;
 
-export const AddSubtaskButton = styled.TouchableOpacity`
+export const AddSubtaskButton = styled.Pressable`
   margin-left: 15px;
+  padding: 4px;
 `;
 
 export const AddSubtaskIcon = styled.Image`
   width: 16px;
   height: 16px;
-  padding: 9px;
+
 `;
 
 export const ActionsContainer = styled.View`

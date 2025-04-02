@@ -58,12 +58,7 @@ const requestNotificationPermission = async () => {
 
 function App(): React.JSX.Element {
   useEffect(() => {
-    // Adicione estes logs para debug
-    console.log('App iniciado');
     SplashScreen.hide();
-    return () => {
-      console.log('App finalizado');
-    };
   }, []);
 
   useEffect(() => {

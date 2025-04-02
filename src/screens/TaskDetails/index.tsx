@@ -283,7 +283,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
               onChangeText={setEditableName}
               onBlur={handleNameBlur}
               autoFocus={isEditing}
-              maxLength={80}
+              maxLength={150}
               multiline
               style={{
                textDecorationLine: task?.completed ? "line-through" : "none"
@@ -297,7 +297,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
           </View>
         ) : (
           <S.OptionsContainer>
-            {/* Renderiza as subtarefas */}
             {subtasks.map((subtask, index) => (
               <S.SubtaskContainer key={index}>
                 <S.SubtaskLeft>
@@ -315,7 +314,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
                       onFocus={() => setEditingSubtaskId(index)}
                       onBlur={() => handleSubtaskBlur(subtask.id, index)}
                       autoFocus={editingSubtaskId === index}
-                      maxLength={35}
+                      maxLength={150}
                       multiline
                       editable={editingSubtaskId === index}
                       style={{
@@ -341,7 +340,8 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
                 onSubmitEditing={handleAddSubtask}
                 returnKeyType="done"
                 placeholderTextColor={colors.gray_300}
-                maxLength={35}
+                maxLength={150}
+                multiline
               />
             )}
 
