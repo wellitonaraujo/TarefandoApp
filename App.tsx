@@ -18,45 +18,57 @@ const MyTheme = {
   },
 };
 
-function App(): React.JSX.Element {
-  
-  const requestNotificationPermission = async () => {
-    if (Platform.OS === 'android' && Platform.Version >= 33) {
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+const requestNotificationPermission = async () => {
+  if (Platform.OS === 'android' && Platform.Version >= 33) {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+        {
+          title: 'Permissão de Notificação',
+          message: 'Este app precisa de permissão para enviar notificações.',
+          buttonPositive: 'Ok',
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Permissão de notificação concedida');
+        await PushNotification.createChannel(
           {
-            title: 'Permissão de Notificação',
-            message: 'Este app precisa de permissão para enviar notificações.',
-            buttonPositive: 'Ok',
+            channelId: "task-reminders",
+            channelName: "Lembretes de Tarefas",
+            channelDescription: "Notificações para tarefas atrasadas",
+            importance: 4,
+            vibrate: true,
+          },
+          (created) => {
+            if (created) {
+              console.log("Canal criado!");
+            } else {
+              console.log("Falha ao criar o canal.");
+            }
           }
         );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('Permissão de notificação concedida');
-          await PushNotification.createChannel(
-            {
-              channelId: "task-reminders",
-              channelName: "Lembretes de Tarefas",
-              channelDescription: "Notificações para tarefas atrasadas",
-              importance: 4,
-              vibrate: true,
-            },
-            (created) => {
-              if (created) {
-                console.log("Canal criado!");
-              } else {
-                console.log("Falha ao criar o canal.");
-              }
-            }
-          );
-        } else {
-          console.log('Permissão de notificação negada');
-        }
-      } catch (err) {
-        console.warn('Erro ao solicitar permissão:', err);
+      } else {
+        console.log('Permissão de notificação negada');
       }
+    } catch (err) {
+      console.warn('Erro ao solicitar permissão:', err);
     }
-  };
+  }
+};
+
+function App(): React.JSX.Element {
+  useEffect(() => {
+    // Adicione estes logs para debug
+    console.log('App iniciado');
+    SplashScreen.hide();
+    return () => {
+      console.log('App finalizado');
+    };
+  }, []);
+
+  useEffect(() => {
+    requestNotificationPermission();
+  }, []);
 
   useEffect(() => {
     PushNotification.createChannel(
@@ -69,14 +81,8 @@ function App(): React.JSX.Element {
       },
       (created) => console.log(`Canal criado? ${created}`)
     );
+  }, []);
 
-    requestNotificationPermission()
-  }, []);
-  
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
-  
   return (
      <TaskProvider>
       <NavigationContainer theme={MyTheme}>

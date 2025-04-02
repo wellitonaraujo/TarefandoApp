@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TouchableOpacity, Image, Pressable } from "react-native";
+import { Pressable } from "react-native";
 import { useTaskManager } from "../../context/TaskContext";
 import TaskList from "@/src/components/TaskList";
 import * as S from "./styles";
