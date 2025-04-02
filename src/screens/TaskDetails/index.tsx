@@ -355,7 +355,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
             value={getDateLabel()}
             onPress={() => setShowDatePicker(true)}
           />
-
+          {/* 
           <OptionRow
             icon={require('../../assets/icons/repeat-rounded.png')}
             text="Repetir"
@@ -367,7 +367,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ route }) => {
             text="Lembrar"
             value="Não"
             onPress={() => Alert.alert('Em desenvolvimento')}
-          />
+          /> */}
 
         </S.OptionsContainer>
 
