@@ -16,6 +16,7 @@ export const Button = styled.TouchableOpacity`
   height: ${moderateScale(48)}px;
   padding: 10px;
   border-radius: ${moderateScale(48)}px;
+  transform: scale(1)
 `;
 
 export const PlusIcon = styled.Image`
